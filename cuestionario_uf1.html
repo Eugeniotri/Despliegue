@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cuestionario UF1 - Despliegue DAW</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #111827;
+      --card-2: #1f2937;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --accent: #22c55e;
+      --accent-2: #3b82f6;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --border: #334155;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #0f172a 0%, #111827 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 18px;
+    }
+
+    .card {
+      background: rgba(17, 24, 39, 0.96);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 1.7rem;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .pill {
+      background: #0b1220;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.92rem;
+    }
+
+    .progress {
+      height: 12px;
+      width: 100%;
+      background: #0b1220;
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      margin: 10px 0 18px;
+    }
+
+    .bar {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--accent-2), var(--accent));
+      transition: width .25s ease;
+    }
+
+    .question {
+      font-size: 1.2rem;
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    .options {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .option {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--card-2);
+      cursor: pointer;
+      transition: transform .12s ease, border-color .12s ease, background .12s ease;
+      user-select: none;
+    }
+
+    .option:hover {
+      transform: translateY(-1px);
+      border-color: #60a5fa;
+    }
+
+    .option input {
+      margin-top: 3px;
+      transform: scale(1.15);
+    }
+
+    .option.correct {
+      border-color: var(--accent);
+      background: rgba(34, 197, 94, 0.12);
+    }
+
+    .option.incorrect {
+      border-color: var(--danger);
+      background: rgba(239, 68, 68, 0.12);
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 1rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .btn-primary {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #334155;
+      color: white;
+    }
+
+    .btn-success {
+      background: var(--accent);
+      color: #052e16;
+    }
+
+    .feedback {
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: #0b1220;
+      line-height: 1.6;
+      display: none;
+    }
+
+    .feedback.ok {
+      border-color: var(--accent);
+      background: rgba(34, 197, 94, 0.08);
+    }
+
+    .feedback.bad {
+      border-color: var(--danger);
+      background: rgba(239, 68, 68, 0.08);
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .result-grid {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .review-item {
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: #0b1220;
+      line-height: 1.6;
+    }
+
+    .score {
+      font-size: 1.15rem;
+      margin: 8px 0 0;
+    }
+
+    .hidden { display: none; }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 1.35rem; }
+      .question { font-size: 1.05rem; }
+      .card { padding: 16px; }
+      button { width: 100%; }
+      .controls { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Cuestionario UF1 — Despliegue DAW</h1>
+      <div class="subtitle">
+        Incluye las 40 preguntas del cuestionario que practicamos antes y las 15 que me has pasado después. Está pensado para abrirlo en Visual Studio Code, subirlo a GitHub Pages y usarlo cómodamente desde el móvil.
+      </div>
+
+      <div id="quizScreen">
+        <div class="topbar">
+          <div class="pill" id="counter">Pregunta 1 / 55</div>
+          <div class="pill" id="scorePill">Aciertos: 0</div>
+        </div>
+        <div class="progress"><div class="bar" id="bar"></div></div>
+        <div class="question" id="question"></div>
+        <div class="options" id="options"></div>
+        <div class="controls">
+          <button class="btn-primary" id="checkBtn">Comprobar</button>
+          <button class="btn-secondary" id="nextBtn">Siguiente</button>
+          <button class="btn-secondary" id="restartBtn">Reiniciar</button>
+        </div>
+        <div class="feedback" id="feedback"></div>
+      </div>
+
+      <div id="resultScreen" class="hidden">
+        <h2>Resultado final</h2>
+        <p class="score" id="finalScore"></p>
+        <p class="muted" id="finalMsg"></p>
+        <div class="controls" style="margin-top:16px;">
+          <button class="btn-success" id="retryBtn">Volver a empezar</button>
+        </div>
+        <div class="result-grid" id="review"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        q: "¿Qué es el despliegue de una aplicación web?",
+        options: [
+          "El proceso de programar la aplicación desde cero.",
+          "El proceso de instalar, configurar y poner en funcionamiento una aplicación en un servidor para que los usuarios puedan usarla.",
+          "El proceso de diseñar la base de datos de la aplicación.",
+          "El proceso de analizar los requisitos del cliente."
+        ],
+        answer: 1,
+        explanation: "El despliegue consiste en instalar, configurar y dejar funcionando la aplicación en un servidor para que los usuarios puedan usarla."
+      },
+      {
+        q: "¿En qué fase del ciclo de vida del software se instala la aplicación en los servidores para que pueda usarse en producción?",
+        options: ["Análisis", "Diseño", "Implementación", "Despliegue"],
+        answer: 3,
+        explanation: "La instalación y configuración en servidores corresponde a la fase de despliegue."
+      },
+      {
+        q: "¿Qué tipo de escalado consiste en aumentar los recursos (CPU, RAM o disco) de un único servidor?",
+        options: ["Escalado distribuido", "Escalado horizontal", "Escalado vertical", "Escalado dinámico"],
+        answer: 2,
+        explanation: "El escalado vertical mejora un solo servidor añadiéndole más RAM, CPU o disco."
+      },
+      {
+        q: "¿Qué tipo de escalado consiste en aumentar el número de servidores para repartir la carga de trabajo?",
+        options: ["Escalado vertical", "Escalado horizontal", "Escalado interno", "Escalado monolítico"],
+        answer: 1,
+        explanation: "El escalado horizontal añade más servidores para repartir tráfico y aumentar disponibilidad."
+      },
+      {
+        q: "¿Qué modelo de servicio en la nube proporciona infraestructura (servidores, red y almacenamiento), pero el usuario gestiona el sistema operativo y las aplicaciones?",
+        options: ["SaaS", "PaaS", "IaaS", "DaaS"],
+        answer: 2,
+        explanation: "IaaS ofrece infraestructura; el usuario instala y administra sistema operativo y aplicaciones."
+      },
+      {
+        q: "¿Qué modelo de computación en la nube permite al desarrollador centrarse solo en la aplicación sin preocuparse del sistema operativo ni del hardware?",
+        options: ["IaaS", "PaaS", "SaaS", "FaaS"],
+        answer: 1,
+        explanation: "PaaS abstrae la infraestructura y el sistema operativo para que el desarrollador se centre en la aplicación."
+      },
+      {
+        q: "¿Qué modelo de servicio en la nube proporciona una aplicación completa que el usuario utiliza sin preocuparse de la infraestructura ni del desarrollo?",
+        options: ["IaaS", "PaaS", "SaaS", "CaaS"],
+        answer: 2,
+        explanation: "En SaaS el proveedor entrega la aplicación completa lista para usar."
+      },
+      {
+        q: "¿Qué organismo es responsable de la coordinación global del sistema de nombres de dominio (DNS)?",
+        options: ["IETF", "ICANN", "ISO", "W3C"],
+        answer: 1,
+        explanation: "ICANN coordina a nivel global nombres de dominio, TLD y otros elementos clave del DNS."
+      },
+      {
+        q: "¿Cuál es la función principal del sistema DNS?",
+        options: ["Gestionar el envío de correos electrónicos en Internet", "Traducir nombres de dominio a direcciones IP", "Controlar el acceso de usuarios a la red", "Gestionar bases de datos distribuidas"],
+        answer: 1,
+        explanation: "El DNS traduce nombres de dominio como www.ejemplo.com a direcciones IP."
+      },
+      {
+        q: "¿Cómo se denomina el nombre de dominio completo que incluye todos los niveles hasta la raíz en el sistema DNS?",
+        options: ["URL", "FQDN", "TLD", "IPDN"],
+        answer: 1,
+        explanation: "FQDN significa Fully Qualified Domain Name, el nombre completo hasta la raíz."
+      },
+      {
+        q: "¿Qué tipo de dominio de primer nivel representa un país?",
+        options: ["gTLD", "ccTLD", "sTLD", "uTLD"],
+        answer: 1,
+        explanation: "Los ccTLD representan países, por ejemplo .es o .fr."
+      },
+      {
+        q: "¿Qué tipo de resolución DNS permite obtener el nombre de dominio a partir de una dirección IP?",
+        options: ["Resolución directa", "Resolución jerárquica", "Resolución inversa", "Resolución autoritaria"],
+        answer: 2,
+        explanation: "La resolución inversa obtiene el nombre a partir de la IP, normalmente con registros PTR."
+      },
+      {
+        q: "¿Qué tipo de registro DNS se utiliza para asociar un nombre de dominio con una dirección IPv4?",
+        options: ["MX", "A", "PTR", "NS"],
+        answer: 1,
+        explanation: "El registro A asocia un nombre con una dirección IPv4."
+      },
+      {
+        q: "¿Qué registro DNS indica qué servidor gestiona el correo electrónico de un dominio?",
+        options: ["A", "PTR", "MX", "TXT"],
+        answer: 2,
+        explanation: "El registro MX indica los servidores de correo de un dominio y su prioridad."
+      },
+      {
+        q: "¿Qué registro DNS se utiliza para crear un alias de otro nombre de dominio?",
+        options: ["CNAME", "SOA", "NS", "SRV"],
+        answer: 0,
+        explanation: "CNAME crea un alias que apunta al nombre canónico real."
+      },
+      {
+        q: "¿Qué protocolo permite centralizar la autenticación y autorización de usuarios en una red?",
+        options: ["DNS", "LDAP", "FTP", "HTTP"],
+        answer: 1,
+        explanation: "LDAP centraliza autenticación, autorización y consulta de directorios."
+      },
+      {
+        q: "¿Cómo se llama el árbol jerárquico que organiza la información dentro de un directorio LDAP?",
+        options: ["DNS Tree", "DIT", "LDAP Root", "Directory Host"],
+        answer: 1,
+        explanation: "DIT significa Directory Information Tree, la estructura jerárquica del directorio LDAP."
+      },
+      {
+        q: "¿Qué atributo LDAP se utiliza habitualmente para identificar de forma única a un usuario?",
+        options: ["cn", "dc", "uid", "ou"],
+        answer: 2,
+        explanation: "uid suele ser el identificador único del usuario en LDAP."
+      },
+      {
+        q: "¿Qué formato de archivo se utiliza en LDAP para importar o exportar información del directorio?",
+        options: ["JSON", "LDIF", "YAML", "XML"],
+        answer: 1,
+        explanation: "LDIF es el formato de intercambio de datos de LDAP."
+      },
+      {
+        q: "¿Cuál es la implementación libre y de código abierto más utilizada del protocolo LDAP en sistemas GNU/Linux?",
+        options: ["Active Directory", "OpenLDAP", "Samba LDAP", "FreeLDAP"],
+        answer: 1,
+        explanation: "OpenLDAP es la implementación libre más usada de LDAP en Linux."
+      },
+      {
+        q: "¿Qué tecnología permite aislar aplicaciones y sus dependencias para que se ejecuten de forma independiente del sistema anfitrión?",
+        options: ["Máquinas virtuales", "Contenedores", "Servidores dedicados", "DNS"],
+        answer: 1,
+        explanation: "Los contenedores aíslan aplicaciones y dependencias para que funcionen igual en distintos entornos."
+      },
+      {
+        q: "¿Qué tecnología de contenedores es la más utilizada actualmente para el despliegue de aplicaciones?",
+        options: ["LXC", "Docker", "VServer", "FreeBSD Jail"],
+        answer: 1,
+        explanation: "Docker es la plataforma de contenedores más extendida para despliegue de aplicaciones."
+      },
+      {
+        q: "En Docker, ¿qué es una imagen (Docker Image)?",
+        options: ["Un contenedor en ejecución", "Una plantilla de solo lectura utilizada para crear contenedores", "Un archivo de configuración del sistema", "Un servidor donde se almacenan contenedores"],
+        answer: 1,
+        explanation: "Una imagen es una plantilla de solo lectura con sistema base, librerías y aplicación."
+      },
+      {
+        q: "¿Qué es un contenedor en Docker?",
+        options: ["Un servidor físico que ejecuta aplicaciones", "Una instancia en ejecución de una imagen Docker", "Un archivo de configuración YAML", "Un repositorio de imágenes"],
+        answer: 1,
+        explanation: "El contenedor es la imagen ya ejecutándose."
+      },
+      {
+        q: "¿Qué archivo se utiliza en Docker para definir las instrucciones necesarias para construir una imagen personalizada?",
+        options: ["docker-compose.yml", "Dockerfile", "docker.config", "image.yml"],
+        answer: 1,
+        explanation: "El Dockerfile contiene las instrucciones para construir una imagen Docker propia."
+      },
+      {
+        q: "¿Dónde se almacenan las imágenes Docker para poder descargarlas o compartirlas?",
+        options: ["Docker Hub o registros (registry)", "Dockerfile", "Docker Host", "Docker CLI"],
+        answer: 0,
+        explanation: "Las imágenes se guardan en registros como Docker Hub para poder hacer pull y push."
+      },
+      {
+        q: "¿Qué herramienta se utiliza para gestionar varios contenedores Docker mediante un único archivo de configuración?",
+        options: ["Docker CLI", "Docker Compose", "Docker Registry", "Docker Host"],
+        answer: 1,
+        explanation: "Docker Compose permite definir y gestionar varios contenedores con un solo archivo YAML."
+      },
+      {
+        q: "¿Qué formato de archivo utiliza Docker Compose para definir los servicios y configuraciones de los contenedores?",
+        options: ["JSON", "YAML", "XML", "LDIF"],
+        answer: 1,
+        explanation: "Docker Compose usa archivos YAML, normalmente docker-compose.yml."
+      },
+      {
+        q: "¿Qué herramienta de Linux permite limitar y gestionar los recursos (CPU, memoria, procesos) asignados a los contenedores?",
+        options: ["namespaces", "systemd", "cgroups", "dockerfile"],
+        answer: 2,
+        explanation: "cgroups permite limitar CPU, RAM y otros recursos usados por procesos o contenedores."
+      },
+      {
+        q: "¿Qué mecanismo de Linux permite aislar procesos y recursos para que cada contenedor tenga su propio entorno?",
+        options: ["cgroups", "namespaces", "systemd", "docker run"],
+        answer: 1,
+        explanation: "namespaces aísla procesos, red, sistema de archivos y otros recursos del contenedor."
+      },
+      {
+        q: "¿Qué dominio especial del sistema DNS se utiliza para las resoluciones inversas de direcciones IPv4?",
+        options: [".root", ".arpa", ".dns", ".reverse"],
+        answer: 1,
+        explanation: "La infraestructura de resolución inversa usa el dominio .arpa; para IPv4, in-addr.arpa."
+      },
+      {
+        q: "¿Qué registro DNS debe aparecer obligatoriamente al inicio de una zona DNS?",
+        options: ["NS", "MX", "SOA", "PTR"],
+        answer: 2,
+        explanation: "Toda zona DNS debe comenzar con un registro SOA (Start Of Authority)."
+      },
+      {
+        q: "¿Qué tipo de servidor DNS obtiene la información de la zona mediante una transferencia desde un servidor primario?",
+        options: ["Servidor caché", "Servidor reenviador", "Servidor secundario", "Servidor raíz"],
+        answer: 2,
+        explanation: "El servidor secundario obtiene la zona del primario mediante transferencia de zona."
+      },
+      {
+        q: "¿Qué atributo LDAP representa el componente del dominio dentro del árbol del directorio?",
+        options: ["uid", "dc", "ou", "cn"],
+        answer: 1,
+        explanation: "dc significa Domain Component y representa partes del dominio, por ejemplo dc=empresa,dc=com."
+      },
+      {
+        q: "¿Qué clase de objeto LDAP se utiliza para crear entradas reales dentro del directorio?",
+        options: ["abstracta", "estructural", "auxiliar", "principal"],
+        answer: 1,
+        explanation: "Las objectClass estructurales definen las entradas reales del directorio."
+      },
+      {
+        q: "¿Qué tecnología de contenedores se considera una de las bases del desarrollo posterior de Docker?",
+        options: ["Kubernetes", "LXC", "OpenShift", "Podman"],
+        answer: 1,
+        explanation: "LXC es una de las bases históricas sobre las que se popularizó la idea moderna de contenedores."
+      },
+      {
+        q: "¿Qué comando de Docker se utiliza para crear y ejecutar un contenedor a partir de una imagen?",
+        options: ["docker start", "docker run", "docker pull", "docker build"],
+        answer: 1,
+        explanation: "docker run crea y ejecuta un contenedor a partir de una imagen."
+      },
+      {
+        q: "¿Qué tipo de dominio de primer nivel corresponde a dominios genéricos como .com, .org o .net?",
+        options: ["ccTLD", "gTLD", "sTLD", "lTLD"],
+        answer: 1,
+        explanation: "Los gTLD son dominios genéricos como .com, .org o .net."
+      },
+      {
+        q: "¿Qué modelo de computación en la nube está especializado en ofrecer contenedores como servicio?",
+        options: ["IaaS", "PaaS", "SaaS", "CaaS"],
+        answer: 3,
+        explanation: "CaaS significa Container as a Service, enfocado a desplegar y gestionar contenedores."
+      },
+      {
+        q: "¿Cuál es la función principal de un orquestador de contenedores?",
+        options: ["Crear imágenes Docker", "Gestionar y coordinar múltiples contenedores que trabajan juntos", "Instalar sistemas operativos en servidores", "Configurar servidores DNS"],
+        answer: 1,
+        explanation: "Un orquestador coordina varios contenedores: despliegue, red, escalado, reinicios, etc."
+      },
+
+      {
+        q: "¿Qué tipo de alojamiento web utiliza recursos de múltiples servidores para equilibrar la carga y maximizar la disponibilidad?",
+        options: ["El alojamiento en la nube.", "El alojamiento VPS (Virtual Private Server).", "El alojamiento dedicado."],
+        answer: 0,
+        explanation: "El alojamiento en la nube usa varios servidores para equilibrar carga y mejorar disponibilidad."
+      },
+      {
+        q: "¿Para qué se utiliza principalmente el protocolo LDAP?",
+        options: ["Para servir páginas web.", "Para enviar correos electrónicos.", "Para la autenticación y el acceso a la información de los directorios."],
+        answer: 2,
+        explanation: "LDAP se usa para autenticación y acceso centralizado a la información de directorios."
+      },
+      {
+        q: "¿Qué ventaja ofrece LDAP frente a los directorios tradicionales?",
+        options: ["Una mejor calidad de video en streaming.", "Una mayor velocidad de transferencia de los archivos.", "Un acceso y una gestión eficientes de la información del directorio."],
+        answer: 2,
+        explanation: "LDAP está optimizado para consultas rápidas y gestión eficiente de la información del directorio."
+      },
+      {
+        q: "¿Qué servicio de computación en la nube ofrece almacenamiento y potencia de cálculo a través de Internet?",
+        options: ["SaaS.", "PaaS.", "IaaS."],
+        answer: 2,
+        explanation: "IaaS ofrece infraestructura como cálculo, almacenamiento y red a través de Internet."
+      },
+      {
+        q: "¿Cuál de los siguientes es un ejemplo de SaaS en la computación en la nube?",
+        options: ["Amazon EC2.", "Microsoft Office 365.", "Docker."],
+        answer: 1,
+        explanation: "Microsoft Office 365 es SaaS porque el usuario solo usa la aplicación."
+      },
+      {
+        q: "¿Cuál de las siguientes es una ventaja principal del despliegue de contenedores?",
+        options: ["La consistencia entre los entornos de desarrollo y producción.", "La reducción del ancho de banda necesario.", "El aumento de la seguridad cibernética."],
+        answer: 0,
+        explanation: "La ventaja más destacada es la consistencia entre desarrollo, pruebas y producción."
+      },
+      {
+        q: "¿Qué es LDAP en términos de gestión de red?",
+        options: ["Un protocolo de acceso a directorios.", "Un protocolo de transferencia de archivos.", "Un protocolo de enrutamiento."],
+        answer: 0,
+        explanation: "LDAP es un protocolo de acceso a directorios para consultar y autenticar usuarios y recursos."
+      },
+      {
+        q: "¿Qué representa un registro A en los sistemas de dominios DNS?",
+        options: ["El alias de un dominio.", "La dirección de correo electrónico.", "La dirección IP de un servidor."],
+        answer: 2,
+        explanation: "El registro A devuelve la dirección IPv4 asociada a un nombre de dominio."
+      },
+      {
+        q: "¿Cuál de las siguientes es una característica clave del alojamiento compartido?",
+        options: ["Compartir un servidor con múltiples clientes.", "Los recursos dedicados.", "El control total sobre el hardware"],
+        answer: 0,
+        explanation: "En el hosting compartido varios clientes usan el mismo servidor y comparten recursos."
+      },
+      {
+        q: "En DNS, ¿qué es un dominio de nivel superior (TLD)?",
+        options: ["Un registro que apunta a un servidor de correo.", "El primer servidor DNS en la jerarquía.", "El último segmento de un nombre de dominio."],
+        answer: 2,
+        explanation: "El TLD es el último segmento del dominio, como .com o .es."
+      },
+      {
+        q: "En la computación en la nube, ¿qué modelo de servicio proporciona plataformas para desarrollar, probar e implementar las aplicaciones?",
+        options: ["SaaS (Software as a Service).", "IaaS (Infrastructure as a Service).", "PaaS (Platform as a Service)."],
+        answer: 2,
+        explanation: "PaaS da una plataforma de desarrollo, prueba y despliegue."
+      },
+      {
+        q: "¿Cómo afecta el alojamiento en la nube a la escalabilidad de una aplicación web?",
+        options: ["No tiene impacto en la escalabilidad.", "Reduce la capacidad de escalar.", "Facilita el escalado rápido y eficiente de recursos"],
+        answer: 2,
+        explanation: "La nube permite escalar recursos rápida y eficientemente según la demanda."
+      },
+      {
+        q: "¿Qué es un contenedor en el contexto del despliegue de aplicaciones?",
+        options: ["Un dispositivo de almacenamiento físico.", "Un entorno de ejecución ligero y portátil para las aplicaciones.", "Un método de cifrado de datos."],
+        answer: 1,
+        explanation: "Un contenedor es un entorno ligero, portátil y aislado para ejecutar aplicaciones."
+      },
+      {
+        q: "¿Qué tecnología es fundamental para el despliegue de contenedores?",
+        options: ["Los firewalls.", "La virtualización.", "Los balanceadores de carga"],
+        answer: 1,
+        explanation: "Los contenedores se apoyan en la virtualización a nivel del sistema operativo."
+      },
+      {
+        q: "¿Qué tipo de alojamiento web permite el máximo control sobre el servidor físico?",
+        options: ["El alojamiento en la nube.", "El alojamiento dedicado.", "El alojamiento compartido."],
+        answer: 1,
+        explanation: "El alojamiento dedicado da control total del servidor físico a un solo cliente."
+      }
+    ];
+
+    let current = 0;
+    let score = 0;
+    let selected = null;
+    let checked = false;
+    const userAnswers = Array(questions.length).fill(null);
+    const answerStatus = Array(questions.length).fill(null);
+
+    const questionEl = document.getElementById('question');
+    const optionsEl = document.getElementById('options');
+    const counterEl = document.getElementById('counter');
+    const scorePillEl = document.getElementById('scorePill');
+    const barEl = document.getElementById('bar');
+    const feedbackEl = document.getElementById('feedback');
+    const checkBtn = document.getElementById('checkBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const restartBtn = document.getElementById('restartBtn');
+    const quizScreen = document.getElementById('quizScreen');
+    const resultScreen = document.getElementById('resultScreen');
+    const finalScoreEl = document.getElementById('finalScore');
+    const finalMsgEl = document.getElementById('finalMsg');
+    const reviewEl = document.getElementById('review');
+    const retryBtn = document.getElementById('retryBtn');
+
+    function renderQuestion() {
+      const item = questions[current];
+      selected = userAnswers[current];
+      checked = answerStatus[current] !== null;
+
+      counterEl.textContent = `Pregunta ${current + 1} / ${questions.length}`;
+      scorePillEl.textContent = `Aciertos: ${score}`;
+      barEl.style.width = `${((current) / questions.length) * 100}%`;
+      questionEl.textContent = item.q;
+      optionsEl.innerHTML = '';
+
+      item.options.forEach((opt, index) => {
+        const label = document.createElement('label');
+        label.className = 'option';
+        if (checked) {
+          if (index === item.answer) label.classList.add('correct');
+          if (index === selected && index !== item.answer) label.classList.add('incorrect');
+        }
+
+        const radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.name = 'option';
+        radio.checked = selected === index;
+        radio.disabled = checked;
+        radio.addEventListener('change', () => {
+          selected = index;
+          userAnswers[current] = index;
+        });
+
+        const span = document.createElement('span');
+        span.innerHTML = `<strong>${String.fromCharCode(65 + index)}.</strong> ${opt}`;
+
+        label.appendChild(radio);
+        label.appendChild(span);
+        optionsEl.appendChild(label);
+      });
+
+      if (checked) {
+        showFeedback(answerStatus[current], item.explanation, item.options[item.answer]);
+      } else {
+        feedbackEl.style.display = 'none';
+        feedbackEl.className = 'feedback';
+        feedbackEl.innerHTML = '';
+      }
+
+      nextBtn.textContent = current === questions.length - 1 ? 'Ver resultado' : 'Siguiente';
+    }
+
+    function showFeedback(isCorrect, explanation, correctText) {
+      feedbackEl.style.display = 'block';
+      feedbackEl.className = `feedback ${isCorrect ? 'ok' : 'bad'}`;
+      feedbackEl.innerHTML = `
+        <strong>${isCorrect ? '✅ Correcto' : '❌ Incorrecto'}</strong><br>
+        <strong>Respuesta correcta:</strong> ${correctText}<br>
+        <strong>Explicación:</strong> ${explanation}
+      `;
+    }
+
+    function checkAnswer() {
+      if (checked) return;
+      if (selected === null) {
+        alert('Elige una respuesta antes de comprobar.');
+        return;
+      }
+
+      checked = true;
+      const isCorrect = selected === questions[current].answer;
+      answerStatus[current] = isCorrect;
+      if (isCorrect) score++;
+      scorePillEl.textContent = `Aciertos: ${score}`;
+      renderQuestion();
+    }
+
+    function nextQuestion() {
+      if (!checked) {
+        alert('Primero pulsa en "Comprobar" para corregir la pregunta.');
+        return;
+      }
+
+      if (current < questions.length - 1) {
+        current++;
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      quizScreen.classList.add('hidden');
+      resultScreen.classList.remove('hidden');
+      const percent = ((score / questions.length) * 100).toFixed(1);
+      finalScoreEl.textContent = `Has acertado ${score} de ${questions.length} preguntas (${percent}%).`;
+
+      let msg = 'Buen trabajo.';
+      if (score === questions.length) msg = 'Perfecto. Has hecho un pleno.';
+      else if (percent >= 85) msg = 'Muy bien. Vas muy fuerte para el examen.';
+      else if (percent >= 70) msg = 'Buen nivel. Repasa los fallos y lo tendrás controlado.';
+      else if (percent >= 50) msg = 'Vas avanzando, pero conviene repasar la teoría y repetir el test.';
+      else msg = 'Necesitas repasar bastante la UF1 antes del examen.';
+      finalMsgEl.textContent = msg;
+
+      reviewEl.innerHTML = '';
+      questions.forEach((item, i) => {
+        const div = document.createElement('div');
+        div.className = 'review-item';
+        const userAnswerText = userAnswers[i] === null ? 'Sin responder' : item.options[userAnswers[i]];
+        const status = answerStatus[i] ? '✅' : '❌';
+        div.innerHTML = `
+          <strong>${status} Pregunta ${i + 1}</strong><br>
+          ${item.q}<br>
+          <span class="muted"><strong>Tu respuesta:</strong> ${userAnswerText}</span><br>
+          <span><strong>Correcta:</strong> ${item.options[item.answer]}</span><br>
+          <span class="muted"><strong>Explicación:</strong> ${item.explanation}</span>
+        `;
+        reviewEl.appendChild(div);
+      });
+    }
+
+    function restartQuiz() {
+      current = 0;
+      score = 0;
+      selected = null;
+      checked = false;
+      for (let i = 0; i < questions.length; i++) {
+        userAnswers[i] = null;
+        answerStatus[i] = null;
+      }
+      quizScreen.classList.remove('hidden');
+      resultScreen.classList.add('hidden');
+      barEl.style.width = '0%';
+      renderQuestion();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    checkBtn.addEventListener('click', checkAnswer);
+    nextBtn.addEventListener('click', nextQuestion);
+    restartBtn.addEventListener('click', restartQuiz);
+    retryBtn.addEventListener('click', restartQuiz);
+
+    renderQuestion();
+  </script>
+</body>
+</html>

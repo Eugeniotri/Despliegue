@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resumen UF1 - Despliegue DAW</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card: #111827;
+            --soft: #1f2937;
+            --text: #e5e7eb;
+            --muted: #94a3b8;
+            --accent: #38bdf8;
+            --accent-2: #22c55e;
+            --border: #334155;
+            --shadow: 0 10px 30px rgba(0, 0, 0, .25);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(180deg, #0f172a 0%, #111827 100%);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        header {
+            padding: 28px 18px 20px;
+            text-align: center;
+            background: rgba(15, 23, 42, .9);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            backdrop-filter: blur(8px);
+        }
+
+        header h1 {
+            margin: 0 0 8px;
+            font-size: 1.8rem;
+            color: white;
+        }
+
+        header p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.98rem;
+        }
+
+        .wrap {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 20px 14px 50px;
+        }
+
+        .intro,
+        .card,
+        .mini {
+            background: rgba(17, 24, 39, .95);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+        }
+
+        .intro {
+            padding: 18px;
+            margin-bottom: 18px;
+        }
+
+        .intro h2 {
+            margin-top: 0;
+            font-size: 1.2rem;
+            color: var(--accent);
+        }
+
+        .index {
+            display: grid;
+            gap: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            margin-top: 14px;
+        }
+
+        .index a {
+            text-decoration: none;
+            color: var(--text);
+            background: var(--soft);
+            border: 1px solid var(--border);
+            padding: 12px 14px;
+            border-radius: 12px;
+            transition: transform .15s ease, border-color .15s ease;
+        }
+
+        .index a:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent);
+        }
+
+        .card {
+            padding: 18px;
+            margin-bottom: 16px;
+        }
+
+        .card h2 {
+            margin: 0 0 10px;
+            color: var(--accent);
+            font-size: 1.3rem;
+        }
+
+        .card h3 {
+            color: var(--accent-2);
+            margin-top: 18px;
+            margin-bottom: 8px;
+            font-size: 1.05rem;
+        }
+
+        ul {
+            padding-left: 20px;
+            margin-top: 8px;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(56, 189, 248, .12);
+            color: var(--accent);
+            border: 1px solid rgba(56, 189, 248, .3);
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: .85rem;
+            margin-bottom: 10px;
+        }
+
+        .mini {
+            padding: 18px;
+            margin-top: 18px;
+        }
+
+        .mini h2 {
+            margin-top: 0;
+            color: #facc15;
+        }
+
+        .top-btn {
+            position: fixed;
+            right: 14px;
+            bottom: 14px;
+            background: var(--accent);
+            color: #0f172a;
+            border: none;
+            border-radius: 999px;
+            width: 52px;
+            height: 52px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+        }
+
+        @media (max-width: 640px) {
+            header h1 {
+                font-size: 1.45rem;
+            }
+
+            .card,
+            .intro,
+            .mini {
+                padding: 15px;
+            }
+
+            .card h2 {
+                font-size: 1.15rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Resumen UF1 - Despliegue de Aplicaciones Web</h1>
+        <p>Repaso rápido y claro para estudiar desde el móvil o el ordenador.</p>
+    </header>
+
+    <main class="wrap">
+        <section class="intro">
+            <h2>Índice de la UF1</h2>
+            <p>Este resumen reúne los 5 resúmenes que hemos preparado: despliegue, nube, DNS, LDAP y contenedores.</p>
+            <div class="index">
+                <a href="#tema1">1. Despliegue de aplicaciones web</a>
+                <a href="#tema2">2. Alojamiento interno y computación en la nube</a>
+                <a href="#tema3">3. Sistema de nombres de dominio (DNS)</a>
+                <a href="#tema4">4. LDAP y OpenLDAP</a>
+                <a href="#tema5">5. Despliegue con contenedores</a>
+                <a href="#final">6. Mini resumen final</a>
+            </div>
+        </section>
+
+        <section class="card" id="tema1">
+            <span class="badge">Tema 1</span>
+            <h2>Despliegue de aplicaciones web</h2>
+            <p>El <strong>despliegue</strong> es el proceso de instalar, configurar y poner en funcionamiento una
+                aplicación web en un servidor para que los usuarios puedan usarla.</p>
+            <h3>Ciclo de vida del software</h3>
+            <ul>
+                <li><strong>Análisis:</strong> se estudian las necesidades.</li>
+                <li><strong>Diseño:</strong> se planifica la estructura de la aplicación.</li>
+                <li><strong>Implementación:</strong> se programa la aplicación.</li>
+                <li><strong>Despliegue:</strong> se instala y configura en servidores.</li>
+                <li><strong>Implantación:</strong> pasa a producción.</li>
+                <li><strong>Mantenimiento:</strong> correcciones y mejoras.</li>
+            </ul>
+            <h3>Ideas clave</h3>
+            <ul>
+                <li>El despliegue debe automatizarse para evitar errores humanos.</li>
+                <li>Las aplicaciones web se ejecutan en servidores, máquinas virtuales o contenedores.</li>
+                <li>Deben atender a muchos usuarios al mismo tiempo.</li>
+            </ul>
+            <h3>Escalabilidad</h3>
+            <ul>
+                <li><strong>Escalado vertical:</strong> aumentar CPU, RAM o disco en un solo servidor.</li>
+                <li><strong>Escalado horizontal:</strong> añadir más servidores para repartir la carga.</li>
+            </ul>
+        </section>
+
+        <section class="card" id="tema2">
+            <span class="badge">Tema 2</span>
+            <h2>Alojamiento interno y computación en la nube</h2>
+            <h3>Alojamiento interno (in-house)</h3>
+            <p>La empresa mantiene sus servidores dentro de sus propias instalaciones y se encarga de todo.</p>
+            <ul>
+                <li>Hardware</li>
+                <li>Software</li>
+                <li>Red</li>
+                <li>Seguridad</li>
+                <li>Mantenimiento</li>
+            </ul>
+            <h3>Servicios típicos en in-house</h3>
+            <ul>
+                <li><strong>DNS:</strong> traduce nombres a IP.</li>
+                <li><strong>LDAP:</strong> centraliza usuarios y permisos.</li>
+                <li><strong>Servicios web:</strong> Apache, Nginx, Tomcat, WordPress, Moodle.</li>
+                <li><strong>FTP:</strong> transferencia de archivos.</li>
+                <li><strong>Correo:</strong> SMTP, POP3, IMAP.</li>
+                <li><strong>Conexión remota:</strong> SSH, VNC, RDP.</li>
+            </ul>
+            <h3>Problemas del modelo in-house</h3>
+            <ul>
+                <li>Coste alto.</li>
+                <li>Mantenimiento complejo.</li>
+                <li>Necesidad de personal especializado.</li>
+                <li>Riesgos por cortes eléctricos o fallos de red.</li>
+            </ul>
+            <h3>Computación en la nube</h3>
+            <p>Permite usar servidores y servicios a través de Internet sin tenerlos físicamente en la empresa.</p>
+            <ul>
+                <li><strong>IaaS:</strong> infraestructura como servicio. Ejemplo: AWS EC2.</li>
+                <li><strong>PaaS:</strong> plataforma como servicio. Ejemplo: Heroku.</li>
+                <li><strong>SaaS:</strong> software como servicio. Ejemplo: Gmail, Google Docs.</li>
+            </ul>
+            <h3>DevOps</h3>
+            <p>DevOps une desarrollo y operaciones para trabajar juntos durante todo el ciclo de vida del software,
+                usando CI/CD.</p>
+        </section>
+
+        <section class="card" id="tema3">
+            <span class="badge">Tema 3</span>
+            <h2>Sistema de nombres de dominio (DNS)</h2>
+            <p>El <strong>DNS</strong> traduce nombres de dominio en direcciones IP.</p>
+            <h3>Conceptos básicos</h3>
+            <ul>
+                <li>Ejemplo: <strong>www.google.com → IP</strong>.</li>
+                <li>Está organizado como un árbol invertido.</li>
+                <li>El nombre completo se llama <strong>FQDN</strong>.</li>
+            </ul>
+            <h3>Niveles del DNS</h3>
+            <ul>
+                <li><strong>Raíz:</strong> .</li>
+                <li><strong>TLD:</strong> .com, .org, .es</li>
+                <li><strong>Segundo nivel:</strong> google.com, gva.es</li>
+                <li><strong>Subdominios:</strong> www.google.com, mail.google.com</li>
+            </ul>
+            <h3>Tipos de dominio</h3>
+            <ul>
+                <li><strong>ccTLD:</strong> de país (.es, .fr)</li>
+                <li><strong>gTLD:</strong> genéricos (.com, .org, .net)</li>
+                <li><strong>lTLD:</strong> lingüísticos (.cat, .eus, .gal)</li>
+            </ul>
+            <h3>Resoluciones</h3>
+            <ul>
+                <li><strong>Directa:</strong> nombre → IP</li>
+                <li><strong>Inversa:</strong> IP → nombre</li>
+            </ul>
+            <h3>Zonas y servidores DNS</h3>
+            <ul>
+                <li><strong>Zona directa</strong> y <strong>zona inversa</strong>.</li>
+                <li><strong>Servidor primario:</strong> se edita la zona.</li>
+                <li><strong>Servidor secundario:</strong> copia la zona.</li>
+                <li><strong>Caché:</strong> guarda respuestas temporalmente.</li>
+                <li><strong>Reenviador:</strong> envía consultas a otro DNS.</li>
+            </ul>
+            <h3>Registros DNS importantes</h3>
+            <ul>
+                <li><strong>SOA:</strong> inicio de autoridad.</li>
+                <li><strong>NS:</strong> servidor de nombres.</li>
+                <li><strong>A:</strong> nombre a IPv4.</li>
+                <li><strong>AAAA:</strong> nombre a IPv6.</li>
+                <li><strong>PTR:</strong> resolución inversa.</li>
+                <li><strong>MX:</strong> correo.</li>
+                <li><strong>CNAME:</strong> alias.</li>
+                <li><strong>TXT:</strong> texto.</li>
+                <li><strong>SRV:</strong> ubicación de servicios.</li>
+            </ul>
+        </section>
+
+        <section class="card" id="tema4">
+            <span class="badge">Tema 4</span>
+            <h2>LDAP y OpenLDAP</h2>
+            <p><strong>LDAP</strong> es un protocolo que permite centralizar la autenticación y autorización de usuarios
+                en la red.</p>
+            <h3>Qué gestiona</h3>
+            <ul>
+                <li>Usuarios</li>
+                <li>Grupos</li>
+                <li>Permisos</li>
+                <li>Servidores</li>
+                <li>Impresoras</li>
+                <li>Recursos de red</li>
+            </ul>
+            <h3>Funcionamiento</h3>
+            <ul>
+                <li>Modelo <strong>cliente-servidor</strong>.</li>
+                <li>Una aplicación consulta el servidor LDAP para validar usuario y contraseña.</li>
+                <li>Puede haber servidor <strong>maestro</strong> y <strong>esclavo</strong>.</li>
+            </ul>
+            <h3>Árbol DIT</h3>
+            <p>La información se organiza en un árbol llamado <strong>DIT (Directory Information Tree)</strong>.</p>
+            <ul>
+                <li><strong>dc:</strong> domain component</li>
+                <li><strong>ou:</strong> unidad organizativa</li>
+                <li><strong>uid:</strong> identificador de usuario</li>
+                <li><strong>cn:</strong> nombre común</li>
+            </ul>
+            <h3>ObjectClass</h3>
+            <ul>
+                <li><strong>Estructural:</strong> crea entradas reales.</li>
+                <li><strong>Auxiliar:</strong> añade atributos.</li>
+                <li><strong>Abstracta:</strong> clase base, como <strong>top</strong>.</li>
+            </ul>
+            <h3>Esquemas y LDIF</h3>
+            <ul>
+                <li>Los <strong>schemas</strong> definen clases y atributos.</li>
+                <li><strong>LDIF</strong> es el formato de texto para importar y exportar datos.</li>
+            </ul>
+            <h3>OpenLDAP</h3>
+            <p><strong>OpenLDAP</strong> es la implementación libre más utilizada de LDAP en sistemas GNU/Linux.</p>
+        </section>
+
+        <section class="card" id="tema5">
+            <span class="badge">Tema 5</span>
+            <h2>Despliegue con contenedores</h2>
+            <p>Los <strong>contenedores</strong> permiten aislar aplicaciones y dependencias para que funcionen igual en
+                desarrollo, pruebas y producción.</p>
+            <h3>Ventajas</h3>
+            <ul>
+                <li>Son ligeros.</li>
+                <li>Arrancan rápido.</li>
+                <li>Consumen menos recursos.</li>
+                <li>Facilitan el despliegue.</li>
+                <li>Mejoran la consistencia entre entornos.</li>
+            </ul>
+            <h3>Base técnica</h3>
+            <ul>
+                <li><strong>cgroups:</strong> limitan recursos.</li>
+                <li><strong>namespaces:</strong> aíslan procesos y recursos.</li>
+                <li><strong>systemd:</strong> gestiona servicios y procesos.</li>
+            </ul>
+            <h3>LXC</h3>
+            <p><strong>LXC</strong> es una tecnología de contenedores en Linux y forma parte de la evolución de Docker.
+            </p>
+            <h3>Docker</h3>
+            <ul>
+                <li><strong>Docker CE:</strong> versión comunitaria.</li>
+                <li><strong>Docker EE:</strong> versión empresarial.</li>
+            </ul>
+            <h3>Elementos de Docker</h3>
+            <ul>
+                <li><strong>Imagen:</strong> plantilla de solo lectura.</li>
+                <li><strong>Contenedor:</strong> instancia en ejecución de una imagen.</li>
+                <li><strong>Dockerfile:</strong> archivo para construir imágenes.</li>
+                <li><strong>Registry:</strong> almacén de imágenes, como Docker Hub.</li>
+                <li><strong>Docker CLI:</strong> cliente de comandos.</li>
+                <li><strong>Docker Host:</strong> servidor donde se ejecutan contenedores.</li>
+            </ul>
+            <h3>Orquestación</h3>
+            <p>Cuando hay varios contenedores, se usan orquestadores para coordinarlos.</p>
+            <ul>
+                <li><strong>Docker Compose:</strong> usa <strong>docker-compose.yml</strong>.</li>
+                <li>El archivo está en formato <strong>YAML</strong>.</li>
+            </ul>
+        </section>
+
+        <section class="mini" id="final">
+            <h2>Mini resumen final ultra rápido</h2>
+            <ul>
+                <li><strong>Despliegue:</strong> poner una aplicación en producción.</li>
+                <li><strong>In-house:</strong> infraestructura propia.</li>
+                <li><strong>Cloud:</strong> infraestructura en la nube.</li>
+                <li><strong>DNS:</strong> traduce dominios en IP.</li>
+                <li><strong>LDAP:</strong> centraliza usuarios y autenticación.</li>
+                <li><strong>Contenedores:</strong> aíslan aplicaciones y dependencias.</li>
+                <li><strong>Docker:</strong> herramienta principal para contenedores.</li>
+                <li><strong>Docker Compose:</strong> gestiona varios contenedores.</li>
+            </ul>
+        </section>
+    </main>
+
+    <button class="top-btn" onclick="window.scrollTo({top:0, behavior:'smooth'})" aria-label="Subir arriba">↑</button>
+</body>
+
+</html>
