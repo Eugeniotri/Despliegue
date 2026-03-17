@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UF1 · Servicios de red implicados en el despliegue</title>
+    <style>
+        :root {
+            --bg: #0b1020;
+            --panel: #121a33;
+            --panel-2: #182243;
+            --text: #eef2ff;
+            --muted: #b8c1e0;
+            --accent: #7cc4ff;
+            --accent-2: #9ef0c7;
+            --warn: #ffd166;
+            --danger: #ff8b8b;
+            --border: rgba(255, 255, 255, .1);
+            --shadow: 0 12px 30px rgba(0, 0, 0, .28);
+            --radius: 18px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            background: linear-gradient(180deg, #08101d 0%, #0d1530 100%);
+            color: var(--text);
+            line-height: 1.55;
+        }
+
+        .wrap {
+            width: min(920px, calc(100% - 24px));
+            margin: 0 auto;
+            padding: 18px 0 48px;
+        }
+
+        .hero {
+            background: radial-gradient(circle at top right, rgba(124, 196, 255, .18), transparent 32%), linear-gradient(180deg, #152046 0%, #0f1837 100%);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 22px 18px;
+            box-shadow: var(--shadow);
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            margin: 0 0 8px;
+            font-size: clamp(1.6rem, 5vw, 2.4rem);
+            line-height: 1.15;
+        }
+
+        .subtitle {
+            margin: 0;
+            color: var(--muted);
+            font-size: 1rem;
+        }
+
+        .chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .chip {
+            background: rgba(255, 255, 255, .08);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 12px;
+            border-radius: 999px;
+            font-size: .92rem;
+        }
+
+        .toc {
+            position: sticky;
+            top: 10px;
+            z-index: 10;
+            background: rgba(11, 16, 32, .86);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 10px;
+            margin: 0 0 16px;
+            box-shadow: var(--shadow);
+        }
+
+        .toc strong {
+            display: block;
+            margin: 0 0 8px;
+            font-size: .95rem;
+            color: var(--accent);
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
+        }
+
+        .toc a {
+            display: block;
+            text-decoration: none;
+            color: var(--text);
+            background: rgba(255, 255, 255, .05);
+            border: 1px solid var(--border);
+            padding: 10px 12px;
+            border-radius: 12px;
+            font-size: .92rem;
+        }
+
+        section {
+            background: linear-gradient(180deg, var(--panel) 0%, var(--panel-2) 100%);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px;
+            box-shadow: var(--shadow);
+            margin-bottom: 16px;
+        }
+
+        h2 {
+            margin: 0 0 12px;
+            font-size: clamp(1.2rem, 4vw, 1.6rem);
+            color: var(--accent);
+        }
+
+        h3 {
+            margin: 18px 0 8px;
+            font-size: 1.05rem;
+            color: var(--accent-2);
+        }
+
+        p {
+            margin: 10px 0;
+        }
+
+        ul {
+            margin: 8px 0 0 18px;
+            padding: 0;
+        }
+
+        li {
+            margin: 6px 0;
+        }
+
+        .callout {
+            border-left: 4px solid var(--accent);
+            background: rgba(124, 196, 255, .08);
+            padding: 12px 14px;
+            border-radius: 12px;
+            margin: 12px 0;
+        }
+
+        .warn {
+            border-left-color: var(--warn);
+            background: rgba(255, 209, 102, .08);
+        }
+
+        .danger {
+            border-left-color: var(--danger);
+            background: rgba(255, 139, 139, .08);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            overflow: hidden;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            font-size: .95rem;
+        }
+
+        th,
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background: rgba(255, 255, 255, .07);
+            color: var(--accent);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        pre {
+            margin: 12px 0 0;
+            padding: 14px;
+            border-radius: 14px;
+            background: #0a1022;
+            color: #dce8ff;
+            overflow-x: auto;
+            border: 1px solid var(--border);
+            font-size: .92rem;
+        }
+
+        .footer {
+            color: var(--muted);
+            text-align: center;
+            font-size: .9rem;
+            padding: 8px 0 0;
+        }
+
+        @media (max-width: 640px) {
+            .toc-grid {
+                grid-template-columns: 1fr;
+            }
+
+            section {
+                padding: 16px;
+            }
+
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <header class="hero">
+            <h1>UF1 · Servicios de red implicados en el despliegue</h1>
+            <p class="subtitle">Resumen completo y ordenado para estudiar desde el móvil.</p>
+            <div class="chips">
+                <span class="chip">Despliegue</span>
+                <span class="chip">Escalabilidad</span>
+                <span class="chip">Infraestructura</span>
+                <span class="chip">Cloud</span>
+                <span class="chip">DNS</span>
+                <span class="chip">LDAP</span>
+                <span class="chip">Ejercicios</span>
+            </div>
+        </header>
+
+        <nav class="toc">
+            <strong>Índice rápido</strong>
+            <div class="toc-grid">
+                <a href="#despliegue">1. Despliegue</a>
+                <a href="#ciclo">2. Ciclo de vida</a>
+                <a href="#caracteristicas">3. Características web</a>
+                <a href="#escalabilidad">4. Escalabilidad</a>
+                <a href="#infraestructura">5. Infraestructura</a>
+                <a href="#cloud">6. Cloud computing</a>
+                <a href="#modelos-cloud">7. IaaS · PaaS · SaaS</a>
+                <a href="#servicios-red">8. Servicios de red</a>
+                <a href="#dns">9. DNS</a>
+                <a href="#ldap">10. LDAP</a>
+                <a href="#ejercicios">11. Ejercicios de dominio y DNS</a>
+                <a href="#claves">12. Claves de examen</a>
+            </div>
+        </nav>
+
+        <section id="despliegue">
+            <h2>1. ¿Qué es el despliegue?</h2>
+            <p>El <strong>despliegue de aplicaciones web</strong> o <em>deployment</em> es el conjunto de procesos
+                técnicos necesarios para poner una aplicación web en funcionamiento dentro de una infraestructura
+                accesible para los usuarios.</p>
+            <h3>Incluye</h3>
+            <ul>
+                <li>Instalar la aplicación.</li>
+                <li>Configurar servidores.</li>
+                <li>Preparar bases de datos.</li>
+                <li>Configurar dominios.</li>
+                <li>Garantizar seguridad y rendimiento.</li>
+            </ul>
+            <div class="callout">
+                <strong>Idea clave:</strong> desplegar no es programar, sino dejar la aplicación funcionando para que
+                los usuarios puedan usarla.
+            </div>
+        </section>
+
+        <section id="ciclo">
+            <h2>2. El despliegue dentro del ciclo de vida del software</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Fase</th>
+                        <th>Descripción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Análisis</td>
+                        <td>Se identifican necesidades y requisitos.</td>
+                    </tr>
+                    <tr>
+                        <td>Diseño</td>
+                        <td>Se planifica la arquitectura del sistema.</td>
+                    </tr>
+                    <tr>
+                        <td>Implementación</td>
+                        <td>Se desarrolla el código.</td>
+                    </tr>
+                    <tr>
+                        <td>Implantación / Despliegue</td>
+                        <td>Se instala el software en servidores.</td>
+                    </tr>
+                    <tr>
+                        <td>Mantenimiento</td>
+                        <td>Se corrigen errores y se actualiza.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="callout warn">
+                <strong>Muy importante:</strong> el despliegue se realiza después de la implementación, cuando la
+                aplicación ya está desarrollada y probada.
+            </div>
+        </section>
+
+        <section id="caracteristicas">
+            <h2>3. Características de las aplicaciones web</h2>
+            <ul>
+                <li>Se ejecutan en <strong>servidores web</strong>.</li>
+                <li>Atienden <strong>múltiples usuarios simultáneamente</strong>.</li>
+                <li>Funcionan a través de <strong>Internet</strong>.</li>
+                <li>Requieren <strong>disponibilidad continua</strong>.</li>
+            </ul>
+            <p>En sistemas grandes pueden atender miles o millones de usuarios, por eso se usan sistemas distribuidos y
+                clústeres de servidores.</p>
+        </section>
+
+        <section id="escalabilidad">
+            <h2>4. Escalabilidad</h2>
+            <p>La <strong>escalabilidad</strong> es la capacidad de un sistema para aumentar su capacidad de servicio
+                cuando crece la demanda.</p>
+            <h3>Escalado vertical</h3>
+            <p>Consiste en aumentar los recursos del servidor existente.</p>
+            <ul>
+                <li>Más RAM</li>
+                <li>Más CPU</li>
+                <li>Más almacenamiento</li>
+            </ul>
+            <div class="callout">
+                <strong>Ventajas:</strong> fácil de implementar y no cambia la arquitectura.
+            </div>
+            <div class="callout danger">
+                <strong>Desventajas:</strong> tiene límite físico y suele ser más caro.
+            </div>
+            <h3>Escalado horizontal</h3>
+            <p>Consiste en <strong>añadir más servidores al sistema</strong>.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Configuración</th>
+                        <th>Descripción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1 servidor</td>
+                        <td>Sistema simple</td>
+                    </tr>
+                    <tr>
+                        <td>3 servidores</td>
+                        <td>Mayor capacidad</td>
+                    </tr>
+                    <tr>
+                        <td>10 servidores</td>
+                        <td>Alta disponibilidad</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>Se apoya en balanceadores de carga, replicación de bases de datos y microservicios.</p>
+            <div class="callout">
+                <strong>Ejemplo real:</strong> Netflix utiliza miles de servidores distribuidos en diferentes centros de
+                datos para soportar millones de usuarios, evitar caídas y repartir la carga.
+            </div>
+        </section>
+
+        <section id="infraestructura">
+            <h2>5. Infraestructura para el despliegue</h2>
+            <p>Existen dos formas principales de alojar aplicaciones web:</p>
+            <ul>
+                <li><strong>Infraestructura propia</strong></li>
+                <li><strong>Computación en la nube</strong></li>
+            </ul>
+            <h3>Infraestructura propia (in-house)</h3>
+            <p>La organización gestiona y mantiene su propia infraestructura informática dentro de sus instalaciones.
+            </p>
+            <p>Esto implica disponer de:</p>
+            <ul>
+                <li>Servidores físicos</li>
+                <li>Almacenamiento</li>
+                <li>Red interna</li>
+                <li>Sistemas de seguridad</li>
+                <li>Sistemas de respaldo</li>
+            </ul>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Servicio</th>
+                        <th>Función</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>DNS</td>
+                        <td>Resolución de nombres de dominio</td>
+                    </tr>
+                    <tr>
+                        <td>LDAP / Active Directory</td>
+                        <td>Autenticación de usuarios</td>
+                    </tr>
+                    <tr>
+                        <td>Servidores web</td>
+                        <td>Ejecución de aplicaciones</td>
+                    </tr>
+                    <tr>
+                        <td>FTP</td>
+                        <td>Transferencia de archivos</td>
+                    </tr>
+                    <tr>
+                        <td>Correo electrónico</td>
+                        <td>Comunicación interna</td>
+                    </tr>
+                    <tr>
+                        <td>SSH / RDP</td>
+                        <td>Administración remota</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="callout">
+                <strong>Ventajas:</strong> control total, personalización y seguridad interna.
+            </div>
+            <div class="callout danger">
+                <strong>Desventajas:</strong> alto coste, mantenimiento complejo y necesidad de personal técnico.
+            </div>
+            <h3>Caso real: centros de datos</h3>
+            <p>Muchas universidades y administraciones públicas utilizan centros de datos propios con racks de
+                servidores, climatización, sistemas eléctricos redundantes y redes internas de alta velocidad.</p>
+        </section>
+
+        <section id="cloud">
+            <h2>6. Computación en la nube</h2>
+            <p>La <strong>computación en la nube</strong> o <em>cloud computing</em> es un modelo de prestación de
+                servicios informáticos donde los recursos se proporcionan a través de Internet bajo demanda.</p>
+            <ul>
+                <li>Pagar solo por lo que se usa.</li>
+                <li>Escalar recursos fácilmente.</li>
+                <li>Evitar inversiones iniciales en hardware.</li>
+            </ul>
+            <div class="callout">
+                <strong>Origen del cloud moderno:</strong> en 2006 Amazon lanzó EC2 (servidores virtuales) y S3
+                (almacenamiento).
+            </div>
+        </section>
+
+        <section id="modelos-cloud">
+            <h2>7. Modelos de servicios cloud</h2>
+            <h3>IaaS (Infrastructure as a Service)</h3>
+            <p>El proveedor ofrece infraestructura virtual y el usuario gestiona:</p>
+            <ul>
+                <li>Sistema operativo</li>
+                <li>Aplicaciones</li>
+            </ul>
+            <p><strong>Ejemplos:</strong> Amazon EC2, Azure Virtual Machines, Google Compute Engine.</p>
+            <h3>PaaS (Platform as a Service)</h3>
+            <p>El proveedor gestiona hardware, sistema operativo y middleware. El desarrollador solo sube su aplicación.
+            </p>
+            <p><strong>Ejemplos:</strong> Heroku, Google App Engine, Firebase.</p>
+            <h3>SaaS (Software as a Service)</h3>
+            <p>El proveedor ofrece aplicaciones completas accesibles por Internet. El usuario solo utiliza el software.
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Aplicación</th>
+                        <th>Uso</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Gmail</td>
+                        <td>Correo</td>
+                    </tr>
+                    <tr>
+                        <td>Google Docs</td>
+                        <td>Documentos</td>
+                    </tr>
+                    <tr>
+                        <td>Salesforce</td>
+                        <td>CRM</td>
+                    </tr>
+                    <tr>
+                        <td>WordPress.com</td>
+                        <td>Gestión web</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Modelo</th>
+                        <th>Qué gestionas tú</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>IaaS</td>
+                        <td>Sistema operativo y aplicaciones</td>
+                    </tr>
+                    <tr>
+                        <td>PaaS</td>
+                        <td>Solo la aplicación</td>
+                    </tr>
+                    <tr>
+                        <td>SaaS</td>
+                        <td>Nada; solo usas el software</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="servicios-red">
+            <h2>8. Servicios de red más importantes</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Servicio</th>
+                        <th>Función principal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>DNS</td>
+                        <td>Traducir nombres de dominio a direcciones IP</td>
+                    </tr>
+                    <tr>
+                        <td>LDAP</td>
+                        <td>Autenticación de usuarios y gestión de directorios</td>
+                    </tr>
+                    <tr>
+                        <td>FTP</td>
+                        <td>Transferencia de archivos</td>
+                    </tr>
+                    <tr>
+                        <td>SSH / RDP</td>
+                        <td>Administración remota</td>
+                    </tr>
+                    <tr>
+                        <td>Servidor web</td>
+                        <td>Ejecución de aplicaciones web</td>
+                    </tr>
+                    <tr>
+                        <td>Correo electrónico</td>
+                        <td>Comunicación interna</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="dns">
+            <h2>9. DNS (Domain Name System)</h2>
+            <p>El DNS es un sistema distribuido que permite traducir nombres de dominio en direcciones IP.</p>
+            <h3>Estructura jerárquica</h3>
+            <p>El DNS se organiza como un árbol invertido.</p>
+            <pre>.
+|
+com
+|
+google.com
+|
+www.google.com</pre>
+            <h3>Dominios y subdominios</h3>
+            <ul>
+                <li>Dominios de segundo nivel: google.com, amazon.com, mheducation.es</li>
+                <li>Subdominios: www.google.com, mail.google.com, api.google.com</li>
+            </ul>
+            <h3>Resolución DNS</h3>
+            <ul>
+                <li><strong>Resolución directa:</strong> nombre → IP</li>
+                <li><strong>Resolución inversa:</strong> IP → nombre</li>
+            </ul>
+            <div class="callout">
+                <strong>Ejemplo:</strong> google.com → 142.250.184.68
+            </div>
+            <h3>Ejercicio DNS: NovaEmpresa</h3>
+            <p><strong>Dominio principal:</strong> novaempresa.com</p>
+            <p><strong>Subdominios de servicios:</strong></p>
+            <ul>
+                <li>www.novaempresa.com</li>
+                <li>mail.novaempresa.com</li>
+                <li>ftp.novaempresa.com</li>
+                <li>cloud.novaempresa.com</li>
+                <li>api.novaempresa.com</li>
+            </ul>
+            <p><strong>Subdominios de departamentos:</strong></p>
+            <ul>
+                <li>dev.novaempresa.com</li>
+                <li>sys.novaempresa.com</li>
+                <li>marketing.novaempresa.com</li>
+            </ul>
+            <pre>.
+└── com
+    └── novaempresa.com
+        ├── www
+        ├── mail
+        ├── ftp
+        ├── cloud
+        ├── api
+        ├── dev
+        ├── sys
+        └── marketing</pre>
+            <div class="callout warn">
+                <strong>Clave:</strong> todos los subdominios cuelgan directamente del dominio principal; no se separan
+                en ramas de “servicios” y “departamentos” dentro del árbol DNS salvo que el enunciado lo pida.
+            </div>
+        </section>
+
+        <section id="ldap">
+            <h2>10. LDAP</h2>
+            <p>LDAP (<em>Lightweight Directory Access Protocol</em>) es un protocolo que permite gestionar directorios
+                de información de usuarios y recursos dentro de una red.</p>
+            <h3>Funciones principales</h3>
+            <ul>
+                <li>Autenticación de usuarios</li>
+                <li>Gestión de permisos</li>
+                <li>Directorios corporativos</li>
+                <li>Correo electrónico</li>
+                <li>Acceso a aplicaciones</li>
+            </ul>
+            <h3>Funcionamiento</h3>
+            <p>LDAP sigue un modelo cliente-servidor:</p>
+            <pre>Usuario
+↓
+Aplicación
+↓
+Servidor LDAP
+↓
+Autenticación</pre>
+            <h3>Estructura jerárquica: DIT</h3>
+            <p>La información se organiza en un árbol llamado <strong>DIT (Directory Information Tree)</strong>.</p>
+            <pre>dc=empresa
+ ├── ou=usuarios
+ │     ├── uid=juan
+ │     └── uid=ana
+ └── ou=grupos
+       ├── admins
+       └── users</pre>
+            <div class="callout">
+                <strong>Idea clave:</strong> DNS organiza nombres de dominio; LDAP organiza usuarios y permisos.
+            </div>
+        </section>
+
+        <section id="ejercicios">
+            <h2>11. Ejercicios de dominio</h2>
+            <h3>Ejercicio 1: Tienda online</h3>
+            <p><strong>Entidades principales:</strong> Usuario, Perfil, Pedido, Producto, Categoría y Pago.</p>
+            <pre>TiendaOnline
+ ├── Usuario
+ │     └── Perfil
+ └── Pedido
+       ├── Producto
+       │     └── Categoría
+       └── Pago</pre>
+            <p><strong>Relaciones importantes:</strong></p>
+            <ul>
+                <li>Usuario → Pedido</li>
+                <li>Pedido → Producto</li>
+                <li>Producto → Categoría</li>
+                <li>Pedido → Pago</li>
+            </ul>
+            <h3>Ejercicio 2: Plataforma de cursos</h3>
+            <p><strong>Entidades principales:</strong> Usuario, Profesor, Alumno, Curso, Lecciones, Evaluaciones y
+                Matrícula.</p>
+            <pre>PlataformaEducativa
+ └── Usuario
+       ├── Profesor
+       │     └── Curso
+       │           ├── Lecciones
+       │           └── Evaluaciones
+       └── Alumno
+             └── Matrícula
+                   └── Curso</pre>
+            <div class="callout warn">
+                <strong>Método para estos ejercicios:</strong> primero identifica sustantivos del enunciado como
+                posibles entidades, luego detecta relaciones y por último construye el árbol.
+            </div>
+        </section>
+
+        <section id="claves">
+            <h2>12. Claves de examen</h2>
+            <ul>
+                <li><strong>Despliegue</strong> = poner una aplicación en funcionamiento en servidores accesibles.</li>
+                <li><strong>Escalado vertical</strong> = más recursos al mismo servidor.</li>
+                <li><strong>Escalado horizontal</strong> = más servidores.</li>
+                <li><strong>IaaS</strong> = gestionas SO y aplicaciones.</li>
+                <li><strong>PaaS</strong> = subes tu aplicación.</li>
+                <li><strong>SaaS</strong> = solo usas el software.</li>
+                <li><strong>DNS</strong> = nombre → IP.</li>
+                <li><strong>LDAP</strong> = usuarios, permisos y directorios.</li>
+                <li><strong>DIT</strong> = árbol de LDAP.</li>
+            </ul>
+            <div class="callout danger">
+                <strong>Errores típicos:</strong>
+                <ul>
+                    <li>Confundir despliegue con programación.</li>
+                    <li>Confundir DNS con LDAP.</li>
+                    <li>Confundir FTP con SSH.</li>
+                    <li>Separar mal los subdominios en ejercicios DNS.</li>
+                    <li>Tomar verbos como entidades en los ejercicios de dominio.</li>
+                </ul>
+            </div>
+        </section>
+
+        <p class="footer">UF1 preparada para estudiar desde móvil · versión HTML</p>
+    </div>
+</body>
+
+</html>

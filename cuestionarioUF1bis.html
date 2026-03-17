@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test UF1 · Servicios de red implicados en el despliegue</title>
+    <style>
+        :root {
+            --bg: #0b1020;
+            --panel: #121a33;
+            --panel-2: #182243;
+            --text: #eef2ff;
+            --muted: #b8c1e0;
+            --accent: #7cc4ff;
+            --accent-2: #9ef0c7;
+            --warn: #ffd166;
+            --danger: #ff8b8b;
+            --border: rgba(255, 255, 255, .1);
+            --shadow: 0 12px 30px rgba(0, 0, 0, .28);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            background: linear-gradient(180deg, #08101d 0%, #0d1530 100%);
+            color: var(--text);
+            line-height: 1.55;
+        }
+
+        .wrap {
+            width: min(900px, calc(100% - 24px));
+            margin: 0 auto;
+            padding: 18px 0 40px;
+        }
+
+        .hero,
+        .card {
+            background: linear-gradient(180deg, var(--panel) 0%, var(--panel-2) 100%);
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            box-shadow: var(--shadow);
+        }
+
+        .hero {
+            padding: 22px 18px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            margin: 0 0 8px;
+            font-size: clamp(1.6rem, 5vw, 2.4rem);
+            line-height: 1.15;
+        }
+
+        .subtitle {
+            margin: 0;
+            color: var(--muted);
+        }
+
+        .card {
+            padding: 18px;
+            margin-bottom: 16px;
+        }
+
+        h2 {
+            margin: 0 0 10px;
+            color: var(--accent);
+            font-size: 1.25rem;
+        }
+
+        h3 {
+            margin: 0 0 10px;
+            color: var(--accent);
+            font-size: 1.05rem;
+        }
+
+        p {
+            margin: 8px 0;
+        }
+
+        .callout {
+            border-left: 4px solid var(--accent);
+            background: rgba(124, 196, 255, .08);
+            padding: 12px 14px;
+            border-radius: 12px;
+            margin-top: 12px;
+        }
+
+        .warn {
+            border-left-color: var(--warn);
+            background: rgba(255, 209, 102, .08);
+        }
+
+        .danger {
+            border-left-color: var(--danger);
+            background: rgba(255, 139, 139, .08);
+        }
+
+        .option {
+            display: block;
+            padding: 10px 12px;
+            margin: 8px 0;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, .04);
+            cursor: pointer;
+        }
+
+        .btnrow {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 11px 14px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .checkBtn {
+            background: #9ef0c7;
+            color: #082014;
+        }
+
+        .mainBtn {
+            background: #7cc4ff;
+            color: #08101d;
+        }
+
+        .ghostBtn {
+            background: rgba(255, 255, 255, .06);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .footer {
+            text-align: center;
+            color: var(--muted);
+            font-size: .9rem;
+            padding-top: 6px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <header class="hero">
+            <h1>Test UF1 · Servicios de red implicados en el despliegue</h1>
+            <p class="subtitle">20 preguntas con 4 opciones, corrección inmediata, respuesta correcta y explicación si
+                fallas.</p>
+            <div class="callout">
+                <strong>Incluye todo lo importante:</strong> despliegue, escalabilidad, infraestructura, cloud,
+                IaaS/PaaS/SaaS, DNS, LDAP, servicios de red y ejercicios de dominio/DNS.
+            </div>
+        </header>
+
+        <div class="card">
+            <h2>Instrucciones</h2>
+            <p>Marca una opción y pulsa <strong>Comprobar respuesta</strong>. Si fallas, verás la correcta al momento
+                con una explicación breve.</p>
+            <div class="btnrow">
+                <button id="showScore" class="mainBtn">Ver puntuación</button>
+                <button id="resetQuiz" class="ghostBtn">Reiniciar test</button>
+            </div>
+            <div id="scoreBox" class="callout" style="display:none;"></div>
+        </div>
+
+        <div id="quiz"></div>
+
+        <p class="footer">Test UF1 en HTML · versión móvil</p>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                q: "¿Qué es el despliegue de una aplicación web?",
+                options: [
+                    "El proceso de diseñar la interfaz gráfica",
+                    "El proceso de poner la aplicación en funcionamiento en una infraestructura accesible",
+                    "El proceso de escribir el código fuente",
+                    "El proceso de crear la base de datos"
+                ],
+                correct: 1,
+                explanation: "Desplegar significa dejar la aplicación funcionando para que los usuarios puedan acceder a ella."
+            },
+            {
+                q: "¿Cuándo se realiza normalmente el despliegue dentro del ciclo de vida del software?",
+                options: [
+                    "Antes del análisis",
+                    "Después de la implementación",
+                    "Antes del diseño",
+                    "Durante la recogida de requisitos"
+                ],
+                correct: 1,
+                explanation: "Primero se analiza, diseña e implementa. Después se instala y publica la aplicación."
+            },
+            {
+                q: "¿Cuál de estas es una característica de las aplicaciones web?",
+                options: [
+                    "Se ejecutan solo en el PC del usuario",
+                    "Atienden un único usuario cada vez",
+                    "Funcionan a través de Internet y en servidores",
+                    "No necesitan red"
+                ],
+                correct: 2,
+                explanation: "Una aplicación web se ejecuta en servidores y se accede a ella a través de Internet."
+            },
+            {
+                q: "La escalabilidad es:",
+                options: [
+                    "La capacidad de apagar el sistema automáticamente",
+                    "La capacidad de aumentar la capacidad del sistema cuando crece la demanda",
+                    "La capacidad de cambiar de lenguaje de programación",
+                    "La capacidad de usar solo bases de datos grandes"
+                ],
+                correct: 1,
+                explanation: "Escalar significa adaptarse al crecimiento de usuarios o carga sin dejar de funcionar correctamente."
+            },
+            {
+                q: "¿Qué es el escalado vertical?",
+                options: [
+                    "Añadir más servidores al sistema",
+                    "Aumentar los recursos del mismo servidor",
+                    "Mover la aplicación a otra empresa",
+                    "Reducir la carga del servidor"
+                ],
+                correct: 1,
+                explanation: "El escalado vertical mejora una sola máquina aumentando CPU, RAM o almacenamiento."
+            },
+            {
+                q: "¿Qué es el escalado horizontal?",
+                options: [
+                    "Añadir más servidores al sistema",
+                    "Aumentar la RAM del mismo servidor",
+                    "Cambiar a una base de datos relacional",
+                    "Instalar Linux en el servidor"
+                ],
+                correct: 0,
+                explanation: "Escalado horizontal significa repartir la carga entre varios servidores."
+            },
+            {
+                q: "¿Cuál es una ventaja típica del escalado vertical?",
+                options: [
+                    "No tiene límite físico",
+                    "Es fácil de implementar y no cambia la arquitectura",
+                    "Siempre es más barato que el horizontal",
+                    "Elimina la necesidad de balanceadores"
+                ],
+                correct: 1,
+                explanation: "El vertical es sencillo porque mejoras el mismo servidor, aunque tiene límites físicos y coste alto."
+            },
+            {
+                q: "¿Qué opción describe mejor la infraestructura propia?",
+                options: [
+                    "La empresa usa servidores y recursos que pertenecen a terceros en Internet",
+                    "La organización gestiona sus propios servidores e instalaciones",
+                    "Solo se usa para correo electrónico",
+                    "Es exactamente lo mismo que SaaS"
+                ],
+                correct: 1,
+                explanation: "En la infraestructura propia la empresa controla sus propios recursos físicos y lógicos."
+            },
+            {
+                q: "¿Qué ventaja es típica de la computación en la nube?",
+                options: [
+                    "Pago por uso y escalado fácil",
+                    "Control físico total del hardware",
+                    "No depende de Internet",
+                    "No usa servidores"
+                ],
+                correct: 0,
+                explanation: "La nube destaca por la flexibilidad, el pago según consumo y la facilidad para escalar."
+            },
+            {
+                q: "¿Qué lanzó Amazon en 2006 y marcó el inicio del cloud moderno según la unidad?",
+                options: [
+                    "EC2 y S3",
+                    "Gmail y Drive",
+                    "Azure y Office",
+                    "Heroku y Firebase"
+                ],
+                correct: 0,
+                explanation: "La unidad destaca EC2 y S3 como el punto de partida del cloud moderno."
+            },
+            {
+                q: "En IaaS, el usuario gestiona normalmente:",
+                options: [
+                    "Nada",
+                    "Sistema operativo y aplicaciones",
+                    "Solo el navegador",
+                    "Solo la parte de diseño visual"
+                ],
+                correct: 1,
+                explanation: "IaaS ofrece infraestructura virtual, pero tú sigues gestionando SO y aplicaciones."
+            },
+            {
+                q: "En PaaS, ¿qué hace principalmente el desarrollador?",
+                options: [
+                    "Montar el CPD",
+                    "Subir su aplicación",
+                    "Cambiar discos duros",
+                    "Gestionar el cableado"
+                ],
+                correct: 1,
+                explanation: "En PaaS la plataforma ya está preparada y el desarrollador se centra en desplegar la app."
+            },
+            {
+                q: "¿Cuál de estos es un ejemplo de SaaS?",
+                options: [
+                    "Amazon EC2",
+                    "Google Compute Engine",
+                    "Gmail",
+                    "Azure Virtual Machine"
+                ],
+                correct: 2,
+                explanation: "Gmail es una aplicación completa accesible por Internet. El usuario solo la utiliza."
+            },
+            {
+                q: "¿Qué servicio de red traduce nombres de dominio a direcciones IP?",
+                options: [
+                    "LDAP",
+                    "FTP",
+                    "DNS",
+                    "SSH"
+                ],
+                correct: 2,
+                explanation: "DNS actúa como traductor entre nombres legibles y direcciones IP."
+            },
+            {
+                q: "¿Cómo se organiza el DNS?",
+                options: [
+                    "Como una lista plana",
+                    "Como un árbol invertido",
+                    "Como una hoja de cálculo",
+                    "Como una base de datos jerárquica de usuarios"
+                ],
+                correct: 1,
+                explanation: "El DNS tiene estructura jerárquica: raíz, TLD, dominio, subdominio."
+            },
+            {
+                q: "En la resolución directa del DNS, la conversión correcta es:",
+                options: [
+                    "IP → nombre",
+                    "nombre → IP",
+                    "usuario → grupo",
+                    "archivo → directorio"
+                ],
+                correct: 1,
+                explanation: "La resolución directa parte del nombre de dominio y obtiene su IP."
+            },
+            {
+                q: "¿Para qué se utiliza principalmente LDAP?",
+                options: [
+                    "Para autenticar usuarios y gestionar permisos",
+                    "Para transferir archivos grandes",
+                    "Para traducir nombres a IP",
+                    "Para crear páginas web estáticas"
+                ],
+                correct: 0,
+                explanation: "LDAP se utiliza para directorios corporativos, autenticación y control de acceso."
+            },
+            {
+                q: "LDAP organiza la información en una estructura llamada:",
+                options: [
+                    "TLD",
+                    "DIT",
+                    "TTL",
+                    "DNSSEC"
+                ],
+                correct: 1,
+                explanation: "DIT significa Directory Information Tree, el árbol jerárquico de LDAP."
+            },
+            {
+                q: "En un ejercicio de dominio, ¿qué suele tomarse primero como entidades?",
+                options: [
+                    "Los verbos",
+                    "Los sustantivos relevantes",
+                    "Los adverbios",
+                    "Las comas"
+                ],
+                correct: 1,
+                explanation: "La forma más rápida de detectar entidades es localizar los sustantivos importantes del enunciado."
+            },
+            {
+                q: "En el árbol DNS de novaempresa.com trabajado en clase, ¿qué afirmación es correcta?",
+                options: [
+                    "www, mail, ftp, cloud, api, dev, sys y marketing cuelgan directamente de novaempresa.com",
+                    "dev debe colgar dentro de api",
+                    "mail debe colgar dentro de marketing",
+                    "sys debe colgar dentro de www"
+                ],
+                correct: 0,
+                explanation: "En el ejercicio todos esos subdominios estaban al mismo nivel bajo el dominio principal."
+            }
+        ];
+
+        const quiz = document.getElementById('quiz');
+        const scoreBox = document.getElementById('scoreBox');
+
+        function renderQuiz() {
+            quiz.innerHTML = '';
+            questions.forEach((item, index) => {
+                const block = document.createElement('section');
+                block.className = 'card';
+                block.innerHTML = `
+          <h3>Pregunta ${index + 1}</h3>
+          <p><strong>${item.q}</strong></p>
+          <div>
+            ${item.options.map((opt, i) => `
+              <label class="option">
+                <input type="radio" name="q${index}" value="${i}" style="margin-right:8px;" /> ${opt}
+              </label>
+            `).join('')}
+          </div>
+          <div class="btnrow">
+            <button class="checkBtn" data-index="${index}">Comprobar respuesta</button>
+          </div>
+          <div id="feedback-${index}" style="margin-top:12px;"></div>
+        `;
+                quiz.appendChild(block);
+            });
+            attachEvents();
+        }
+
+        function attachEvents() {
+            document.querySelectorAll('.checkBtn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const index = Number(btn.dataset.index);
+                    const selected = document.querySelector(`input[name="q${index}"]:checked`);
+                    const feedback = document.getElementById(`feedback-${index}`);
+
+                    if (!selected) {
+                        feedback.innerHTML = `<div class="callout warn"><strong>Selecciona una opción</strong> antes de comprobar.</div>`;
+                        return;
+                    }
+
+                    const value = Number(selected.value);
+                    if (value === questions[index].correct) {
+                        feedback.innerHTML = `<div class="callout"><strong>✅ Correcta.</strong> ${questions[index].explanation}</div>`;
+                    } else {
+                        feedback.innerHTML = `<div class="callout danger"><strong>❌ Incorrecta.</strong> La correcta es: <strong>${questions[index].options[questions[index].correct]}</strong>.<br>${questions[index].explanation}</div>`;
+                    }
+                });
+            });
+        }
+
+        function getScore() {
+            let score = 0;
+            questions.forEach((q, i) => {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                if (selected && Number(selected.value) === q.correct) score++;
+            });
+            return score;
+        }
+
+        document.getElementById('showScore').addEventListener('click', () => {
+            const score = getScore();
+            scoreBox.style.display = 'block';
+            scoreBox.innerHTML = `<strong>Puntuación actual:</strong> ${score} / ${questions.length}`;
+            scoreBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+
+        document.getElementById('resetQuiz').addEventListener('click', () => {
+            renderQuiz();
+            scoreBox.style.display = 'none';
+            scoreBox.innerHTML = '';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        renderQuiz();
+    </script>
+</body>
+
+</html>
