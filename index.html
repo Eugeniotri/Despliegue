@@ -21,15 +21,14 @@
       --pink: #f472b6;
       --shadow: 0 18px 60px rgba(0, 0, 0, .32);
       --radius: 24px;
-      --radius-sm: 16px;
     }
 
     * {
-      box-sizing: border-box
+      box-sizing: border-box;
     }
 
     html {
-      scroll-behavior: smooth
+      scroll-behavior: smooth;
     }
 
     body {
@@ -93,11 +92,11 @@
 
       0%,
       100% {
-        transform: translateY(0px) translateX(0px)
+        transform: translateY(0px) translateX(0px);
       }
 
       50% {
-        transform: translateY(18px) translateX(8px)
+        transform: translateY(18px) translateX(8px);
       }
     }
 
@@ -214,7 +213,7 @@
 
     .stat span {
       color: var(--muted);
-      font-size: .93rem
+      font-size: .93rem;
     }
 
     .section-head {
@@ -386,11 +385,12 @@
       height: 100%;
       border-radius: 999px;
       background: linear-gradient(90deg, var(--cyan), var(--blue));
-      width: 0%;
+      width: 12%;
     }
 
     .fill.done {
       background: linear-gradient(90deg, var(--green), #86efac);
+      width: 100%;
     }
 
     .links {
@@ -413,12 +413,18 @@
     }
 
     .btn:hover {
-      transform: translateY(-2px)
+      transform: translateY(-2px);
     }
 
     .btn.primary {
       background: linear-gradient(135deg, rgba(34, 211, 238, .18), rgba(96, 165, 250, .16));
       border-color: rgba(34, 211, 238, .32);
+    }
+
+    .btn.disabled {
+      opacity: .55;
+      cursor: not-allowed;
+      pointer-events: none;
     }
 
     .legend {
@@ -478,34 +484,34 @@
 
     @media (max-width:900px) {
       .stats {
-        grid-template-columns: repeat(2, minmax(0, 1fr))
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
       .legend {
-        grid-template-columns: 1fr
+        grid-template-columns: 1fr;
       }
     }
 
     @media (max-width:640px) {
       .wrap {
-        padding: 14px 12px 42px
+        padding: 14px 12px 42px;
       }
 
       .hero {
-        padding: 24px 16px
+        padding: 24px 16px;
       }
 
       .stats {
-        grid-template-columns: 1fr
+        grid-template-columns: 1fr;
       }
 
       .links {
-        grid-template-columns: 1fr
+        grid-template-columns: 1fr;
       }
 
       .section-head {
         flex-direction: column;
-        align-items: flex-start
+        align-items: flex-start;
       }
     }
   </style>
@@ -519,35 +525,34 @@
 
   <div class="wrap">
     <section class="hero">
-      <div class="badge">🚀 DAW • Despliegue de aplicaciones web • GitHub Pages ready</div>
+      <div class="badge">🚀 DAW • Despliegue de aplicaciones web • Portal central</div>
       <h1>Portal de estudio<br>de Despliegue</h1>
       <p>
-        Índice central para tus 5 unidades formativas con acceso directo a resúmenes, cuestionarios y materiales de
-        clase.
-        Está pensado para que lo subas como <strong>index.html</strong>, se vea bien en móvil y tenga una estética
-        profesional.
+        Índice central para entrar a tus unidades formativas, resúmenes y cuestionarios.
+        Ahora mismo está conectado con los archivos que ya tienes creados en tu carpeta.
       </p>
 
       <div class="hero-actions">
-        <a class="hero-btn primary" href="#uf1">Entrar a las UF</a>
-        <a class="hero-btn" href="cuestionario_uf1.html">Ir al test UF1</a>
-        <a class="hero-btn" href="resumen_uf1.html">Abrir resumen UF1</a>
-        <a class="hero-btn" href="clase16marzUF1.html">Clase UF1</a>
-        <a class="hero-btn" href="cuestionarioUF1bis.html">Test UF1 bis</a>
+        <a class="hero-btn primary" href="#uf1">Ir a UF1</a>
+        <a class="hero-btn" href="#uf3">Ir a UF3</a>
+        <a class="hero-btn" href="resumen_uf1.html">Resumen UF1</a>
+        <a class="hero-btn" href="cuestionario_uf1.html">Test UF1</a>
+        <a class="hero-btn" href="uf3.html">Resumen UF3</a>
+        <a class="hero-btn" href="cuestionariouf3.html">Test UF3</a>
       </div>
 
       <div class="stats">
         <div class="stat">
-          <strong>5</strong>
-          <span>Unidades formativas</span>
+          <strong>2</strong>
+          <span>UF conectadas ahora</span>
         </div>
         <div class="stat">
-          <strong>4</strong>
-          <span>Archivos ya enlazados en UF1</span>
+          <strong>6</strong>
+          <span>HTML activos enlazados</span>
         </div>
         <div class="stat">
-          <strong>1</strong>
-          <span>Portal central para GitHub Pages</span>
+          <strong>3</strong>
+          <span>UF pendientes de completar</span>
         </div>
         <div class="stat">
           <strong>Móvil</strong>
@@ -558,7 +563,7 @@
 
     <div class="section-head">
       <h2>Acceso rápido</h2>
-      <p>Pulsa una UF y entra directo a su resumen, cuestionario o materiales.</p>
+      <p>Pulsa una unidad y entra a su resumen o cuestionario.</p>
     </div>
 
     <nav class="quick-nav">
@@ -576,7 +581,7 @@
           <div class="icon">🌐</div>
         </div>
         <h3>Servicios de red implicados en el despliegue</h3>
-        <p>Unidad sobre despliegue, cloud computing, DNS, LDAP, modelado de dominio, ejercicios y test de repaso.</p>
+        <p>Unidad ya operativa con resumen, cuestionario principal, cuestionario extra y material de clase.</p>
         <ul class="chips">
           <li>Despliegue</li>
           <li>Nube</li>
@@ -589,10 +594,10 @@
         <div class="progress">
           <div class="progress-row">
             <span>Estado</span>
-            <span>100% completada</span>
+            <span>Completada</span>
           </div>
           <div class="bar">
-            <div class="fill done" style="width:100%"></div>
+            <div class="fill done"></div>
           </div>
         </div>
 
@@ -610,7 +615,7 @@
           <div class="icon">🖥️</div>
         </div>
         <h3>Servidores web</h3>
-        <p>Unidad enfocada en instalación, configuración y administración de servidores web.</p>
+        <p>Bloque preparado para que más adelante añadas su resumen y su cuestionario.</p>
         <ul class="chips">
           <li>Apache</li>
           <li>Nginx</li>
@@ -622,16 +627,16 @@
         <div class="progress">
           <div class="progress-row">
             <span>Estado</span>
-            <span>Preparada para añadir contenido</span>
+            <span>Pendiente</span>
           </div>
           <div class="bar">
-            <div class="fill" style="width:12%"></div>
+            <div class="fill"></div>
           </div>
         </div>
 
         <div class="links">
-          <a class="btn primary" href="resumen_uf2.html">Resumen UF2</a>
-          <a class="btn" href="cuestionario_uf2.html">Cuestionario UF2</a>
+          <a class="btn primary disabled" href="#">Resumen UF2</a>
+          <a class="btn disabled" href="#">Cuestionario UF2</a>
         </div>
       </article>
 
@@ -641,7 +646,7 @@
           <div class="icon">⚙️</div>
         </div>
         <h3>Servidores de aplicaciones</h3>
-        <p>Espacio preparado para tus apuntes y test sobre despliegue en servidores de aplicaciones.</p>
+        <p>Unidad ya conectada con tu resumen/apuntes UF3 y con el cuestionario interactivo.</p>
         <ul class="chips">
           <li>Tomcat</li>
           <li>Java</li>
@@ -653,16 +658,16 @@
         <div class="progress">
           <div class="progress-row">
             <span>Estado</span>
-            <span>Preparada para añadir contenido</span>
+            <span>Operativa</span>
           </div>
           <div class="bar">
-            <div class="fill" style="width:12%"></div>
+            <div class="fill done"></div>
           </div>
         </div>
 
         <div class="links">
-          <a class="btn primary" href="resumen_uf3.html">Resumen UF3</a>
-          <a class="btn" href="cuestionario_uf3.html">Cuestionario UF3</a>
+          <a class="btn primary" href="uf3.html">Resumen UF3</a>
+          <a class="btn" href="cuestionariouf3.html">Cuestionario UF3</a>
         </div>
       </article>
 
@@ -672,7 +677,7 @@
           <div class="icon">📁</div>
         </div>
         <h3>Transferencia de archivos</h3>
-        <p>Portal para enlazar resúmenes y cuestionarios sobre protocolos y herramientas de transferencia.</p>
+        <p>Bloque reservado para enlazar más adelante el resumen y el test de la UF4.</p>
         <ul class="chips">
           <li>FTP</li>
           <li>SFTP</li>
@@ -684,16 +689,16 @@
         <div class="progress">
           <div class="progress-row">
             <span>Estado</span>
-            <span>Preparada para añadir contenido</span>
+            <span>Pendiente</span>
           </div>
           <div class="bar">
-            <div class="fill" style="width:12%"></div>
+            <div class="fill"></div>
           </div>
         </div>
 
         <div class="links">
-          <a class="btn primary" href="resumen_uf4.html">Resumen UF4</a>
-          <a class="btn" href="cuestionario_uf4.html">Cuestionario UF4</a>
+          <a class="btn primary disabled" href="#">Resumen UF4</a>
+          <a class="btn disabled" href="#">Cuestionario UF4</a>
         </div>
       </article>
 
@@ -703,7 +708,7 @@
           <div class="icon">🧩</div>
         </div>
         <h3>Documentación y control de versiones</h3>
-        <p>Acceso futuro a materiales de Git, GitHub, control de versiones y documentación técnica.</p>
+        <p>Bloque reservado para enlazar más adelante Git, GitHub, documentación y control de versiones.</p>
         <ul class="chips">
           <li>Git</li>
           <li>GitHub</li>
@@ -715,46 +720,54 @@
         <div class="progress">
           <div class="progress-row">
             <span>Estado</span>
-            <span>Preparada para añadir contenido</span>
+            <span>Pendiente</span>
           </div>
           <div class="bar">
-            <div class="fill" style="width:12%"></div>
+            <div class="fill"></div>
           </div>
         </div>
 
         <div class="links">
-          <a class="btn primary" href="resumen_uf5.html">Resumen UF5</a>
-          <a class="btn" href="cuestionario_uf5.html">Cuestionario UF5</a>
+          <a class="btn primary disabled" href="#">Resumen UF5</a>
+          <a class="btn disabled" href="#">Cuestionario UF5</a>
         </div>
       </article>
     </section>
 
     <section class="legend">
       <div class="panel">
-        <h3>Cómo queda tu carpeta según la captura</h3>
-        <p>Con los nombres que aparecen en VS Code, este portal ya enlaza correctamente estos archivos de la UF1:</p>
+        <h3>Archivos enlazados ahora mismo</h3>
+        <p>Este portal está preparado con los archivos que se ven en tu explorador actual:</p>
         <ul>
-          <li><strong>index.html</strong> → portal principal</li>
           <li><strong>resumen_uf1.html</strong></li>
           <li><strong>cuestionario_uf1.html</strong></li>
           <li><strong>cuestionarioUF1bis.html</strong></li>
           <li><strong>clase16marzUF1.html</strong></li>
+          <li><strong>uf3.html</strong></li>
+          <li><strong>cuestionariouf3.html</strong></li>
         </ul>
-        <p>Las demás UF siguen preparadas para que luego añadas sus archivos reales.</p>
+        <p>Cuando prepares la UF4 y la UF5, cambiamos los botones desactivados por enlaces reales.</p>
       </div>
 
       <div class="panel">
         <h3>Leyenda visual</h3>
         <div class="legend-items">
-          <div class="legend-item"><span class="swatch"
-              style="background:linear-gradient(90deg,#22c55e,#86efac)"></span><span>UF completada</span></div>
-          <div class="legend-item"><span class="swatch"
-              style="background:linear-gradient(90deg,#22d3ee,#60a5fa)"></span><span>UF preparada para añadir
-              contenido</span></div>
-          <div class="legend-item"><span class="swatch" style="background:#60a5fa"></span><span>Botón principal /
-              resumen</span></div>
-          <div class="legend-item"><span class="swatch" style="background:#0f172a"></span><span>Botón secundario /
-              cuestionario</span></div>
+          <div class="legend-item">
+            <span class="swatch" style="background:linear-gradient(90deg,#22c55e,#86efac)"></span>
+            <span>Unidad operativa</span>
+          </div>
+          <div class="legend-item">
+            <span class="swatch" style="background:linear-gradient(90deg,#22d3ee,#60a5fa)"></span>
+            <span>Unidad pendiente</span>
+          </div>
+          <div class="legend-item">
+            <span class="swatch" style="background:#60a5fa"></span>
+            <span>Botón principal / resumen</span>
+          </div>
+          <div class="legend-item">
+            <span class="swatch" style="background:#0f172a"></span>
+            <span>Botón secundario / cuestionario</span>
+          </div>
         </div>
       </div>
     </section>

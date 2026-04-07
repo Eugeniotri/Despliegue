@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cuestionario UF3 - Quiz</title>
+    <style>
+        :root {
+            --bg: #060b16;
+            --bg-2: #0b1222;
+            --text: #e8eef8;
+            --muted: #9db0ca;
+            --line: rgba(148, 163, 184, .18);
+            --cyan: #22d3ee;
+            --blue: #60a5fa;
+            --green: #22c55e;
+            --red: #ef4444;
+            --shadow: 0 18px 60px rgba(0, 0, 0, .32);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 15% 10%, rgba(34, 211, 238, .12), transparent 20%),
+                radial-gradient(circle at 85% 18%, rgba(96, 165, 250, .12), transparent 18%),
+                linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+            min-height: 100vh;
+        }
+
+        .wrap {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 24px 16px 48px;
+        }
+
+        .hero,
+        .question,
+        .score-box {
+            border: 1px solid var(--line);
+            background: rgba(15, 23, 42, .92);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .hero {
+            padding: 28px 22px;
+            margin-bottom: 24px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: rgba(34, 211, 238, .09);
+            color: var(--cyan);
+            border: 1px solid rgba(34, 211, 238, .22);
+            font-weight: bold;
+            font-size: .92rem;
+            margin-bottom: 14px;
+        }
+
+        h1 {
+            margin: 0 0 10px;
+            font-size: clamp(2rem, 4vw, 3.3rem);
+            line-height: 1.05;
+        }
+
+        .hero p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .controls {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 20px 0 24px;
+        }
+
+        button {
+            border: 1px solid var(--line);
+            background: rgba(15, 23, 42, .88);
+            color: var(--text);
+            padding: 12px 16px;
+            border-radius: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: .18s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        .primary {
+            background: linear-gradient(135deg, rgba(34, 211, 238, .18), rgba(96, 165, 250, .16));
+            border-color: rgba(34, 211, 238, .32);
+        }
+
+        .question {
+            padding: 18px;
+            margin-bottom: 16px;
+        }
+
+        .question h3 {
+            margin: 0 0 12px;
+            font-size: 1.08rem;
+            line-height: 1.45;
+        }
+
+        .options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .option {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            padding: 12px 14px;
+            border-radius: 16px;
+            border: 1px solid var(--line);
+            background: rgba(10, 18, 34, .72);
+            cursor: pointer;
+            transition: .18s ease;
+        }
+
+        .option:hover {
+            border-color: rgba(34, 211, 238, .28);
+        }
+
+        .option.correct {
+            border-color: rgba(34, 197, 94, .7);
+            background: rgba(34, 197, 94, .12);
+        }
+
+        .option.incorrect {
+            border-color: rgba(239, 68, 68, .7);
+            background: rgba(239, 68, 68, .12);
+        }
+
+        .option.disabled {
+            opacity: .88;
+            cursor: default;
+        }
+
+        .option input {
+            margin-top: 3px;
+        }
+
+        .feedback {
+            display: none;
+            margin-top: 12px;
+            padding: 12px 14px;
+            border-radius: 16px;
+            line-height: 1.6;
+            white-space: pre-line;
+        }
+
+        .feedback.ok {
+            display: block;
+            color: #bbf7d0;
+            border: 1px solid rgba(34, 197, 94, .35);
+            background: rgba(34, 197, 94, .10);
+        }
+
+        .feedback.bad {
+            display: block;
+            color: #fecaca;
+            border: 1px solid rgba(239, 68, 68, .35);
+            background: rgba(239, 68, 68, .10);
+        }
+
+        .score-box {
+            display: none;
+            padding: 18px;
+            margin-top: 18px;
+            font-weight: bold;
+        }
+
+        .muted {
+            color: var(--muted);
+        }
+
+        @media (max-width: 640px) {
+            .wrap {
+                padding: 14px 12px 36px;
+            }
+
+            .hero {
+                padding: 22px 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <section class="hero">
+            <div class="badge">⚙️ UF3 · Cuestionario interactivo</div>
+            <h1>Quiz UF3 - Servidores de aplicaciones</h1>
+            <p>Responde y verás al instante si está bien o mal. También se mostrará cuál era la correcta.</p>
+        </section>
+
+        <div class="controls">
+            <button class="primary" onclick="showFinalScore()">Ver nota final</button>
+            <button onclick="resetQuiz()">Reiniciar quiz</button>
+        </div>
+
+        <div id="quiz-container"></div>
+        <div id="score" class="score-box"></div>
+        <p class="muted">Consejo: guarda este archivo como <strong>cuestionario_uf3.html</strong> y ábrelo en el
+            navegador.</p>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                text: '1. El uso de las sesiones permite:',
+                options: {
+                    a: 'Almacenar pequeñas cantidades de información en archivos de texto en el equipo del usuario.',
+                    b: 'Recibir información del usuario para almacenarla en una base de datos.',
+                    c: 'Enviar información que el usuario ha pedido y que se almacena en una base de datos.',
+                    d: 'Identificar y almacenar información sobre los usuarios cuando realizan varias peticiones a un mismo servidor.'
+                },
+                correct: 'd',
+                explanation: 'Las sesiones mantienen información del usuario entre varias peticiones y se almacenan en el servidor.'
+            },
+            {
+                text: '2. ¿Cuál de las siguientes es una implementación de código abierto de algunas especificaciones Jakarta EE, pero no cumple con todas las especificaciones para ser un servidor de aplicaciones completo?',
+                options: {
+                    a: 'Apache TomEE MicroProfile.',
+                    b: 'Apache TomEE Plume.',
+                    c: 'Apache Tomcat.',
+                    d: 'Apache TomEE.'
+                },
+                correct: 'c',
+                explanation: 'Tomcat implementa solo algunas especificaciones; por eso es un contenedor de servlets y no un servidor de aplicaciones completo.'
+            },
+            {
+                text: '3. ¿Cuál de las siguientes es una desventaja del uso de servidores de aplicaciones según el texto?',
+                options: {
+                    a: 'La implementación de soluciones de recuperación ante las caídas (failover).',
+                    b: 'La facilidad en la administración de las actualizaciones y del despliegue de programas.',
+                    c: 'La menor necesidad de servidores potentes.',
+                    d: 'El incremento de la superficie de ataque del sistema, ya que se transmite la información por la red.'
+                },
+                correct: 'd',
+                explanation: 'Al transmitirse la información por la red, aumenta la superficie de ataque.'
+            },
+            {
+                text: '4. En cuanto a la seguridad en Tomcat, ¿cuál de las siguientes afirmaciones es correcta?',
+                options: {
+                    a: 'No es necesario utilizar diferentes instancias de Tomcat, incluso hosts separados, si se ejecutan aplicaciones en las que no se confía.',
+                    b: 'Es recomendable eliminar toda referencia a la versión de Tomcat utilizada para dificultar el uso de los programas maliciosos, conocidos como exploits.',
+                    c: 'Deshabilitar todas las aplicaciones y los ejemplos proporcionados por Tomcat no es necesario, ya que la instalación, por defecto, es segura.',
+                    d: 'Activar el security manager puede afectar negativamente al rendimiento del sistema y, por lo tanto, no se recomienda.'
+                },
+                correct: 'b',
+                explanation: 'Ocultar la versión dificulta ataques basados en vulnerabilidades conocidas.'
+            },
+            {
+                text: '5. ¿Cuál de las siguientes no es una edición de la plataforma Java de Oracle según el texto?',
+                options: {
+                    a: 'Java Micro Edition (Java ME).',
+                    b: 'Java Microservice Edition (Java MSE).',
+                    c: 'Java Enterprise Edition (Java EE).',
+                    d: 'Java Standard Edition (Java SE).'
+                },
+                correct: 'b',
+                explanation: 'Java MSE no existe como edición oficial.'
+            },
+            {
+                text: '6. ¿Qué diferencia hay entre almacenar información a través de cookies o usar sesiones en Java?',
+                options: {
+                    a: 'Las sesiones almacenan información en archivos de texto en el equipo del usuario, mientras que las cookies lo hacen en el servidor.',
+                    b: 'Las cookies permiten identificar y personalizar el contenido, mientras que las sesiones se utilizan únicamente para el funcionamiento interno de la aplicación.',
+                    c: 'Las cookies almacenan información en el lado del servidor, mientras que las sesiones lo hacen en el lado del cliente.',
+                    d: 'Las sesiones almacenan información en el servidor, mientras que las cookies lo hacen en el cliente, mejorando así la experiencia del usuario.'
+                },
+                correct: 'd',
+                explanation: 'Cookie = cliente; sesión = servidor.'
+            },
+            {
+                text: '7. ¿Qué ventajas ofrecen los servidores de aplicaciones frente a un modelo descentralizado según el texto?',
+                options: {
+                    a: 'La necesidad de servidores menos potentes.',
+                    b: 'Una mayor superficie de ataque del sistema.',
+                    c: 'La disminución de la administración de los clientes.',
+                    d: 'Una menor protección de la información en tránsito.'
+                },
+                correct: 'c',
+                explanation: 'Una ventaja es que se simplifica la administración de los clientes.'
+            },
+            {
+                text: '8. En Java, ¿cómo se gestionan las cookies en un programa o servlet?',
+                options: {
+                    a: 'A través de la clase ServletCookie del paquete jakarta.servlet, que tiene un método setCookie para establecer el valor de la cookie.',
+                    b: 'Utilizando la clase cookie del paquete javax.servlet.http, que tiene un constructor con nombre y valor, y métodos como setValue y setComment.',
+                    c: 'Mediante la interfaz HttpRequest, que proporciona métodos como addCookie y getCookie para manipular las cookies.',
+                    d: 'Utilizando la clase SessionCookie del paquete javax.servlet.session, que tiene un método createCookie para generar cookies en la sesión.'
+                },
+                correct: 'b',
+                explanation: 'En Java se usan con la clase Cookie del paquete servlet.http.'
+            },
+            {
+                text: '9. ¿Qué comando se suele utilizar tras hacer cambios en un archivo .java y crear su correspondiente archivo .class para liberar de caché la versión antigua en el gestor de aplicaciones de Tomcat?',
+                options: {
+                    a: 'Recargar.',
+                    b: 'Parar.',
+                    c: 'Replegar.',
+                    d: 'Arrancar.'
+                },
+                correct: 'a',
+                explanation: 'Recargar (Reload) aplica los cambios y libera la versión antigua de caché.'
+            },
+            {
+                text: '10. ¿Cuál es el propósito de las variables CATALINA_HOME y CATALINA_BASE en un servidor de Tomcat?',
+                options: {
+                    a: 'Apuntan al directorio raíz de la instalación de Tomcat.',
+                    b: 'Contienen los elementos comunes a todas las instancias de Tomcat.',
+                    c: 'Son utilizadas para almacenar los archivos temporales de la JVM.',
+                    d: 'Permiten ejecutar varias instancias de Tomcat en una máquina apuntando al mismo directorio.'
+                },
+                correct: 'd',
+                explanation: 'HOME y BASE permiten separar instalación e instancia para usar varias instancias en la misma máquina.'
+            },
+            {
+                text: '11. ¿Qué función realiza la capa de presentación en la arquitectura de las plataformas Java?',
+                options: {
+                    a: 'Proporcionar acceso a la información almacenada en una base de datos.',
+                    b: 'Procesar las peticiones de la capa de servicios de negocios.',
+                    c: 'Transformar la información a un formato legible para el cliente, generalmente HTML.',
+                    d: 'Ejecutar elementos en la máquina cliente.'
+                },
+                correct: 'c',
+                explanation: 'La capa de presentación muestra la información al cliente, normalmente en HTML.'
+            },
+            {
+                text: '12. En la arquitectura de las plataformas Java, la capa de datos…',
+                options: {
+                    a: 'Normalmente funciona a través de un navegador web, aplicaciones de escritorio o móvil.',
+                    b: 'Contiene los servicios que proporcionan acceso a la información almacenada, normalmente, en una base de datos.',
+                    c: 'Se ejecuta en el servidor de aplicaciones y su tarea principal es realizar las funciones principales de las aplicaciones, proporcionar los datos o guardarlos en la capa de datos.',
+                    d: 'Se ejecuta en el servidor Java EE o en un servidor de aplicaciones y su función es procesar las peticiones.'
+                },
+                correct: 'b',
+                explanation: 'La capa de datos accede a la información almacenada, normalmente en una base de datos.'
+            },
+            {
+                text: '13. ¿Cuál de las siguientes afirmaciones respecto a Tomcat es correcta?',
+                options: {
+                    a: 'Es un servidor de aplicaciones propietario.',
+                    b: 'Es un contenedor de servlets propietario.',
+                    c: 'Es un servidor de aplicaciones libre.',
+                    d: 'Es un contenedor de servlets libre.'
+                },
+                correct: 'd',
+                explanation: 'Tomcat es un contenedor de servlets libre.'
+            },
+            {
+                text: '14. ¿Cuál es el nombre del contenedor de servlets de Apache Tomcat a partir de la versión 4.x?',
+                options: {
+                    a: 'JSP.',
+                    b: 'Jasper.',
+                    c: 'Catalina.',
+                    d: 'Tomcat Engine.'
+                },
+                correct: 'c',
+                explanation: 'Catalina es el contenedor de servlets de Tomcat.'
+            },
+            {
+                text: '15. ¿Cuál es la función del archivo web.xml en la estructura de directorios de una aplicación en Tomcat?',
+                options: {
+                    a: 'Contiene las páginas HTML y los archivos JavaScript de la aplicación.',
+                    b: 'Define las librerías externas necesarias para la aplicación.',
+                    c: 'Se utiliza para almacenar los archivos temporales utilizados por la aplicación.',
+                    d: 'Describe los servlets y los componentes de la aplicación y puede contener parámetros de inicialización y restricciones de seguridad.'
+                },
+                correct: 'd',
+                explanation: 'web.xml configura servlets, componentes, parámetros y seguridad.'
+            },
+            {
+                text: '16. ¿Cuál es la función principal de un servidor de aplicaciones?',
+                options: {
+                    a: 'Servir únicamente páginas web estáticas.',
+                    b: 'Ejecutar lógica de negocio y aplicaciones en el servidor.',
+                    c: 'Almacenar archivos del sistema operativo.',
+                    d: 'Gestionar únicamente bases de datos.'
+                },
+                correct: 'b',
+                explanation: 'Un servidor de aplicaciones ejecuta lógica de negocio y aplicaciones.'
+            },
+            {
+                text: '17. ¿Qué es el bytecode en Java?',
+                options: {
+                    a: 'Código máquina ejecutado directamente por el hardware.',
+                    b: 'Código intermedio que necesita la JVM para ejecutarse.',
+                    c: 'Código fuente escrito en Java.',
+                    d: 'Un tipo de base de datos.'
+                },
+                correct: 'b',
+                explanation: 'El bytecode es código intermedio interpretado por la JVM.'
+            },
+            {
+                text: '18. ¿Qué permite la JVM en Java?',
+                options: {
+                    a: 'Ejecutar código máquina directamente.',
+                    b: 'Compilar código Java a HTML.',
+                    c: 'Ejecutar el mismo programa en diferentes sistemas operativos.',
+                    d: 'Gestionar bases de datos.'
+                },
+                correct: 'c',
+                explanation: 'La JVM hace que Java sea multiplataforma.'
+            },
+            {
+                text: '19. ¿Cuál de las siguientes afirmaciones sobre Java es correcta?',
+                options: {
+                    a: 'Se compila directamente a código máquina.',
+                    b: 'No necesita máquina virtual.',
+                    c: 'Es multiplataforma gracias a la JVM.',
+                    d: 'Solo funciona en Windows.'
+                },
+                correct: 'c',
+                explanation: 'Java es multiplataforma gracias a la JVM.'
+            },
+            {
+                text: '20. ¿Qué capa se encarga de la lógica principal de la aplicación?',
+                options: {
+                    a: 'Cliente.',
+                    b: 'Presentación.',
+                    c: 'Servicios de negocio.',
+                    d: 'Datos.'
+                },
+                correct: 'c',
+                explanation: 'La capa de servicios de negocio realiza la lógica principal.'
+            },
+            {
+                text: '21. ¿Qué directorio de Tomcat contiene los archivos de registro?',
+                options: {
+                    a: 'bin',
+                    b: 'logs',
+                    c: 'lib',
+                    d: 'temp'
+                },
+                correct: 'b',
+                explanation: 'El directorio logs contiene registros y errores.'
+            },
+            {
+                text: '22. ¿Dónde se ubican las librerías (.jar) de una aplicación web?',
+                options: {
+                    a: '/WEB-INF/classes',
+                    b: '/WEB-INF/lib',
+                    c: '/webapps',
+                    d: '/conf'
+                },
+                correct: 'b',
+                explanation: 'En /WEB-INF/lib se guardan las librerías .jar.'
+            },
+            {
+                text: '23. ¿Qué ocurre cuando se despliega un archivo .war en Tomcat?',
+                options: {
+                    a: 'Se elimina automáticamente.',
+                    b: 'Se ejecuta sin descomprimir.',
+                    c: 'Se descomprime automáticamente en webapps.',
+                    d: 'Se mueve a /conf.'
+                },
+                correct: 'c',
+                explanation: 'Tomcat despliega el .war expandiéndolo en webapps.'
+            },
+            {
+                text: '24. ¿Qué hace un servlet?',
+                options: {
+                    a: 'Solo muestra HTML estático.',
+                    b: 'Procesa peticiones HTTP y genera respuestas dinámicas.',
+                    c: 'Solo almacena datos.',
+                    d: 'Solo ejecuta scripts del sistema.'
+                },
+                correct: 'b',
+                explanation: 'Un servlet procesa peticiones HTTP y responde dinámicamente.'
+            },
+            {
+                text: '25. ¿Qué ocurre internamente con un archivo JSP?',
+                options: {
+                    a: 'Se ejecuta directamente como HTML.',
+                    b: 'Se convierte en un servlet antes de ejecutarse.',
+                    c: 'Se transforma en un archivo .war.',
+                    d: 'Se ejecuta únicamente en el cliente.'
+                },
+                correct: 'b',
+                explanation: 'Un JSP se convierte en servlet antes de ejecutarse.'
+            }
+        ];
+
+        const answered = new Set();
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = '';
+
+            questions.forEach((q, index) => {
+                const div = document.createElement('div');
+                div.className = 'question';
+                div.innerHTML = `
+          <h3>${q.text}</h3>
+          <div class="options" id="options-${index}">
+            ${Object.entries(q.options).map(([key, value]) => `
+              <label class="option" id="q${index}-${key}">
+                <input type="radio" name="q${index}" value="${key}" onchange="checkSingleQuestion(${index})">
+                <span><strong>${key})</strong> ${value}</span>
+              </label>
+            `).join('')}
+          </div>
+          <div id="feedback-${index}" class="feedback"></div>
+        `;
+                container.appendChild(div);
+            });
+        }
+
+        function checkSingleQuestion(index) {
+            if (answered.has(index)) return;
+
+            const q = questions[index];
+            const selected = document.querySelector(`input[name="q${index}"]:checked`);
+            const feedback = document.getElementById(`feedback-${index}`);
+            if (!selected) return;
+
+            answered.add(index);
+
+            Object.entries(q.options).forEach(([key]) => {
+                const label = document.getElementById(`q${index}-${key}`);
+                const input = label.querySelector('input');
+                label.classList.add('disabled');
+                input.disabled = true;
+
+                if (key === q.correct) {
+                    label.classList.add('correct');
+                }
+            });
+
+            const selectedLabel = document.getElementById(`q${index}-${selected.value}`);
+
+            if (selected.value === q.correct) {
+                feedback.className = 'feedback ok';
+                feedback.textContent = `✅ Correcta. ${q.explanation}`;
+            } else {
+                selectedLabel.classList.add('incorrect');
+                feedback.className = 'feedback bad';
+                feedback.textContent = `❌ Incorrecta. La correcta es ${q.correct}) ${q.options[q.correct]}\nExplicación: ${q.explanation}`;
+            }
+        }
+
+        function showFinalScore() {
+            let score = 0;
+            questions.forEach((q, index) => {
+                const selected = document.querySelector(`input[name="q${index}"]:checked`);
+                if (selected && selected.value === q.correct) score++;
+            });
+
+            const scoreBox = document.getElementById('score');
+            const total = questions.length;
+            const percent = Math.round((score / total) * 100);
+            let level = '';
+
+            if (percent >= 90) level = 'Nivel sobresaliente.';
+            else if (percent >= 75) level = 'Nivel notable.';
+            else if (percent >= 60) level = 'Nivel aprobado.';
+            else level = 'Necesitas repasar más.';
+
+            scoreBox.style.display = 'block';
+            scoreBox.textContent = `Resultado final: ${score} / ${total} (${percent}%). ${level}`;
+            scoreBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function resetQuiz() {
+            answered.clear();
+            renderQuiz();
+            const scoreBox = document.getElementById('score');
+            scoreBox.style.display = 'none';
+            scoreBox.textContent = '';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        renderQuiz();
+    </script>
+</body>
+
+</html>
