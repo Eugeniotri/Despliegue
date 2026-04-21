@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chuleta Terminal y Git + Test de 40 preguntas</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #121a2b;
+      --panel2: #1a2440;
+      --text: #edf2ff;
+      --muted: #b6c2e2;
+      --accent: #60a5fa;
+      --ok: #22c55e;
+      --bad: #ef4444;
+      --warn: #f59e0b;
+      --border: #2b3a63;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #070b16, #0b1020 30%, #111827);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 18px;
+    }
+    .card {
+      background: rgba(18, 26, 43, 0.96);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 10px 25px rgba(0,0,0,.25);
+    }
+    h1, h2, h3 { margin-top: 0; }
+    p, li { color: var(--muted); }
+    .tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .tab-btn, button {
+      border: 1px solid var(--border);
+      background: var(--panel2);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .tab-btn.active, .primary {
+      background: var(--accent);
+      color: #081226;
+      border-color: transparent;
+    }
+    .danger { background: #3b1215; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      overflow: hidden;
+      border-radius: 12px;
+    }
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th { background: #0b1326; }
+    code {
+      background: #09101f;
+      padding: 2px 6px;
+      border-radius: 8px;
+      color: #cfe2ff;
+      word-break: break-word;
+    }
+    .quiz-box {
+      display: grid;
+      gap: 14px;
+    }
+    .pill {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: .92rem;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      margin-right: 8px;
+      margin-bottom: 8px;
+      color: var(--text);
+      background: #0d1528;
+    }
+    .question {
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .context {
+      background: #0b1326;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      color: var(--muted);
+    }
+    .options {
+      display: grid;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .option {
+      width: 100%;
+      text-align: left;
+      padding: 12px;
+      border-radius: 12px;
+      background: #121d34;
+      color: var(--text);
+    }
+    .option:hover:not(:disabled) { background: #1b2b4b; }
+    .option:disabled { opacity: .92; cursor: default; }
+    .option.correct { border-color: var(--ok); background: rgba(34,197,94,.14); }
+    .option.wrong { border-color: var(--bad); background: rgba(239,68,68,.14); }
+    .feedback {
+      padding: 12px;
+      border-radius: 12px;
+      margin-top: 10px;
+      font-weight: 700;
+    }
+    .feedback.ok { background: rgba(34,197,94,.15); border: 1px solid var(--ok); }
+    .feedback.bad { background: rgba(239,68,68,.15); border: 1px solid var(--bad); }
+    .controls { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+    .stats { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
+    .small { font-size: .95rem; color: var(--muted); }
+    .summary {
+      background: #0b1326;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      margin-top: 14px;
+    }
+    .hidden { display: none; }
+    @media (max-width: 720px) {
+      .wrap { padding: 12px; }
+      th, td { font-size: .92rem; }
+      .question { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="card">
+      <h1>Chuleta de terminal y Git + cuestionario</h1>
+      <p>Esta versión corrige el planteamiento del test: las preguntas son <strong>generales</strong> o incluyen un <strong>caso explicado</strong> antes de preguntar. Así puedes estudiar de verdad y no solo memorizar un ejercicio concreto.</p>
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="cmd">CMD</button>
+        <button class="tab-btn" data-tab="powershell">PowerShell</button>
+        <button class="tab-btn" data-tab="mac">Mac / Linux</button>
+        <button class="tab-btn" data-tab="git">Git</button>
+      </div>
+
+      <div id="cmd" class="tab-content active">
+        <table>
+          <thead><tr><th>Comando</th><th>Qué hace</th><th>Ejemplo</th></tr></thead>
+          <tbody>
+            <tr><td><code>mkdir nombre</code></td><td>Crea una carpeta</td><td><code>mkdir apuntes</code></td></tr>
+            <tr><td><code>cd nombre</code></td><td>Entra en una carpeta</td><td><code>cd apuntes</code></td></tr>
+            <tr><td><code>cd ..</code></td><td>Sube una carpeta</td><td><code>cd ..</code></td></tr>
+            <tr><td><code>type nul &gt; archivo.txt</code></td><td>Crea un archivo vacío</td><td><code>type nul &gt; tema1.txt</code></td></tr>
+            <tr><td><code>copy origen destino</code></td><td>Copia un archivo</td><td><code>copy tema1.txt copia\</code></td></tr>
+            <tr><td><code>move origen destino</code></td><td>Mueve un archivo</td><td><code>move examen.txt teoria\</code></td></tr>
+            <tr><td><code>del archivo</code></td><td>Elimina un archivo</td><td><code>del borrador.txt</code></td></tr>
+            <tr><td><code>dir</code></td><td>Lista archivos y carpetas</td><td><code>dir</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="powershell" class="tab-content">
+        <table>
+          <thead><tr><th>Comando</th><th>Qué hace</th><th>Ejemplo</th></tr></thead>
+          <tbody>
+            <tr><td><code>mkdir nombre</code></td><td>Crea una carpeta</td><td><code>mkdir apuntes</code></td></tr>
+            <tr><td><code>cd nombre</code></td><td>Entra en una carpeta</td><td><code>cd apuntes</code></td></tr>
+            <tr><td><code>cd ..</code></td><td>Sube una carpeta</td><td><code>cd ..</code></td></tr>
+            <tr><td><code>New-Item ruta -ItemType File</code></td><td>Crea un archivo</td><td><code>New-Item .\tema1.txt -ItemType File</code></td></tr>
+            <tr><td><code>Copy-Item origen destino</code></td><td>Copia un archivo</td><td><code>Copy-Item tema1.txt .\copia\</code></td></tr>
+            <tr><td><code>Move-Item origen destino</code></td><td>Mueve un archivo</td><td><code>Move-Item examen.txt .\teoria\</code></td></tr>
+            <tr><td><code>Remove-Item archivo</code></td><td>Elimina un archivo</td><td><code>Remove-Item borrador.txt</code></td></tr>
+            <tr><td><code>Get-ChildItem</code></td><td>Lista contenido</td><td><code>Get-ChildItem</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="mac" class="tab-content">
+        <table>
+          <thead><tr><th>Comando</th><th>Qué hace</th><th>Ejemplo</th></tr></thead>
+          <tbody>
+            <tr><td><code>mkdir nombre</code></td><td>Crea una carpeta</td><td><code>mkdir apuntes</code></td></tr>
+            <tr><td><code>cd nombre</code></td><td>Entra en una carpeta</td><td><code>cd apuntes</code></td></tr>
+            <tr><td><code>cd ..</code></td><td>Sube una carpeta</td><td><code>cd ..</code></td></tr>
+            <tr><td><code>touch archivo.txt</code></td><td>Crea un archivo vacío</td><td><code>touch tema1.txt</code></td></tr>
+            <tr><td><code>cp origen destino</code></td><td>Copia un archivo</td><td><code>cp tema1.txt copia/</code></td></tr>
+            <tr><td><code>mv origen destino</code></td><td>Mueve o renombra</td><td><code>mv examen.txt teoria/</code></td></tr>
+            <tr><td><code>rm archivo</code></td><td>Elimina un archivo</td><td><code>rm borrador.txt</code></td></tr>
+            <tr><td><code>ls</code></td><td>Lista contenido</td><td><code>ls</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="git" class="tab-content">
+        <table>
+          <thead><tr><th>Comando</th><th>Qué hace</th><th>Ejemplo</th></tr></thead>
+          <tbody>
+            <tr><td><code>git init</code></td><td>Inicia un repositorio Git</td><td><code>git init</code></td></tr>
+            <tr><td><code>git status</code></td><td>Muestra el estado del repositorio</td><td><code>git status</code></td></tr>
+            <tr><td><code>git add .</code></td><td>Añade todos los cambios al staging</td><td><code>git add .</code></td></tr>
+            <tr><td><code>git add archivo</code></td><td>Añade un archivo concreto</td><td><code>git add README.md</code></td></tr>
+            <tr><td><code>git commit -m "mensaje"</code></td><td>Guarda una versión en el historial</td><td><code>git commit -m "primer commit"</code></td></tr>
+            <tr><td><code>git log --oneline</code></td><td>Muestra historial resumido</td><td><code>git log --oneline</code></td></tr>
+            <tr><td><code>git branch</code></td><td>Lista ramas</td><td><code>git branch</code></td></tr>
+            <tr><td><code>git checkout -b rama</code></td><td>Crea y cambia a una rama</td><td><code>git checkout -b nueva-seccion</code></td></tr>
+            <tr><td><code>git checkout rama</code></td><td>Cambia de rama</td><td><code>git checkout main</code></td></tr>
+            <tr><td><code>git merge rama</code></td><td>Fusiona una rama con la actual</td><td><code>git merge nueva-seccion</code></td></tr>
+            <tr><td><code>git branch -d rama</code></td><td>Elimina una rama fusionada</td><td><code>git branch -d nueva-seccion</code></td></tr>
+            <tr><td><code>git remote add origin URL</code></td><td>Conecta el repo local con GitHub</td><td><code>git remote add origin https://github.com/usuario/repo.git</code></td></tr>
+            <tr><td><code>git push -u origin main</code></td><td>Sube la rama principal y la vincula</td><td><code>git push -u origin main</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Cuestionario de 40 preguntas</h2>
+      <p>Responde una por una. Cuando falles, verás la correcta al momento y esa pregunta se repetirá al final. El objetivo es que no termines hasta acertar también las que fallaste.</p>
+      <div class="stats">
+        <span class="pill" id="progressPill">Pregunta 1 de 40</span>
+        <span class="pill" id="scorePill">Aciertos iniciales: 0</span>
+        <span class="pill" id="retryPill">Pendientes por repetir: 0</span>
+      </div>
+      <div class="quiz-box" id="quizBox"></div>
+      <div class="controls">
+        <button class="primary" id="restartBtn">Reiniciar test</button>
+      </div>
+      <div class="summary hidden" id="summaryBox"></div>
+    </section>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        type: 'general', category: 'Terminal',
+        q: '¿Qué comando se usa de forma general para crear una carpeta en CMD, PowerShell y Mac/Linux?',
+        options: ['mkdir', 'cd', 'dir'], correct: 0,
+        explanation: 'mkdir significa “make directory” y crea carpetas.'
+      },
+      {
+        type: 'general', category: 'Terminal',
+        q: '¿Qué hace el comando cd?',
+        options: ['Copia archivos', 'Cambia de carpeta', 'Borra una carpeta'], correct: 1,
+        explanation: 'cd significa “change directory”: sirve para moverte entre carpetas.'
+      },
+      {
+        type: 'general', category: 'Terminal',
+        q: 'Si estás dentro de una carpeta y quieres subir al nivel anterior, ¿qué comando usas?',
+        options: ['cd /', 'cd ..', 'mkdir ..'], correct: 1,
+        explanation: 'cd .. sube un nivel en la estructura de carpetas.'
+      },
+      {
+        type: 'general', category: 'CMD',
+        q: 'En Windows CMD, ¿qué comando se usa para ver el contenido de la carpeta actual?',
+        options: ['ls', 'dir', 'Get-ChildItem'], correct: 1,
+        explanation: 'En CMD, dir lista archivos y carpetas.'
+      },
+      {
+        type: 'general', category: 'PowerShell',
+        q: 'En PowerShell, ¿qué comando lista el contenido de la carpeta actual?',
+        options: ['Get-ChildItem', 'dir /all', 'show-files'], correct: 0,
+        explanation: 'Get-ChildItem es el comando estándar de PowerShell para listar contenido.'
+      },
+      {
+        type: 'general', category: 'Mac/Linux',
+        q: 'En Mac/Linux, ¿qué comando muestra los archivos y carpetas de la ubicación actual?',
+        options: ['list', 'dir', 'ls'], correct: 2,
+        explanation: 'ls es el comando básico para listar contenido en Mac/Linux.'
+      },
+      {
+        type: 'general', category: 'Mac/Linux',
+        q: 'En Mac/Linux, ¿qué comando crea un archivo vacío?',
+        options: ['touch', 'new-file', 'type nul'], correct: 0,
+        explanation: 'touch crea el archivo si no existe.'
+      },
+      {
+        type: 'general', category: 'CMD',
+        q: 'En CMD, ¿qué forma crea un archivo vacío llamado nota.txt?',
+        options: ['touch nota.txt', 'type nul > nota.txt', 'New-Item nota.txt -ItemType File'], correct: 1,
+        explanation: 'En CMD se suele usar type nul > archivo para crear un archivo vacío.'
+      },
+      {
+        type: 'general', category: 'PowerShell',
+        q: 'En PowerShell, ¿qué comando crea un archivo vacío?',
+        options: ['New-Item ruta -ItemType File', 'touch ruta', 'create-file ruta'], correct: 0,
+        explanation: 'New-Item con -ItemType File crea un archivo.'
+      },
+      {
+        type: 'general', category: 'Terminal',
+        q: '¿Cuál es la diferencia principal entre copiar y mover un archivo?',
+        options: ['Copiar borra el original y mover lo deja', 'Copiar deja original y mover lo traslada', 'No hay diferencia'], correct: 1,
+        explanation: 'Copiar duplica; mover traslada y deja de estar en el origen.'
+      },
+      {
+        type: 'general', category: 'Mac/Linux',
+        q: 'En Mac/Linux, ¿qué comando se usa para copiar un archivo?',
+        options: ['mv', 'cp', 'copy'], correct: 1,
+        explanation: 'cp significa copy.'
+      },
+      {
+        type: 'general', category: 'CMD',
+        q: 'En CMD, ¿qué comando se usa para copiar un archivo?',
+        options: ['copy', 'cp', 'duplicate'], correct: 0,
+        explanation: 'En CMD se usa copy.'
+      },
+      {
+        type: 'general', category: 'PowerShell',
+        q: 'En PowerShell, ¿qué comando copia un archivo?',
+        options: ['Move-Item', 'Copy-Item', 'Paste-Item'], correct: 1,
+        explanation: 'Copy-Item sirve para copiar archivos o carpetas.'
+      },
+      {
+        type: 'general', category: 'Mac/Linux',
+        q: 'En Mac/Linux, ¿qué comando mueve o renombra archivos?',
+        options: ['cp', 'mv', 'rm'], correct: 1,
+        explanation: 'mv mueve archivos y también puede renombrarlos.'
+      },
+      {
+        type: 'general', category: 'CMD',
+        q: 'En CMD, ¿qué comando mueve archivos de una carpeta a otra?',
+        options: ['move', 'mv', 'shift'], correct: 0,
+        explanation: 'En CMD se usa move.'
+      },
+      {
+        type: 'general', category: 'PowerShell',
+        q: 'En PowerShell, ¿qué comando elimina un archivo?',
+        options: ['Delete-File', 'Remove-Item', 'Erase-Item'], correct: 1,
+        explanation: 'Remove-Item elimina archivos y también carpetas.'
+      },
+      {
+        type: 'general', category: 'Mac/Linux',
+        q: 'En Mac/Linux, ¿qué comando elimina un archivo?',
+        options: ['rm', 'del', 'erase'], correct: 0,
+        explanation: 'rm significa remove.'
+      },
+      {
+        type: 'general', category: 'Terminal',
+        q: '¿Qué símbolo se usa habitualmente en Windows para separar carpetas en una ruta?',
+        options: ['\\', '/', '|'], correct: 0,
+        explanation: 'En Windows se usa normalmente la barra invertida \\.'
+      },
+      {
+        type: 'general', category: 'Terminal',
+        q: '¿Qué símbolo se usa habitualmente en Mac/Linux para separar carpetas en una ruta?',
+        options: ['/', '\\', ':'], correct: 0,
+        explanation: 'En Mac/Linux se usa la barra /.'
+      },
+      {
+        type: 'scenario', category: 'CMD',
+        context: 'Estás en CMD dentro de una carpeta llamada apuntes. Quieres crear dentro otra carpeta llamada resumenes.',
+        q: '¿Qué comando sería el correcto?',
+        options: ['mkdir resumenes', 'cd resumenes', 'dir resumenes'], correct: 0,
+        explanation: 'mkdir crea la nueva carpeta; cd solo entra en una existente.'
+      },
+      {
+        type: 'scenario', category: 'Mac/Linux',
+        context: 'En Mac/Linux estás dentro de documentos y quieres crear un archivo vacío llamado ideas.txt en la carpeta actual.',
+        q: '¿Qué comando usarías?',
+        options: ['touch ideas.txt', 'cp ideas.txt', 'rm ideas.txt'], correct: 0,
+        explanation: 'touch ideas.txt crea el archivo vacío.'
+      },
+      {
+        type: 'scenario', category: 'PowerShell',
+        context: 'En PowerShell necesitas crear un archivo llamado tareas.txt dentro de la carpeta actual.',
+        q: '¿Qué opción es correcta?',
+        options: ['New-Item .\\tareas.txt -ItemType File', 'Copy-Item .\\tareas.txt', 'Get-ChildItem .\\tareas.txt'], correct: 0,
+        explanation: 'New-Item con -ItemType File crea el archivo.'
+      },
+      {
+        type: 'scenario', category: 'Terminal',
+        context: 'Tienes un archivo llamado tema1.txt en una carpeta y quieres dejar una copia en otra carpeta sin perder el original.',
+        q: '¿Qué tipo de operación necesitas?',
+        options: ['Mover', 'Copiar', 'Eliminar'], correct: 1,
+        explanation: 'Si quieres mantener el original, necesitas copiar.'
+      },
+      {
+        type: 'scenario', category: 'Terminal',
+        context: 'Tienes un archivo examen.txt en una carpeta equivocada y quieres trasladarlo a la carpeta correcta, dejando de existir en la ubicación anterior.',
+        q: '¿Qué tipo de operación necesitas?',
+        options: ['Copiar', 'Mover', 'Listar'], correct: 1,
+        explanation: 'Mover traslada el archivo y desaparece del origen.'
+      },
+      {
+        type: 'scenario', category: 'CMD',
+        context: 'En CMD quieres borrar un archivo llamado temporal.txt.',
+        q: '¿Qué comando usarías?',
+        options: ['del temporal.txt', 'rm temporal.txt', 'Remove-Item temporal.txt'], correct: 0,
+        explanation: 'del es el comando típico de CMD para borrar archivos.'
+      },
+      {
+        type: 'scenario', category: 'Mac/Linux',
+        context: 'En Mac/Linux quieres ver qué hay dentro de la carpeta teoria.',
+        q: '¿Qué comando es correcto?',
+        options: ['ls teoria', 'dir teoria', 'Get-ChildItem teoria'], correct: 0,
+        explanation: 'ls teoria muestra el contenido de esa carpeta.'
+      },
+      {
+        type: 'scenario', category: 'Git',
+        context: 'Empiezas un proyecto desde cero y quieres que la carpeta actual pase a estar controlada por Git.',
+        q: '¿Qué comando debes ejecutar primero?',
+        options: ['git init', 'git add .', 'git push'], correct: 0,
+        explanation: 'git init crea el repositorio Git en la carpeta actual.'
+      },
+      {
+        type: 'general', category: 'Git',
+        q: '¿Qué comando muestra el estado actual del repositorio, archivos modificados y archivos en staging?',
+        options: ['git log', 'git status', 'git branch'], correct: 1,
+        explanation: 'git status sirve para revisar en qué estado está el repositorio.'
+      },
+      {
+        type: 'general', category: 'Git',
+        q: '¿Qué hace git add . ?',
+        options: ['Sube archivos a GitHub', 'Añade todos los cambios al staging', 'Borra archivos sin seguimiento'], correct: 1,
+        explanation: 'git add . prepara todos los cambios para el siguiente commit.'
+      },
+      {
+        type: 'general', category: 'Git',
+        q: '¿Qué comando guarda una versión en el historial con un mensaje?',
+        options: ['git commit -m "mensaje"', 'git status -m "mensaje"', 'git save "mensaje"'], correct: 0,
+        explanation: 'git commit -m crea un commit con el mensaje indicado.'
+      },
+      {
+        type: 'general', category: 'Git',
+        q: '¿Qué es un commit en Git?',
+        options: ['Un borrado automático', 'Una foto o versión guardada del proyecto', 'Una rama secundaria'], correct: 1,
+        explanation: 'Un commit representa un punto guardado en el historial del proyecto.'
+      },
+      {
+        type: 'general', category: 'Git',
+        q: '¿Qué comando muestra el historial resumido en una sola línea por commit?',
+        options: ['git history --short', 'git log --oneline', 'git status --oneline'], correct: 1,
+        explanation: 'git log --oneline resume el historial de commits.'
+      },
+      {
+        type: 'general', category: 'Git',
+        q: '¿Qué comando lista las ramas del repositorio?',
+        options: ['git branch', 'git log', 'git remote'], correct: 0,
+        explanation: 'git branch muestra las ramas disponibles y marca la actual.'
+      },
+      {
+        type: 'scenario', category: 'Git',
+        context: 'Quieres crear una rama nueva llamada desarrollo y cambiarte a ella en un solo paso.',
+        q: '¿Qué comando es correcto?',
+        options: ['git branch desarrollo', 'git checkout -b desarrollo', 'git merge desarrollo'], correct: 1,
+        explanation: 'git checkout -b crea la rama y cambia a ella inmediatamente.'
+      },
+      {
+        type: 'scenario', category: 'Git',
+        context: 'Ya existe una rama llamada main y quieres cambiarte a ella.',
+        q: '¿Qué comando usarías?',
+        options: ['git checkout main', 'git branch main', 'git push main'], correct: 0,
+        explanation: 'git checkout main cambia a esa rama existente.'
+      },
+      {
+        type: 'scenario', category: 'Git',
+        context: 'Estás en la rama main y quieres traer a main los cambios que hiciste en una rama llamada nueva-seccion.',
+        q: '¿Qué comando debes usar?',
+        options: ['git merge nueva-seccion', 'git add nueva-seccion', 'git status nueva-seccion'], correct: 0,
+        explanation: 'git merge fusiona la rama indicada con la rama actual.'
+      },
+      {
+        type: 'general', category: 'Git',
+        q: '¿Cuándo tiene sentido usar git branch -d nombre-rama?',
+        options: ['Cuando quieres borrar una rama ya fusionada', 'Cuando quieres crear una rama', 'Cuando quieres subir la rama a GitHub'], correct: 0,
+        explanation: 'git branch -d se usa para eliminar una rama local, normalmente tras fusionarla.'
+      },
+      {
+        type: 'general', category: 'Git',
+        q: '¿Qué comando conecta tu repositorio local con el repositorio remoto de GitHub?',
+        options: ['git remote add origin URL', 'git push origin URL', 'git branch -M origin'], correct: 0,
+        explanation: 'git remote add origin URL añade el repositorio remoto con el nombre origin.'
+      },
+      {
+        type: 'general', category: 'Git',
+        q: '¿Qué hace git push -u origin main?',
+        options: ['Borra main en local', 'Sube main al remoto y la vincula', 'Fusiona dos ramas locales'], correct: 1,
+        explanation: 'Sube la rama main y deja configurado el seguimiento con origin/main.'
+      },
+      {
+        type: 'scenario', category: 'Git',
+        context: 'Has hecho cambios en varios archivos, quieres prepararlos todos y luego guardarlos en el historial con el mensaje “actualizo proyecto”.',
+        q: '¿Qué secuencia es la correcta?',
+        options: ['git push && git log', 'git add . && git commit -m "actualizo proyecto"', 'git init && git branch'], correct: 1,
+        explanation: 'Primero se añaden al staging con git add . y luego se hace el commit.'
+      }
+    ];
+
+    const quizBox = document.getElementById('quizBox');
+    const progressPill = document.getElementById('progressPill');
+    const scorePill = document.getElementById('scorePill');
+    const retryPill = document.getElementById('retryPill');
+    const summaryBox = document.getElementById('summaryBox');
+    const restartBtn = document.getElementById('restartBtn');
+
+    let mainQueue = [];
+    let retryQueue = [];
+    let failedIds = new Set();
+    let currentIndex = 0;
+    let firstPassCorrect = 0;
+    let answeredMain = 0;
+    let mode = 'main';
+
+    function cloneQuestions() {
+      return questions.map((q, index) => ({ ...q, id: index }));
+    }
+
+    function shuffle(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function resetQuiz() {
+      mainQueue = shuffle(cloneQuestions());
+      retryQueue = [];
+      failedIds = new Set();
+      currentIndex = 0;
+      firstPassCorrect = 0;
+      answeredMain = 0;
+      mode = 'main';
+      summaryBox.classList.add('hidden');
+      renderQuestion();
+    }
+
+    function getCurrentQueue() {
+      return mode === 'main' ? mainQueue : retryQueue;
+    }
+
+    function currentQuestion() {
+      return getCurrentQueue()[currentIndex];
+    }
+
+    function updateStats() {
+      if (mode === 'main') {
+        progressPill.textContent = `Pregunta ${currentIndex + 1} de ${mainQueue.length}`;
+      } else {
+        progressPill.textContent = `Repaso ${currentIndex + 1} de ${retryQueue.length}`;
+      }
+      scorePill.textContent = `Aciertos iniciales: ${firstPassCorrect}`;
+      retryPill.textContent = `Pendientes por repetir: ${retryQueue.length - (mode === 'retry' ? currentIndex : 0)}`;
+    }
+
+    function renderQuestion() {
+      const q = currentQuestion();
+      if (!q) {
+        if (mode === 'main' && retryQueue.length > 0) {
+          mode = 'retry';
+          currentIndex = 0;
+          renderQuestion();
+          return;
+        }
+        if (mode === 'main' && retryQueue.length === 0) {
+          showSummary(true);
+          return;
+        }
+        if (mode === 'retry') {
+          showSummary(retryQueue.length === 0 || currentIndex >= retryQueue.length);
+          return;
+        }
+      }
+
+      updateStats();
+
+      quizBox.innerHTML = `
+        <div>
+          <span class="pill">${q.category}</span>
+          <span class="pill">${q.type === 'scenario' ? 'Con caso explicado' : 'Pregunta general'}</span>
+        </div>
+        ${q.context ? `<div class="context"><strong>Situación:</strong> ${q.context}</div>` : ''}
+        <div class="question">${q.q}</div>
+        <div class="options">
+          ${q.options.map((opt, i) => `<button class="option" data-index="${i}">${String.fromCharCode(65+i)}. ${opt}</button>`).join('')}
+        </div>
+        <div id="feedbackArea"></div>
+      `;
+
+      quizBox.querySelectorAll('.option').forEach(btn => {
+        btn.addEventListener('click', () => answerQuestion(Number(btn.dataset.index)));
+      });
+    }
+
+    function answerQuestion(selected) {
+      const q = currentQuestion();
+      const buttons = [...quizBox.querySelectorAll('.option')];
+      buttons.forEach(btn => btn.disabled = true);
+
+      buttons.forEach((btn, i) => {
+        if (i === q.correct) btn.classList.add('correct');
+        if (i === selected && i !== q.correct) btn.classList.add('wrong');
+      });
+
+      const feedbackArea = document.getElementById('feedbackArea');
+      const isCorrect = selected === q.correct;
+
+      if (mode === 'main') {
+        answeredMain++;
+        if (isCorrect) {
+          firstPassCorrect++;
+        } else if (!failedIds.has(q.id)) {
+          failedIds.add(q.id);
+          retryQueue.push(q);
+        }
+      } else {
+        if (!isCorrect) {
+          retryQueue.push(q);
+        }
+      }
+
+      feedbackArea.innerHTML = `
+        <div class="feedback ${isCorrect ? 'ok' : 'bad'}">
+          ${isCorrect ? '✅ Correcta.' : `❌ Incorrecta. La buena es: <strong>${String.fromCharCode(65 + q.correct)}. ${q.options[q.correct]}</strong>.`}
+          <div class="small" style="margin-top:8px;">${q.explanation}</div>
+        </div>
+        <div class="controls">
+          <button class="primary" id="nextBtn">${nextLabel()}</button>
+        </div>
+      `;
+
+      updateStats();
+      document.getElementById('nextBtn').addEventListener('click', goNext);
+    }
+
+    function nextLabel() {
+      const queue = getCurrentQueue();
+      if (currentIndex < queue.length - 1) return 'Siguiente';
+      if (mode === 'main' && retryQueue.length > 0) return 'Ir al repaso de fallos';
+      return 'Ver resultado';
+    }
+
+    function goNext() {
+      currentIndex++;
+      if (mode === 'retry' && currentIndex >= retryQueue.length) {
+        showSummary(true);
+        return;
+      }
+      renderQuestion();
+    }
+
+    function showSummary(done) {
+      quizBox.innerHTML = '';
+      summaryBox.classList.remove('hidden');
+      const pendientes = mode === 'retry' ? Math.max(retryQueue.length - currentIndex, 0) : retryQueue.length;
+      const total = questions.length;
+      const failedFirstPass = total - firstPassCorrect;
+      summaryBox.innerHTML = `
+        <h3>Resultado del test</h3>
+        <p><strong>Aciertos en la primera vuelta:</strong> ${firstPassCorrect} de ${total}</p>
+        <p><strong>Falladas al menos una vez:</strong> ${failedFirstPass}</p>
+        <p><strong>Objetivo del sistema:</strong> las falladas se repiten al final hasta volver a verlas y seguir practicando.</p>
+        <p class="small">Si quieres otra tanda en distinto orden, pulsa “Reiniciar test”.</p>
+      `;
+      progressPill.textContent = 'Test terminado';
+      scorePill.textContent = `Aciertos iniciales: ${firstPassCorrect}`;
+      retryPill.textContent = `Falladas en primera vuelta: ${failedFirstPass}`;
+    }
+
+    restartBtn.addEventListener('click', resetQuiz);
+
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    resetQuiz();
+  </script>
+</body>
+</html>
