@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UF4 - Resumen y Cuestionario</title>
+  <style>
+    :root{
+      --bg:#f5f7fb;
+      --card:#ffffff;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --accent:#2563eb;
+      --ok:#166534;
+      --okbg:#dcfce7;
+      --bad:#991b1b;
+      --badbg:#fee2e2;
+      --border:#dbe3f0;
+      --warn:#7c2d12;
+      --warnbg:#ffedd5;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.55;
+    }
+    .wrap{
+      max-width:1100px;
+      margin:0 auto;
+      padding:24px;
+    }
+    header{
+      background:linear-gradient(135deg,#1d4ed8,#2563eb,#60a5fa);
+      color:#fff;
+      border-radius:18px;
+      padding:28px;
+      box-shadow:0 10px 30px rgba(37,99,235,.18);
+      margin-bottom:22px;
+    }
+    h1,h2,h3{margin-top:0}
+    .subtitle{opacity:.95;font-size:1.05rem}
+    .grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:18px;
+    }
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:22px;
+      box-shadow:0 4px 14px rgba(15,23,42,.05);
+    }
+    .pill{
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:999px;
+      background:#e0ecff;
+      color:#1d4ed8;
+      font-weight:700;
+      font-size:.85rem;
+      margin-bottom:10px;
+    }
+    ul{margin-top:8px}
+    li{margin-bottom:6px}
+    .memory{
+      background:var(--warnbg);
+      border-left:5px solid #fb923c;
+      padding:12px 14px;
+      border-radius:10px;
+      color:var(--warn);
+      margin-top:12px;
+    }
+    .danger{
+      background:#fff1f2;
+      border-left:5px solid #f43f5e;
+      padding:12px 14px;
+      border-radius:10px;
+      color:#9f1239;
+      margin-top:12px;
+    }
+    .question{
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:18px;
+      margin-bottom:16px;
+      background:#fcfdff;
+    }
+    .question h3{
+      font-size:1.05rem;
+      margin-bottom:12px;
+    }
+    .option{
+      display:block;
+      margin:8px 0;
+      padding:10px 12px;
+      border:1px solid var(--border);
+      border-radius:10px;
+      cursor:pointer;
+      transition:.15s ease;
+      background:#fff;
+    }
+    .option:hover{border-color:#9bb8ff;background:#f8fbff}
+    .option input{margin-right:8px}
+    button{
+      border:none;
+      background:var(--accent);
+      color:#fff;
+      padding:12px 18px;
+      border-radius:12px;
+      cursor:pointer;
+      font-weight:700;
+      font-size:1rem;
+    }
+    button:hover{filter:brightness(1.05)}
+    .small-btn{
+      padding:10px 14px;
+      font-size:.95rem;
+      margin-top:8px;
+    }
+    .feedback{
+      margin-top:12px;
+      padding:12px 14px;
+      border-radius:12px;
+      display:none;
+      font-weight:700;
+    }
+    .feedback.ok{
+      display:block;
+      background:var(--okbg);
+      color:var(--ok);
+      border:1px solid #86efac;
+    }
+    .feedback.bad{
+      display:block;
+      background:var(--badbg);
+      color:var(--bad);
+      border:1px solid #fca5a5;
+    }
+    .correct-answer{
+      font-weight:600;
+      margin-top:6px;
+    }
+    .score{
+      position:sticky;
+      top:10px;
+      z-index:5;
+      background:#111827;
+      color:#fff;
+      padding:14px 18px;
+      border-radius:14px;
+      margin-bottom:18px;
+      display:flex;
+      justify-content:space-between;
+      gap:14px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .muted{color:var(--muted)}
+    code{
+      background:#eef2ff;
+      padding:2px 6px;
+      border-radius:6px;
+      color:#3730a3;
+      font-size:.95em;
+    }
+    @media (max-width:700px){
+      .wrap{padding:14px}
+      header,.card,.question{padding:16px}
+      .score{position:static}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>UF4 - Transferencia de archivos</h1>
+      <p class="subtitle">Resumen rápido para repasar antes del examen + cuestionario autocorregible con respuesta inmediata.</p>
+    </header>
+
+    <div class="score">
+      <div><strong>Progreso del test:</strong> <span id="answered">0</span> / <span id="totalQuestions">0</span></div>
+      <div><strong>Aciertos:</strong> <span id="correctCount">0</span></div>
+      <div><strong>Fallos:</strong> <span id="wrongCount">0</span></div>
+      <button onclick="resetQuiz()">Reiniciar test</button>
+    </div>
+
+    <section class="grid">
+      <div class="card">
+        <div class="pill">Resumen express</div>
+        <h2>1. Idea general de la unidad</h2>
+        <ul>
+          <li>La transferencia de archivos en red normalmente sigue el modelo <strong>cliente-servidor</strong>.</li>
+          <li>Elementos básicos: <strong>cliente, servidor, protocolo de transferencia y sistema de archivos</strong>.</li>
+          <li>Protocolos importantes: <strong>FTP, FTPS, SFTP, TFTP, NFS, WebDAV, SMB/CIFS, Samba, rsync</strong>.</li>
+          <li>Se pueden montar directorios remotos como si fueran locales; esto hace la transferencia más transparente para el usuario.</li>
+        </ul>
+        <div class="memory"><strong>Memoriza:</strong> cliente-servidor + nombre de los protocolos más importantes + que Samba es una implementación libre de SMB/CIFS.</div>
+      </div>
+
+      <div class="card">
+        <div class="pill">FTP</div>
+        <h2>2. Lo más importante de FTP</h2>
+        <ul>
+          <li><strong>FTP no es seguro</strong>: credenciales y archivos viajan <strong>sin cifrar</strong>.</li>
+          <li>FTP usa <strong>2 conexiones</strong>:</li>
+          <ul>
+            <li><strong>Control</strong> → puerto <strong>21</strong></li>
+            <li><strong>Datos</strong> → puerto <strong>20</strong></li>
+          </ul>
+          <li>El cliente solicita la conexión y el servidor responde y gestiona archivos.</li>
+          <li>Tipos de transferencia:</li>
+          <ul>
+            <li><strong>ASCII</strong> → para texto, con conversión de formato.</li>
+            <li><strong>Binario</strong> → para todo lo que no sea texto (imágenes, pdf, zip...).</li>
+          </ul>
+        </ul>
+        <div class="danger"><strong>Trampa clásica:</strong> FTP no usa un solo canal, usa dos. Y SFTP no es lo mismo que FTPS.</div>
+      </div>
+
+      <div class="card">
+        <div class="pill">Activo / Pasivo</div>
+        <h2>3. Modos de conexión FTP</h2>
+        <ul>
+          <li><strong>Modo activo</strong>: el cliente inicia la conexión de control, pero el <strong>servidor inicia la conexión de datos</strong> hacia el cliente.</li>
+          <li><strong>Modo pasivo</strong>: el <strong>cliente inicia tanto la conexión de control como la de datos</strong>.</li>
+          <li>El modo pasivo evita problemas con cortafuegos del cliente, por eso es el más usado.</li>
+        </ul>
+        <div class="memory"><strong>Memoriza:</strong> activo = servidor inicia datos. Pasivo = cliente inicia todo.</div>
+      </div>
+
+      <div class="card">
+        <div class="pill">Códigos FTP</div>
+        <h2>4. Códigos de respuesta FTP</h2>
+        <ul>
+          <li><strong>1xx</strong> → respuesta preliminar positiva</li>
+          <li><strong>2xx</strong> → finalización positiva</li>
+          <li><strong>3xx</strong> → hace falta más información</li>
+          <li><strong>4xx</strong> → error temporal</li>
+          <li><strong>5xx</strong> → error permanente</li>
+        </ul>
+        <p><strong>Ejemplos típicos:</strong> 220 servidor preparado, 230 login correcto, 331 pide contraseña, 530 autenticación incorrecta, 550 archivo inaccesible.</p>
+      </div>
+
+      <div class="card">
+        <div class="pill">Accesos y clientes</div>
+        <h2>5. Acceso al servidor FTP</h2>
+        <ul>
+          <li><strong>Anónimo</strong>: sin usuario ni contraseña. Normalmente solo lectura.</li>
+          <li><strong>Autorizado</strong>: requiere usuario y contraseña. Permisos por usuario.</li>
+          <li>Clientes FTP:</li>
+          <ul>
+            <li>Modo comando → usa comandos como <code>get</code>, <code>put</code>, <code>cd</code>, <code>lcd</code>.</li>
+            <li>Modo gráfico → más cómodo, por ejemplo <strong>FileZilla</strong>.</li>
+            <li>Explorador de archivos → solución intermedia.</li>
+          </ul>
+          <li>Los navegadores actuales ya no suelen permitir FTP.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="pill">FTPS y SFTP</div>
+        <h2>6. Diferencias que más preguntan</h2>
+        <ul>
+          <li><strong>FTPS</strong> = FTP sobre <strong>TLS/SSL</strong>.</li>
+          <li><strong>SFTP</strong> = protocolo independiente que normalmente funciona sobre <strong>SSH</strong>.</li>
+          <li><strong>SFTP usa 1 solo canal</strong> y normalmente trabaja por el puerto <strong>22/TCP</strong>.</li>
+          <li>En SFTP la autenticación y el cifrado los aporta el canal seguro (normalmente SSH).</li>
+        </ul>
+        <div class="danger"><strong>No confundas:</strong> FTPS ≠ SFTP. FTP seguro con TLS es FTPS. Protocolo distinto sobre SSH es SFTP.</div>
+      </div>
+
+      <div class="card">
+        <div class="pill">OpenSSH, SCP, SSHFS</div>
+        <h2>7. Parte práctica a recordar</h2>
+        <ul>
+          <li><strong>OpenSSH</strong> es una implementación muy usada de SSH.</li>
+          <li>Incluye servidor y cliente SSH, además de <strong>SFTP</strong> y <strong>SCP</strong>.</li>
+          <li><strong>SCP</strong> permite copiar archivos entre cliente-servidor e incluso entre dos servidores remotos.</li>
+          <li><strong>SSHFS</strong> permite montar un sistema de archivos remoto como si fuera local.</li>
+          <li>SSHFS se basa en <strong>SFTP + FUSE</strong>.</li>
+          <li><strong>ChrootDirectory</strong> en OpenSSH se usa para “enjaular” al usuario.</li>
+        </ul>
+        <div class="memory"><strong>Muy importante:</strong> SSHFS = remoto como local. SCP = copiar con SSH. SFTP = gestionar archivos remotos de forma segura.</div>
+      </div>
+
+      <div class="card">
+        <div class="pill">Lo mínimo para aprobar</div>
+        <h2>8. Repaso final de memoria</h2>
+        <ul>
+          <li>FTP → no seguro, 2 conexiones, puertos 20/21.</li>
+          <li>FTPS → FTP + TLS/SSL.</li>
+          <li>SFTP → seguro, 1 canal, puerto 22, sobre SSH.</li>
+          <li>Activo → servidor inicia datos.</li>
+          <li>Pasivo → cliente inicia todo.</li>
+          <li>ASCII → texto. Binario → resto de archivos.</li>
+          <li>4xx error temporal; 5xx error permanente.</li>
+          <li>Acceso anónimo suele ser solo lectura.</li>
+          <li>OpenSSH incluye SSH, SCP y SFTP.</li>
+          <li>SSHFS monta remoto como local.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="pill">Cuestionario autocorregible</div>
+        <h2>Test de práctica</h2>
+        <p class="muted">Marca una respuesta y pulsa <strong>Comprobar</strong>. Te dirá al instante si está bien y, si fallas, te mostrará la correcta.</p>
+        <div id="quiz"></div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        q: "1. ¿Qué método de la clase BulkWrite permite insertar un elemento nuevo en una colección de MongoDB desde PHP?",
+        options: ["insert", "insertOne", "insertMany"],
+        answer: 0,
+        explanation: "En la clase BulkWrite el método correcto es insert(). insertOne() e insertMany() pertenecen a otros niveles de la API, no a BulkWrite."
+      },
+      {
+        q: "2. ¿Para qué sirve el método prepare de la clase PDO?",
+        options: ["Para ejecutar una instrucción.", "Para crear una sentencia preparada.", "Para ejecutar una sentencia preparada."],
+        answer: 1,
+        explanation: "prepare() crea la sentencia preparada; después se ejecuta con execute()."
+      },
+      {
+        q: "3. ¿Para qué sirve la función de PHP fflush()?",
+        options: ["Para leer los datos de un fichero.", "Para volcar al fichero lo que quede en el buffer.", "Para cerrar el acceso a un fichero."],
+        answer: 1,
+        explanation: "fflush() fuerza a escribir en el fichero lo que quede pendiente en el buffer."
+      },
+      {
+        q: "4. ¿Qué devuelve la función json_decode si solo le pasamos como parámetro el contenido de un archivo JSON?",
+        options: ["Un array de objetos.", "Un objeto con una lista de objetos.", "Un array asociativo."],
+        answer: 1,
+        explanation: "Por defecto, json_decode() devuelve objetos. Solo devuelve array asociativo si se pasa el segundo parámetro a true."
+      },
+      {
+        q: "5. ¿Para qué sirve el método rollback de la clase PDO?",
+        options: ["Para deshacer una transacción.", "Para empezar una transacción.", "Para finalizar una transacción."],
+        answer: 0,
+        explanation: "rollback() deshace los cambios realizados dentro de una transacción."
+      },
+      {
+        q: "6. ¿Qué función, aplicada a un fichero del sistema de archivos, devuelve la fecha y hora del último acceso al fichero?",
+        options: ["fileatime", "filemtime", "filetime"],
+        answer: 0,
+        explanation: "fileatime() devuelve el último acceso. filemtime() devuelve la última modificación. filetime() no existe."
+      },
+      {
+        q: "7. Si tenemos una sentencia SQL 'SHOW TABLES' en una variable $sql y queremos ejecutarla, ¿cuál de las siguientes formas es la correcta sabiendo que la conexión es correcta y la maneja $pdo?",
+        options: ["$pdo->select($sql)", "$pdo->exec($sql)", "$pdo->query($sql)"],
+        answer: 2,
+        explanation: "SHOW TABLES devuelve resultados, por eso se usa query(). exec() se usa para instrucciones que no devuelven resultados."
+      },
+      {
+        q: "8. Tenemos un fichero XML cargado en $xml con simplexml_load_file. ¿Cómo sería el bucle correcto para ir leyendo cada uno de los libros?",
+        options: ["foreach($xml->[libro] as $libro)", "foreach($xml->libro as $libro)", "foreach($xml->libros as $libro)"],
+        answer: 1,
+        explanation: "Si el nodo raíz contiene varios <libro>, se recorren con $xml->libro."
+      },
+      {
+        q: "9. ¿En qué unidad de medida devuelve la función filesize el tamaño de un fichero?",
+        options: ["bytes", "gigabytes", "kilobytes"],
+        answer: 0,
+        explanation: "filesize() devuelve siempre el tamaño en bytes."
+      },
+      {
+        q: "10. ¿Qué función de PHP se utiliza para configurar el tipo de errores que se desean mostrar?",
+        options: ["set_error()", "error_reporting()", "error_exception()"],
+        answer: 1,
+        explanation: "error_reporting() permite configurar qué tipos de errores se notificarán."
+      },
+      {
+        q: "11. Si en un formulario tenemos un select con la propiedad multiple activada, ¿cómo se recibirían los datos del select en la página que recibe los datos del formulario?",
+        options: ["Como un array.", "Como un objeto.", "Como un número."],
+        answer: 0,
+        explanation: "Un select multiple se recibe como array, normalmente usando un name con []."
+      },
+      {
+        q: "12. ¿Qué tipo de estructura de control se utiliza para capturar y manejar excepciones en PHP?",
+        options: ["catch", "finally", "try"],
+        answer: 2,
+        explanation: "La estructura de control es try...catch. Si preguntan por la estructura, la respuesta correcta suele ser try. catch es el bloque que captura la excepción."
+      },
+      {
+        q: "13. ¿Qué hace la instrucción $objeto->update([], $cambio, ['multi'=>true]) si $objeto es de la clase BulkWrite?",
+        options: ["Modificar todos los elementos de una colección que cumplan una condición.", "Preparar una modificación que afectará al primer elemento que cumpla una condición.", "Preparar una modificación que afectará al primer elemento que cumpla una colección."],
+        answer: 0,
+        explanation: "Con multi=>true se modifican todos los documentos que cumplan el filtro. En este caso, con [] el filtro es general."
+      },
+      {
+        q: "14. ¿Qué función de PHP se utiliza para validar un DNI (con la letra) utilizando expresiones regulares?",
+        options: ["check_dni()", "validate_dni()", "preg_match()"],
+        answer: 2,
+        explanation: "preg_match() es la función de PHP para trabajar con expresiones regulares."
+      },
+      {
+        q: "15. ¿Cuál de las siguientes características de una cookie no puede definirse con la función setcookie()?",
+        options: ["El nombre.", "El tipo de dato.", "El tiempo de expiración."],
+        answer: 1,
+        explanation: "Las cookies almacenan texto; no se define un tipo de dato como tal con setcookie()."
+      },
+      {
+        q: "16. ¿Cuál de las siguientes afirmaciones sobre FTP es correcta?",
+        options: ["Utiliza un único canal para control y datos.", "Utiliza dos conexiones: una de control y otra de datos.", "Funciona sobre el puerto 22 por defecto."],
+        answer: 1,
+        explanation: "FTP utiliza dos conexiones: control y datos."
+      },
+      {
+        q: "17. En FTP, ¿qué ocurre en el modo pasivo?",
+        options: ["El servidor inicia la conexión de datos hacia el cliente.", "El cliente inicia tanto la conexión de control como la de datos.", "No se utiliza conexión de datos."],
+        answer: 1,
+        explanation: "En modo pasivo, el cliente inicia ambas conexiones, por eso es más cómodo con firewalls."
+      },
+      {
+        q: "18. ¿Qué puerto utiliza SFTP por defecto?",
+        options: ["20", "21", "22"],
+        answer: 2,
+        explanation: "SFTP suele trabajar sobre SSH, que usa el puerto 22/TCP."
+      },
+      {
+        q: "19. ¿Cuál de las siguientes afirmaciones es correcta sobre SFTP?",
+        options: ["Es una versión segura de FTP.", "Utiliza dos conexiones como FTP.", "Es un protocolo independiente que funciona sobre SSH."],
+        answer: 2,
+        explanation: "SFTP no es FTP seguro; es un protocolo distinto que normalmente funciona sobre SSH."
+      },
+      {
+        q: "20. En FTP, ¿qué tipo de transferencia se debe usar para enviar una imagen?",
+        options: ["ASCII", "Binario", "Texto plano"],
+        answer: 1,
+        explanation: "Las imágenes no son texto, así que se transfieren en binario."
+      },
+      {
+        q: "21. ¿Qué código FTP indica que la operación se ha completado correctamente?",
+        options: ["150", "230", "450"],
+        answer: 1,
+        explanation: "230 es un código 2xx, es decir, finalización positiva; se usa mucho para indicar login correcto."
+      },
+      {
+        q: "22. ¿Qué ocurre en FTP en modo activo?",
+        options: ["El cliente inicia la conexión de datos.", "El servidor inicia la conexión de datos hacia el cliente.", "No hay conexión de datos."],
+        answer: 1,
+        explanation: "En modo activo, el servidor abre la conexión de datos hacia el cliente."
+      },
+      {
+        q: "23. ¿Cuál es la principal ventaja de SFTP frente a FTP?",
+        options: ["Es más rápido", "Usa menos memoria", "Cifra la información"],
+        answer: 2,
+        explanation: "La gran ventaja de SFTP es la seguridad: las comunicaciones van cifradas."
+      },
+      {
+        q: "24. ¿Cuál de las siguientes afirmaciones sobre SSHFS es correcta?",
+        options: ["Permite copiar archivos como SCP", "Permite montar un sistema de archivos remoto como local", "Es un protocolo de transferencia sin cifrado"],
+        answer: 1,
+        explanation: "SSHFS monta directorios remotos como si fueran locales usando SFTP + FUSE."
+      },
+      {
+        q: "25. ¿Cuál de las siguientes opciones es correcta sobre FTPS?",
+        options: ["Es lo mismo que SFTP", "Es FTP funcionando sobre TLS/SSL", "No utiliza cifrado"],
+        answer: 1,
+        explanation: "FTPS añade cifrado TLS/SSL a FTP. No es lo mismo que SFTP."
+      }
+    ];
+
+    let answered = 0;
+    let correct = 0;
+    let wrong = 0;
+
+    function renderQuiz(){
+      const quiz = document.getElementById('quiz');
+      document.getElementById('totalQuestions').textContent = questions.length;
+      quiz.innerHTML = questions.map((item, idx) => `
+        <div class="question" id="q${idx}">
+          <h3>${item.q}</h3>
+          ${item.options.map((opt, i) => `
+            <label class="option">
+              <input type="radio" name="question${idx}" value="${i}">
+              <strong>${String.fromCharCode(97+i)}.</strong> ${opt}
+            </label>
+          `).join('')}
+          <button class="small-btn" onclick="checkAnswer(${idx})">Comprobar</button>
+          <div class="feedback" id="feedback${idx}"></div>
+        </div>
+      `).join('');
+      updateScore();
+    }
+
+    function checkAnswer(idx){
+      const questionBlock = document.getElementById(`q${idx}`);
+      if(questionBlock.dataset.done === 'true') return;
+
+      const selected = document.querySelector(`input[name="question${idx}"]:checked`);
+      const feedback = document.getElementById(`feedback${idx}`);
+
+      if(!selected){
+        feedback.className = 'feedback bad';
+        feedback.innerHTML = 'Selecciona una opción antes de comprobar.';
+        return;
+      }
+
+      const selectedValue = Number(selected.value);
+      const item = questions[idx];
+      answered++;
+      questionBlock.dataset.done = 'true';
+
+      if(selectedValue === item.answer){
+        correct++;
+        feedback.className = 'feedback ok';
+        feedback.innerHTML = `✅ Correcto.<div class="correct-answer">${item.explanation}</div>`;
+      } else {
+        wrong++;
+        feedback.className = 'feedback bad';
+        feedback.innerHTML = `❌ Incorrecto. La respuesta correcta es <strong>${String.fromCharCode(97+item.answer)}. ${item.options[item.answer]}</strong>.<div class="correct-answer">${item.explanation}</div>`;
+      }
+
+      const inputs = questionBlock.querySelectorAll('input');
+      inputs.forEach(inp => inp.disabled = true);
+      questionBlock.querySelector('button').disabled = true;
+      questionBlock.querySelector('button').style.opacity = '.65';
+      updateScore();
+    }
+
+    function updateScore(){
+      document.getElementById('answered').textContent = answered;
+      document.getElementById('correctCount').textContent = correct;
+      document.getElementById('wrongCount').textContent = wrong;
+    }
+
+    function resetQuiz(){
+      answered = 0;
+      correct = 0;
+      wrong = 0;
+      renderQuiz();
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+
+    renderQuiz();
+  </script>
+</body>
+</html>

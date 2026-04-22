@@ -1,228 +1,553 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8">
-    <title>UF5 - Repaso y Test</title>
-    <style>
-        body {
-            font-family: Arial;
-            margin: 20px;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UF5 - Resumen y Test autocorregible</title>
+  <style>
+    :root{
+      --bg:#f4f7fb;
+      --card:#ffffff;
+      --text:#1f2937;
+      --muted:#5b6472;
+      --accent:#1d4ed8;
+      --accent-2:#0f766e;
+      --ok:#166534;
+      --ok-bg:#dcfce7;
+      --bad:#991b1b;
+      --bad-bg:#fee2e2;
+      --border:#dbe3ef;
+      --warn:#7c2d12;
+      --warn-bg:#ffedd5;
+    }
 
-        h1,
-        h2 {
-            color: #2c3e50;
-        }
-
-        .correct {
-            color: green;
-        }
-
-        .incorrect {
-            color: red;
-        }
-
-        button {
-            margin-top: 5px;
-        }
-
-        .question {
-            margin-bottom: 20px;
-        }
-
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        td,
-        th {
-            border: 1px solid #ccc;
-            padding: 8px;
-        }
-
-        th {
-            background-color: #eee;
-        }
-    </style>
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: Arial, Helvetica, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.5;
+    }
+    .wrap{
+      max-width:1100px;
+      margin:0 auto;
+      padding:24px;
+    }
+    .hero, .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:18px;
+      box-shadow:0 8px 24px rgba(15,23,42,.06);
+    }
+    .hero{
+      padding:28px;
+      margin-bottom:20px;
+    }
+    h1,h2,h3{margin-top:0;color:#0f172a}
+    h1{font-size:2rem;margin-bottom:8px}
+    h2{font-size:1.4rem;margin-bottom:14px}
+    h3{font-size:1.08rem;margin-bottom:8px}
+    p{margin:8px 0}
+    .muted{color:var(--muted)}
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:16px;
+      margin-bottom:20px;
+    }
+    .card{padding:20px}
+    ul{padding-left:20px;margin:10px 0}
+    li{margin:6px 0}
+    table{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:10px;
+      font-size:.97rem;
+    }
+    th,td{
+      border:1px solid var(--border);
+      padding:10px;
+      text-align:left;
+      vertical-align:top;
+    }
+    th{background:#eef4ff}
+    .pill{
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:999px;
+      background:#e0edff;
+      color:#1e40af;
+      font-weight:700;
+      font-size:.88rem;
+      margin-right:8px;
+      margin-bottom:8px;
+    }
+    .question{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:18px;
+      margin-bottom:16px;
+    }
+    .question p{margin:0 0 12px}
+    .options label{
+      display:block;
+      padding:10px 12px;
+      border:1px solid var(--border);
+      border-radius:12px;
+      margin-bottom:10px;
+      cursor:pointer;
+      background:#fafcff;
+    }
+    .options label:hover{background:#f2f7ff}
+    button{
+      border:none;
+      background:var(--accent);
+      color:white;
+      padding:10px 14px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:700;
+    }
+    button:hover{filter:brightness(.95)}
+    .secondary{
+      background:#334155;
+    }
+    .result{
+      margin-top:12px;
+      padding:12px;
+      border-radius:12px;
+      font-weight:700;
+      display:none;
+    }
+    .correct{background:var(--ok-bg);color:var(--ok);border:1px solid #86efac}
+    .incorrect{background:var(--bad-bg);color:var(--bad);border:1px solid #fca5a5}
+    .tip{
+      margin-top:8px;
+      padding:10px 12px;
+      border-radius:12px;
+      background:var(--warn-bg);
+      color:var(--warn);
+      border:1px solid #fdba74;
+      font-weight:600;
+    }
+    .topbar{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:18px;
+    }
+    .score{
+      font-weight:800;
+      color:#0f172a;
+      background:#eef4ff;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid #bfd3ff;
+    }
+    .footer-space{height:20px}
+  </style>
 </head>
-
 <body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>UF5 - Documentación y Control de Versiones</h1>
+      <p class="muted">Resumen corto para estudiar antes del examen y test autocorregible con preguntas claras y respuestas explicadas.</p>
+      <div>
+        <span class="pill">Documentación</span>
+        <span class="pill">Git</span>
+        <span class="pill">Ramas</span>
+        <span class="pill">Repositorio</span>
+        <span class="pill">CI/CD</span>
+      </div>
+    </section>
 
-    <h1>UF5 - Documentación y Control de Versiones</h1>
+    <section class="grid">
+      <article class="card">
+        <h2>1. Ideas clave de la unidad</h2>
+        <ul>
+          <li>La documentación debe ser <strong>clara, ordenada, útil y actualizada</strong>.</li>
+          <li>Un proyecto de software suele pasar por: <strong>requisitos → especificación → desarrollo → pruebas → despliegue → mantenimiento</strong>.</li>
+          <li>La documentación reduce errores, facilita el mantenimiento y ayuda al trabajo en equipo.</li>
+          <li>Git es un <strong>sistema de control de versiones distribuido</strong>.</li>
+          <li>Permite guardar cambios, recuperar versiones, trabajar con ramas y colaborar con otras personas.</li>
+        </ul>
+      </article>
 
-    <h2>📌 RESUMEN CLAVE</h2>
-    <ul>
-        <li>Ciclo de vida: requisitos → especificación → desarrollo → pruebas → despliegue → mantenimiento</li>
-        <li>Documentación: clara, estructurada, útil, actualizada</li>
-        <li>Git: sistema distribuido</li>
-        <li>Áreas: working directory → staging → repositorio</li>
-        <li>CI: pruebas automáticas | CD: despliegue</li>
-    </ul>
+      <article class="card">
+        <h2>2. Lo que más cae de Git</h2>
+        <ul>
+          <li><strong>Working directory</strong>: donde trabajas con los archivos.</li>
+          <li><strong>Staging area</strong>: zona intermedia donde preparas los cambios.</li>
+          <li><strong>Repositorio</strong>: donde quedan guardadas las versiones confirmadas.</li>
+          <li><strong>commit</strong>: crea una nueva versión del proyecto.</li>
+          <li><strong>branch</strong>: permite trabajar en paralelo sin tocar la rama principal.</li>
+        </ul>
+      </article>
 
-    <h2>💻 COMANDOS GIT IMPORTANTES</h2>
+      <article class="card">
+        <h2>3. CI y CD</h2>
+        <ul>
+          <li><strong>CI (Integración continua)</strong>: automatiza compilación y pruebas cada vez que hay cambios.</li>
+          <li><strong>CD</strong>: puede significar entrega continua o despliegue continuo, según el contexto.</li>
+          <li>La idea general es <strong>automatizar</strong> tareas repetitivas para reducir errores y acelerar el desarrollo.</li>
+        </ul>
+      </article>
+    </section>
 
-    <table>
-        <tr>
-            <th>Comando</th>
-            <th>Función</th>
-        </tr>
+    <section class="card" style="margin-bottom:20px;">
+      <h2>4. Comandos Git que debes memorizar</h2>
+      <table>
+        <tr><th>Comando</th><th>Para qué sirve</th></tr>
+        <tr><td><code>git init</code></td><td>Crea un repositorio nuevo.</td></tr>
+        <tr><td><code>git clone</code></td><td>Copia un repositorio remoto en tu equipo.</td></tr>
+        <tr><td><code>git status</code></td><td>Muestra el estado actual del repositorio.</td></tr>
+        <tr><td><code>git add</code></td><td>Pasa cambios al staging area.</td></tr>
+        <tr><td><code>git commit</code></td><td>Guarda una nueva versión de los cambios preparados.</td></tr>
+        <tr><td><code>git log</code></td><td>Muestra el historial de commits.</td></tr>
+        <tr><td><code>git diff</code></td><td>Muestra diferencias entre versiones o cambios.</td></tr>
+        <tr><td><code>git restore</code></td><td>Deshace cambios en archivos.</td></tr>
+        <tr><td><code>git reset</code></td><td>Retrocede a estados anteriores o quita cambios del staging.</td></tr>
+        <tr><td><code>git rm</code></td><td>Elimina archivos del control de versiones.</td></tr>
+        <tr><td><code>git mv</code></td><td>Mueve o renombra archivos.</td></tr>
+        <tr><td><code>git branch</code></td><td>Crea, lista o gestiona ramas.</td></tr>
+        <tr><td><code>git switch</code></td><td>Cambia de rama.</td></tr>
+        <tr><td><code>git checkout</code></td><td>Cambia de rama o restaura contenido, según uso.</td></tr>
+        <tr><td><code>git merge</code></td><td>Une cambios de una rama con otra.</td></tr>
+        <tr><td><code>git stash</code></td><td>Guarda cambios temporalmente sin hacer commit.</td></tr>
+        <tr><td><code>git tag</code></td><td>Marca versiones importantes.</td></tr>
+        <tr><td><code>git fetch</code></td><td>Descarga cambios remotos sin integrarlos.</td></tr>
+        <tr><td><code>git pull</code></td><td>Descarga e integra cambios remotos.</td></tr>
+        <tr><td><code>git push</code></td><td>Sube commits al repositorio remoto.</td></tr>
+      </table>
+    </section>
 
-        <tr>
-            <td>git init</td>
-            <td>Crea un repositorio nuevo</td>
-        </tr>
-        <tr>
-            <td>git clone</td>
-            <td>Copia un repositorio remoto</td>
-        </tr>
+    <section class="card" style="margin-bottom:20px;">
+      <h2>5. Trampas típicas de examen</h2>
+      <ul>
+        <li><strong>git add</strong> no guarda definitivamente: solo prepara.</li>
+        <li><strong>git commit</strong> sí guarda una nueva versión.</li>
+        <li><strong>git fetch</strong> descarga, pero no integra.</li>
+        <li><strong>git pull</strong> descarga e integra.</li>
+        <li><strong>HEAD</strong> suele referirse al último commit de la rama actual.</li>
+        <li>Las <strong>ramas</strong> sirven para trabajar en paralelo.</li>
+        <li><strong>MediaWiki</strong> es un sistema tipo wiki, no una herramienta de manuales man ni una etiqueta de Javadoc.</li>
+        <li>En páginas man, la sección <strong>1</strong> es la de comandos de usuario.</li>
+      </ul>
+    </section>
 
-        <tr>
-            <td>git status</td>
-            <td>Muestra el estado del repositorio</td>
-        </tr>
-        <tr>
-            <td>git add</td>
-            <td>Prepara archivos para commit</td>
-        </tr>
-        <tr>
-            <td>git commit</td>
-            <td>Guarda cambios (nueva versión)</td>
-        </tr>
-        <tr>
-            <td>git log</td>
-            <td>Muestra historial</td>
-        </tr>
-        <tr>
-            <td>git diff</td>
-            <td>Muestra cambios</td>
-        </tr>
+    <section class="card">
+      <div class="topbar">
+        <h2 style="margin:0;">6. Cuestionario autocorregible</h2>
+        <div class="score" id="scoreBox">Aciertos: 0 / 25</div>
+      </div>
+      <p class="muted">Pulsa <strong>Comprobar</strong> en cada pregunta. Si fallas, verás la opción correcta y una explicación breve.</p>
+      <div id="quiz"></div>
+      <button class="secondary" onclick="resetQuiz()">Reiniciar cuestionario</button>
+    </section>
 
-        <tr>
-            <td>git restore</td>
-            <td>Deshace cambios</td>
-        </tr>
-        <tr>
-            <td>git reset</td>
-            <td>Vuelve a versión anterior</td>
-        </tr>
-        <tr>
-            <td>git rm</td>
-            <td>Elimina archivos</td>
-        </tr>
-        <tr>
-            <td>git mv</td>
-            <td>Mueve o renombra archivos</td>
-        </tr>
+    <div class="footer-space"></div>
+  </div>
 
-        <tr>
-            <td>git branch</td>
-            <td>Gestiona ramas</td>
-        </tr>
-        <tr>
-            <td>git switch</td>
-            <td>Cambia de rama</td>
-        </tr>
-        <tr>
-            <td>git checkout</td>
-            <td>Cambia de rama o restaura</td>
-        </tr>
-        <tr>
-            <td>git merge</td>
-            <td>Une ramas</td>
-        </tr>
+  <script>
+    const questions = [
+      {
+        q: "¿Por qué es importante que la documentación de un proyecto esté bien estructurada?",
+        a: [
+          "Porque así ocupa más páginas y parece más completa.",
+          "Porque facilita que sea entendible, útil y fácil de consultar.",
+          "Porque solo sirve para que el proyecto quede más bonito."
+        ],
+        c: 1,
+        e: "Una buena estructura hace que la documentación se entienda mejor, se consulte rápido y sea realmente útil."
+      },
+      {
+        q: "Cuando hablamos de CI en desarrollo de software, ¿a qué nos referimos?",
+        a: [
+          "A realizar la integración del proyecto de forma manual.",
+          "A publicar la aplicación directamente en producción.",
+          "A automatizar integración, compilación y pruebas cada vez que hay cambios."
+        ],
+        c: 2,
+        e: "CI significa integración continua y se basa en automatizar tareas para detectar errores cuanto antes."
+      },
+      {
+        q: "¿Para qué sirve el comando man en sistemas GNU/Linux?",
+        a: [
+          "Para abrir una interfaz gráfica de configuración.",
+          "Para consultar una wiki en Internet.",
+          "Para ver el manual de referencia de comandos y utilidades desde terminal."
+        ],
+        c: 2,
+        e: "man muestra las páginas del manual del sistema desde la línea de comandos."
+      },
+      {
+        q: "¿Cuál de estas secuencias representa correctamente el ciclo de vida básico del software?",
+        a: [
+          "Diseño → mantenimiento → requisitos → pruebas.",
+          "Desarrollo → despliegue → requisitos → documentación.",
+          "Requisitos → especificación → desarrollo → pruebas → despliegue → mantenimiento."
+        ],
+        c: 2,
+        e: "Ese es el orden lógico general estudiado en la unidad."
+      },
+      {
+        q: "¿Qué comando de Git se utiliza para eliminar un archivo del control de versiones?",
+        a: [
+          "git delete",
+          "git rm",
+          "git reset"
+        ],
+        c: 1,
+        e: "git rm elimina archivos del repositorio y del seguimiento de Git."
+      },
+      {
+        q: "¿Qué aporta principalmente un sistema de control de versiones como Git?",
+        a: [
+          "Permite registrar cambios y recuperar versiones anteriores del proyecto.",
+          "Solo sirve para ejecutar pruebas automáticas.",
+          "Solo se usa para diseñar interfaces gráficas."
+        ],
+        c: 0,
+        e: "La función principal es controlar cambios, historial, recuperación y colaboración."
+      },
+      {
+        q: "En las páginas man, ¿qué sección suele corresponder a los comandos de usuario?",
+        a: ["4", "2", "5", "1"],
+        c: 3,
+        e: "La sección 1 de man suele corresponder a comandos de usuario."
+      },
+      {
+        q: "¿Cuántas áreas principales se suelen distinguir en Git al trabajar con cambios?",
+        a: ["Una: solo el repositorio.", "Tres: working directory, staging area y repositorio.", "Dos: local y remoto."],
+        c: 1,
+        e: "Normalmente se explica con esas tres zonas: trabajo, preparación y repositorio."
+      },
+      {
+        q: "¿Para qué sirven las ramas en Git?",
+        a: [
+          "Para eliminar automáticamente todos los conflictos.",
+          "Para permitir desarrollo en paralelo sin tocar directamente la rama principal.",
+          "Para convertir Git en un sistema centralizado."
+        ],
+        c: 1,
+        e: "Las ramas permiten trabajar en paralelo y después unir cambios."
+      },
+      {
+        q: "¿Qué es MediaWiki dentro del contexto de documentación?",
+        a: [
+          "Una sección del manual man.",
+          "Una etiqueta usada en Javadoc.",
+          "Un sistema wiki para crear y mantener documentación colaborativa."
+        ],
+        c: 2,
+        e: "MediaWiki es una plataforma wiki muy conocida para documentación colaborativa."
+      },
+      {
+        q: "En la sintaxis habitual de MediaWiki, ¿qué se usa para poner texto en negrita?",
+        a: ["Tres apóstrofos seguidos (''')", "Dos apóstrofos seguidos ('')", "Dos signos igual al principio y al final (==)"],
+        c: 0,
+        e: "En MediaWiki, la negrita se marca con tres apóstrofos."
+      },
+      {
+        q: "¿Qué símbolo se utiliza habitualmente en Javadoc para introducir etiquetas como @param o @return?",
+        a: ["#", "@", "/"],
+        c: 1,
+        e: "Las etiquetas de Javadoc empiezan con el símbolo @."
+      },
+      {
+        q: "¿Qué consecuencia habitual puede tener una mala documentación en un proyecto?",
+        a: [
+          "Aumenta el coste y dificulta mantenimiento y aprendizaje.",
+          "Hace que haya más usuarios automáticamente.",
+          "Reduce siempre el tiempo de desarrollo."
+        ],
+        c: 0,
+        e: "Si la documentación es mala, cuesta más mantener, entender y ampliar el proyecto."
+      },
+      {
+        q: "Dentro de Git, ¿qué representa el repositorio?",
+        a: [
+          "Solo una carpeta con código sin historial.",
+          "El lugar donde se guardan las versiones confirmadas del proyecto.",
+          "Únicamente una copia temporal de seguridad."
+        ],
+        c: 1,
+        e: "El repositorio almacena el historial y las versiones del proyecto."
+      },
+      {
+        q: "¿Cuál es una causa frecuente de que la documentación falle en muchos proyectos?",
+        a: [
+          "Que no se le dedica tiempo suficiente.",
+          "Que siempre se documenta demasiado.",
+          "Que el proyecto sea sencillo."
+        ],
+        c: 0,
+        e: "Muchas veces la documentación falla porque se deja para el final o no se mantiene."
+      },
+      {
+        q: "¿Para qué sirve el comando git add?",
+        a: [
+          "Para guardar definitivamente una nueva versión del proyecto.",
+          "Para preparar cambios y pasarlos al staging area.",
+          "Para subir cambios al repositorio remoto."
+        ],
+        c: 1,
+        e: "git add no hace commit: solo prepara cambios."
+      },
+      {
+        q: "¿Qué hace git commit?",
+        a: [
+          "Prepara los archivos para guardarlos después.",
+          "Guarda una nueva versión con los cambios preparados.",
+          "Elimina del historial los cambios anteriores."
+        ],
+        c: 1,
+        e: "El commit crea una nueva versión en el historial del repositorio."
+      },
+      {
+        q: "¿Qué hace git push?",
+        a: [
+          "Descarga cambios del remoto.",
+          "Sube commits del repositorio local al remoto.",
+          "No sirve para trabajar con repositorios remotos."
+        ],
+        c: 1,
+        e: "push envía tus cambios confirmados al repositorio remoto."
+      },
+      {
+        q: "¿Qué hace git pull?",
+        a: [
+          "Sube cambios al servidor remoto.",
+          "Descarga cambios del remoto e intenta integrarlos en tu rama actual.",
+          "Solo descarga información sin aplicarla."
+        ],
+        c: 1,
+        e: "pull equivale, en esencia, a descargar e integrar cambios."
+      },
+      {
+        q: "En Git, ¿a qué suele referirse HEAD?",
+        a: [
+          "Al principio físico del disco duro.",
+          "Al último commit de la rama actual o a la referencia actual.",
+          "A un archivo de configuración del servidor."
+        ],
+        c: 1,
+        e: "HEAD suele apuntar al commit actual de la rama en la que estás."
+      },
+      {
+        q: "¿Qué significa normalmente que haya un conflicto en Git?",
+        a: [
+          "Que Git ha borrado automáticamente un archivo sin avisar.",
+          "Que hay cambios incompatibles que necesitan intervención del usuario.",
+          "Que el repositorio ha dejado de funcionar definitivamente."
+        ],
+        c: 1,
+        e: "Un conflicto aparece cuando Git no puede decidir solo cómo unir cambios."
+      },
+      {
+        q: "¿Para qué sirve git clone?",
+        a: [
+          "Para copiar un repositorio remoto y obtener una copia local completa.",
+          "Para borrar completamente un repositorio.",
+          "Para subir una rama nueva al servidor."
+        ],
+        c: 0,
+        e: "clone crea una copia local del repositorio remoto."
+      },
+      {
+        q: "¿Qué permite gestionar git branch?",
+        a: [
+          "Solo eliminar conflictos.",
+          "Crear, listar, renombrar o eliminar ramas.",
+          "Guardar automáticamente todos los cambios sin commit."
+        ],
+        c: 1,
+        e: "git branch se usa para trabajar con ramas."
+      },
+      {
+        q: "¿Qué hace git merge?",
+        a: [
+          "Separa un proyecto en varias ramas.",
+          "Une los cambios de una rama con otra.",
+          "Elimina la rama principal."
+        ],
+        c: 1,
+        e: "merge integra cambios de una rama en otra."
+      },
+      {
+        q: "¿Cuál es la idea general de CI/CD en un proyecto moderno?",
+        a: [
+          "Evitar por completo las pruebas.",
+          "Automatizar integración, pruebas y, según el caso, entrega o despliegue.",
+          "Hacer todo manualmente para tener más control."
+        ],
+        c: 1,
+        e: "CI/CD se asocia con automatización para mejorar rapidez y fiabilidad."
+      }
+    ];
 
-        <tr>
-            <td>git stash</td>
-            <td>Guarda cambios temporalmente</td>
-        </tr>
-        <tr>
-            <td>git tag</td>
-            <td>Marca versiones</td>
-        </tr>
+    const quizDiv = document.getElementById('quiz');
+    let answeredCorrectly = new Array(questions.length).fill(false);
 
-        <tr>
-            <td>git fetch</td>
-            <td>Descarga cambios sin aplicar</td>
-        </tr>
-        <tr>
-            <td>git pull</td>
-            <td>Descarga y aplica cambios</td>
-        </tr>
-        <tr>
-            <td>git push</td>
-            <td>Sube cambios al remoto</td>
-        </tr>
-
-    </table>
-
-    <h2>📝 TEST</h2>
-
-    <div id="quiz"></div>
-
-    <script>
-        const questions = [
-            { q: "¿Por qué es importante estructurar la documentación?", a: ["Errores", "Entendible", "Bonita"], c: 1 },
-            { q: "¿Qué es CI?", a: ["Manual", "Publicar", "Automático"], c: 2 },
-            { q: "Man sirve para:", a: ["GUI", "Wiki", "Terminal"], c: 2 },
-            { q: "Ciclo correcto:", a: ["Simple", "Medio", "Completo"], c: 2 },
-            { q: "Eliminar archivos:", a: ["delete", "rm", "reset"], c: 1 },
-            { q: "Control versiones:", a: ["Registro cambios", "Pruebas", "Diseño"], c: 0 },
-            { q: "Sección Man comandos:", a: ["4", "2", "5", "1"], c: 3 },
-            { q: "Áreas Git:", a: ["1", "3", "2"], c: 1 },
-            { q: "Ramas:", a: ["Eliminar conflictos", "Paralelo", "Distribuido"], c: 1 },
-            { q: "MediaWiki:", a: ["Man", "Javadoc", "Wiki"], c: 2 },
-            { q: "Negrita:", a: ["'''", "''", "=="], c: 0 },
-            { q: "Javadoc:", a: ["100", "@", "/"], c: 1 },
-            { q: "Sin documentación:", a: ["Coste", "Usuarios", "Tiempo"], c: 2 },
-            { q: "Repositorio:", a: ["Código", "Versión válida", "Copia"], c: 1 },
-            { q: "Falta doc:", a: ["Tiempo", "Exceso", "Complejidad"], c: 0 },
-
-            { q: "git add:", a: ["Guardar", "Preparar", "Subir"], c: 1 },
-            { q: "git commit:", a: ["Preparar", "Guardar", "Eliminar"], c: 1 },
-            { q: "git push:", a: ["Bajar", "Subir", "Nada"], c: 1 },
-            { q: "git pull:", a: ["Subir", "Bajar+integrar", "Solo bajar"], c: 1 },
-            { q: "HEAD:", a: ["Inicio", "Último commit", "Archivo"], c: 1 },
-            { q: "Conflicto:", a: ["Error", "Choque", "Nada"], c: 1 },
-            { q: "git clone:", a: ["Copiar repo", "Borrar", "Subir"], c: 0 },
-            { q: "git branch:", a: ["Eliminar", "Ramas", "Guardar"], c: 1 },
-            { q: "git merge:", a: ["Separar", "Unir", "Eliminar"], c: 1 },
-            { q: "CI/CD:", a: ["Nada", "Automatizar", "Manual"], c: 1 }
-        ];
-
-        const quizDiv = document.getElementById("quiz");
-
-        questions.forEach((q, i) => {
-            let div = document.createElement("div");
-            div.classList.add("question");
-
-            let html = `<p><b>${i + 1}. ${q.q}</b></p>`;
-            q.a.forEach((opt, j) => {
-                html += `<label><input type="radio" name="q${i}" value="${j}"> ${opt}</label><br>`;
-            });
-            html += `<button onclick="check(${i})">Comprobar</button>
-<p id="res${i}"></p>`;
-
-            div.innerHTML = html;
-            quizDiv.appendChild(div);
+    function renderQuiz(){
+      quizDiv.innerHTML = '';
+      questions.forEach((q, i) => {
+        const div = document.createElement('div');
+        div.className = 'question';
+        let html = `<p><strong>${i + 1}. ${q.q}</strong></p><div class="options">`;
+        q.a.forEach((opt, j) => {
+          html += `<label><input type="radio" name="q${i}" value="${j}"> ${opt}</label>`;
         });
+        html += `</div><button onclick="check(${i})">Comprobar</button><div id="res${i}" class="result"></div>`;
+        div.innerHTML = html;
+        quizDiv.appendChild(div);
+      });
+      updateScore();
+    }
 
-        function check(i) {
-            let radios = document.getElementsByName("q" + i);
-            let res = document.getElementById("res" + i);
-            let selected = -1;
+    function check(i){
+      const radios = document.getElementsByName('q' + i);
+      const res = document.getElementById('res' + i);
+      let selected = -1;
+      radios.forEach(r => { if (r.checked) selected = Number(r.value); });
 
-            radios.forEach(r => { if (r.checked) selected = r.value; });
+      if (selected === -1) {
+        res.style.display = 'block';
+        res.className = 'result incorrect';
+        res.innerHTML = '✘ Debes marcar una opción antes de comprobar.';
+        return;
+      }
 
-            if (selected == questions[i].c) {
-                res.innerHTML = "<span class='correct'>✔ Correcto</span>";
-            } else {
-                res.innerHTML = "<span class='incorrect'>✘ Incorrecto. Respuesta correcta: " + questions[i].a[questions[i].c] + "</span>";
-            }
-        }
-    </script>
+      if (selected === questions[i].c) {
+        answeredCorrectly[i] = true;
+        res.style.display = 'block';
+        res.className = 'result correct';
+        res.innerHTML = `✔ Correcto.<div class="tip">${questions[i].e}</div>`;
+      } else {
+        answeredCorrectly[i] = false;
+        res.style.display = 'block';
+        res.className = 'result incorrect';
+        res.innerHTML = `✘ Incorrecto. La respuesta correcta es: <strong>${questions[i].a[questions[i].c]}</strong><div class="tip">${questions[i].e}</div>`;
+      }
+      updateScore();
+    }
 
+    function updateScore(){
+      const ok = answeredCorrectly.filter(Boolean).length;
+      document.getElementById('scoreBox').textContent = `Aciertos: ${ok} / ${questions.length}`;
+    }
+
+    function resetQuiz(){
+      answeredCorrectly = new Array(questions.length).fill(false);
+      renderQuiz();
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+
+    renderQuiz();
+  </script>
 </body>
-
 </html>
