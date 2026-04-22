@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -18,7 +19,9 @@
       --border: #334155;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -39,7 +42,7 @@
       border: 1px solid var(--border);
       border-radius: 18px;
       padding: 20px;
-      box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
     }
 
     h1 {
@@ -206,23 +209,41 @@
       margin: 8px 0 0;
     }
 
-    .hidden { display: none; }
+    .hidden {
+      display: none;
+    }
 
     @media (max-width: 600px) {
-      h1 { font-size: 1.35rem; }
-      .question { font-size: 1.05rem; }
-      .card { padding: 16px; }
-      button { width: 100%; }
-      .controls { flex-direction: column; }
+      h1 {
+        font-size: 1.35rem;
+      }
+
+      .question {
+        font-size: 1.05rem;
+      }
+
+      .card {
+        padding: 16px;
+      }
+
+      button {
+        width: 100%;
+      }
+
+      .controls {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
+
 <body>
   <div class="wrap">
     <div class="card">
       <h1>Cuestionario UF1 — Despliegue DAW</h1>
       <div class="subtitle">
-        Incluye las 40 preguntas del cuestionario que practicamos antes y las 15 que me has pasado después. Está pensado para abrirlo en Visual Studio Code, subirlo a GitHub Pages y usarlo cómodamente desde el móvil.
+        Incluye las 40 preguntas del cuestionario que practicamos antes y las 15 que me has pasado después. Está pensado
+        para abrirlo en Visual Studio Code, subirlo a GitHub Pages y usarlo cómodamente desde el móvil.
       </div>
 
       <div id="quizScreen">
@@ -230,7 +251,9 @@
           <div class="pill" id="counter">Pregunta 1 / 55</div>
           <div class="pill" id="scorePill">Aciertos: 0</div>
         </div>
-        <div class="progress"><div class="bar" id="bar"></div></div>
+        <div class="progress">
+          <div class="bar" id="bar"></div>
+        </div>
         <div class="question" id="question"></div>
         <div class="options" id="options"></div>
         <div class="controls">
@@ -758,4 +781,5 @@
     renderQuestion();
   </script>
 </body>
+
 </html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -19,7 +20,11 @@
       --warn-bg: #fef3c7;
       --border: #dbe3ee;
     }
-    * { box-sizing: border-box; }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
@@ -27,23 +32,35 @@
       color: var(--text);
       line-height: 1.55;
     }
+
     header {
       background: linear-gradient(135deg, #1d4ed8, #2563eb 55%, #60a5fa);
       color: white;
       padding: 32px 20px;
     }
-    header h1 { margin: 0 0 8px; font-size: 2rem; }
-    header p { margin: 0; max-width: 900px; }
+
+    header h1 {
+      margin: 0 0 8px;
+      font-size: 2rem;
+    }
+
+    header p {
+      margin: 0;
+      max-width: 900px;
+    }
+
     main {
       max-width: 1100px;
       margin: 24px auto;
       padding: 0 16px 40px;
     }
+
     .grid {
       display: grid;
       grid-template-columns: 1.1fr 0.9fr;
       gap: 20px;
     }
+
     .card {
       background: var(--card);
       border: 1px solid var(--border);
@@ -51,17 +68,27 @@
       padding: 20px;
       box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
     }
-    h2 { margin-top: 0; color: #0f172a; }
+
+    h2 {
+      margin-top: 0;
+      color: #0f172a;
+    }
+
     h3 {
       margin-top: 24px;
       margin-bottom: 8px;
       color: #1d4ed8;
     }
-    ul { padding-left: 20px; }
+
+    ul {
+      padding-left: 20px;
+    }
+
     .mini {
       color: var(--muted);
       font-size: 0.95rem;
     }
+
     .pill {
       display: inline-block;
       padding: 6px 10px;
@@ -72,6 +99,7 @@
       margin: 3px 6px 3px 0;
       border: 1px solid #cfe0ff;
     }
+
     .memory-box {
       border-left: 5px solid var(--accent);
       background: #eff6ff;
@@ -79,6 +107,7 @@
       border-radius: 10px;
       margin: 14px 0;
     }
+
     .warning-box {
       border-left: 5px solid #f59e0b;
       background: var(--warn-bg);
@@ -87,12 +116,14 @@
       margin: 14px 0;
       color: #78350f;
     }
+
     .quiz-controls {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       margin-bottom: 16px;
     }
+
     button {
       background: var(--accent);
       color: white;
@@ -102,10 +133,15 @@
       cursor: pointer;
       font-weight: bold;
     }
+
     button.secondary {
       background: #475569;
     }
-    button:hover { filter: brightness(1.05); }
+
+    button:hover {
+      filter: brightness(1.05);
+    }
+
     .score {
       font-weight: bold;
       padding: 12px 14px;
@@ -114,6 +150,7 @@
       border-radius: 12px;
       margin-bottom: 18px;
     }
+
     .question {
       border: 1px solid var(--border);
       border-radius: 14px;
@@ -121,18 +158,22 @@
       margin-bottom: 16px;
       background: #fcfdff;
     }
+
     .question.correct {
       border-color: #86efac;
       background: #f0fdf4;
     }
+
     .question.incorrect {
       border-color: #fca5a5;
       background: #fff7f7;
     }
+
     .question h4 {
       margin: 0 0 12px;
       font-size: 1rem;
     }
+
     .option {
       display: block;
       margin: 8px 0;
@@ -143,11 +184,16 @@
       transition: 0.15s ease;
       background: white;
     }
+
     .option:hover {
       border-color: #93c5fd;
       background: #f8fbff;
     }
-    .option input { margin-right: 8px; }
+
+    .option input {
+      margin-right: 8px;
+    }
+
     .feedback {
       margin-top: 12px;
       padding: 12px;
@@ -155,59 +201,76 @@
       font-size: 0.95rem;
       display: none;
     }
+
     .feedback.ok {
       display: block;
       background: var(--ok-bg);
       color: var(--ok);
       border: 1px solid #86efac;
     }
+
     .feedback.bad {
       display: block;
       background: var(--bad-bg);
       color: var(--bad);
       border: 1px solid #fca5a5;
     }
+
     .sticky-note {
       position: sticky;
       top: 12px;
     }
+
     footer {
       text-align: center;
       color: var(--muted);
       font-size: 0.9rem;
       padding: 24px 12px 8px;
     }
+
     @media (max-width: 900px) {
-      .grid { grid-template-columns: 1fr; }
-      .sticky-note { position: static; }
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .sticky-note {
+        position: static;
+      }
     }
   </style>
 </head>
+
 <body>
   <header>
     <h1>UF2 Despliegue - Resumen + Cuestionario</h1>
-    <p>Documento de repaso para examen tipo test. Incluye las ideas que no se pueden olvidar y un cuestionario autocorregible con feedback inmediato.</p>
+    <p>Documento de repaso para examen tipo test. Incluye las ideas que no se pueden olvidar y un cuestionario
+      autocorregible con feedback inmediato.</p>
   </header>
 
   <main>
     <div class="grid">
       <section class="card">
         <h2>Resumen de la UF2</h2>
-        <p class="mini">Objetivo: repasar lo esencial de servidores web, HTTP, HTTPS, TLS, hosts virtuales, hosting y dominio.</p>
+        <p class="mini">Objetivo: repasar lo esencial de servidores web, HTTP, HTTPS, TLS, hosts virtuales, hosting y
+          dominio.</p>
 
         <h3>1. Servidores web y arquitectura</h3>
         <ul>
           <li><strong>Internet</strong> funciona sobre <strong>TCP/IP</strong>.</li>
           <li>La <strong>World Wide Web</strong> usa <strong>HTTP</strong> para transferir información.</li>
-          <li>En la arquitectura <strong>cliente-servidor</strong>, el cliente pide recursos y el servidor los busca y los sirve.</li>
+          <li>En la arquitectura <strong>cliente-servidor</strong>, el cliente pide recursos y el servidor los busca y
+            los sirve.</li>
           <li>El servidor suele estar siempre encendido y en escucha.</li>
-          <li>En una arquitectura de <strong>tres niveles</strong> intervienen: cliente, servidor de aplicaciones y base de datos.</li>
+          <li>En una arquitectura de <strong>tres niveles</strong> intervienen: cliente, servidor de aplicaciones y base
+            de datos.</li>
           <li>Ejemplo típico de tres niveles: <strong>WordPress</strong> o cualquier CMS dinámico.</li>
-          <li>Un <strong>proxy</strong> actúa como intermediario y puede cachear, filtrar, autenticar y balancear carga.</li>
+          <li>Un <strong>proxy</strong> actúa como intermediario y puede cachear, filtrar, autenticar y balancear carga.
+          </li>
         </ul>
 
         <div class="memory-box">
-          <strong>Memoriza:</strong> cliente = pide, servidor = responde, tres niveles = cliente + servidor de aplicaciones + base de datos.
+          <strong>Memoriza:</strong> cliente = pide, servidor = responde, tres niveles = cliente + servidor de
+          aplicaciones + base de datos.
         </div>
 
         <h3>2. LAMP</h3>
@@ -222,12 +285,15 @@
           <li>Normalmente usa <strong>TCP</strong> y escucha en el <strong>puerto 80</strong>.</li>
           <li>Es un protocolo <strong>sin estado (stateless)</strong>.</li>
           <li>Para mantener información entre peticiones se usan técnicas como <strong>cookies</strong>.</li>
-          <li>En <strong>HTTP/1.1</strong> aparecen las <strong>conexiones persistentes</strong>: varias comunicaciones HTTP sobre una sola conexión TCP.</li>
-          <li>En <strong>HTTP/2</strong> hay mejoras como binario, compresión de cabeceras, multiplexación y server push.</li>
+          <li>En <strong>HTTP/1.1</strong> aparecen las <strong>conexiones persistentes</strong>: varias comunicaciones
+            HTTP sobre una sola conexión TCP.</li>
+          <li>En <strong>HTTP/2</strong> hay mejoras como binario, compresión de cabeceras, multiplexación y server
+            push.</li>
         </ul>
 
         <div class="warning-box">
-          <strong>Trampa típica:</strong> HTTP no es con estado. Si una pregunta dice que HTTP recuerda al usuario por sí mismo, es falsa.
+          <strong>Trampa típica:</strong> HTTP no es con estado. Si una pregunta dice que HTTP recuerda al usuario por
+          sí mismo, es falsa.
         </div>
 
         <h3>4. URL, URI y recursos</h3>
@@ -241,14 +307,18 @@
         <h3>5. MIME, cabeceras y cuerpo</h3>
         <ul>
           <li>Los <strong>tipos MIME</strong> indican el tipo de contenido: <strong>tipo/subtipo</strong>.</li>
-          <li>Ejemplos importantes: <strong>text/html</strong>, <strong>application/json</strong>, <strong>image/png</strong>, <strong>application/pdf</strong>.</li>
+          <li>Ejemplos importantes: <strong>text/html</strong>, <strong>application/json</strong>,
+            <strong>image/png</strong>, <strong>application/pdf</strong>.
+          </li>
           <li>Un mensaje HTTP tiene <strong>cabecera</strong> y, opcionalmente, <strong>cuerpo</strong>.</li>
-          <li>La <strong>cabecera</strong> contiene metadatos; el <strong>cuerpo</strong> contiene el recurso o los datos enviados.</li>
+          <li>La <strong>cabecera</strong> contiene metadatos; el <strong>cuerpo</strong> contiene el recurso o los
+            datos enviados.</li>
           <li><strong>Content-Type</strong> indica el tipo MIME del cuerpo.</li>
         </ul>
 
         <div class="memory-box">
-          <strong>Memoriza:</strong> MIME describe el contenido, no la extensión del archivo. El navegador interpreta el cuerpo según <strong>Content-Type</strong>.
+          <strong>Memoriza:</strong> MIME describe el contenido, no la extensión del archivo. El navegador interpreta el
+          cuerpo según <strong>Content-Type</strong>.
         </div>
 
         <h3>6. Métodos HTTP</h3>
@@ -266,15 +336,21 @@
           <li><strong>1xx</strong>: informativos.</li>
           <li><strong>2xx</strong>: satisfactorios. Ejemplo: <strong>200 OK</strong>.</li>
           <li><strong>3xx</strong>: redirecciones. Ejemplo: <strong>301 Moved Permanently</strong>.</li>
-          <li><strong>4xx</strong>: error del cliente. Ejemplos: <strong>400</strong>, <strong>403</strong>, <strong>404</strong>.</li>
-          <li><strong>5xx</strong>: error del servidor. Ejemplos: <strong>500</strong>, <strong>503</strong>, <strong>504</strong>.</li>
+          <li><strong>4xx</strong>: error del cliente. Ejemplos: <strong>400</strong>, <strong>403</strong>,
+            <strong>404</strong>.
+          </li>
+          <li><strong>5xx</strong>: error del servidor. Ejemplos: <strong>500</strong>, <strong>503</strong>,
+            <strong>504</strong>.
+          </li>
         </ul>
 
         <h3>8. HTTPS y TLS</h3>
         <ul>
           <li><strong>HTTPS</strong> no es un protocolo totalmente nuevo: es <strong>HTTP sobre TLS</strong>.</li>
           <li>Antes se usaba <strong>SSL</strong>; hoy se usa <strong>TLS</strong>.</li>
-          <li>HTTPS aporta <strong>autenticación</strong>, <strong>confidencialidad</strong> e <strong>integridad</strong>.</li>
+          <li>HTTPS aporta <strong>autenticación</strong>, <strong>confidencialidad</strong> e
+            <strong>integridad</strong>.
+          </li>
           <li>El puerto por defecto de HTTPS es el <strong>443</strong>.</li>
           <li><strong>TLS 1.3</strong> se publicó en <strong>2018</strong> en la <strong>RFC 8446</strong>.</li>
         </ul>
@@ -285,12 +361,14 @@
           <li><strong>Cifrado asimétrico</strong>: clave pública y clave privada. Es más seguro pero más lento.</li>
           <li>TLS usa <strong>cifrado híbrido</strong>: asimétrico para el arranque y simétrico para la sesión.</li>
           <li>La <strong>PKI</strong> permite confiar en las claves públicas.</li>
-          <li>Un <strong>certificado digital</strong> contiene la <strong>clave pública</strong> del propietario firmada por una autoridad certificadora.</li>
+          <li>Un <strong>certificado digital</strong> contiene la <strong>clave pública</strong> del propietario firmada
+            por una autoridad certificadora.</li>
           <li>La <strong>clave privada nunca se comparte</strong>.</li>
         </ul>
 
         <div class="warning-box">
-          <strong>Trampa típica:</strong> el certificado no contiene la clave privada. Si una opción dice eso, es incorrecta.
+          <strong>Trampa típica:</strong> el certificado no contiene la clave privada. Si una opción dice eso, es
+          incorrecta.
         </div>
 
         <h3>10. TLS: Handshake y registro</h3>
@@ -302,12 +380,14 @@
         <h3>11. Hosts virtuales</h3>
         <ul>
           <li>Los <strong>hosts virtuales</strong> permiten alojar varios sitios web en un mismo servidor.</li>
-          <li>Tipos: <strong>basados en IP</strong>, <strong>basados en nombres</strong> y <strong>basados en puertos</strong>.</li>
+          <li>Tipos: <strong>basados en IP</strong>, <strong>basados en nombres</strong> y <strong>basados en
+              puertos</strong>.</li>
           <li>El más común es el <strong>basado en nombres</strong>: varios dominios en una sola IP.</li>
           <li>El <strong>DNS</strong> resuelve <strong>dominio → IP</strong>.</li>
           <li>El host virtual del servidor resuelve <strong>dominio → carpeta web</strong>.</li>
           <li>En Apache, los hosts virtuales suelen configurarse en <strong>/etc/apache2/sites-available</strong>.</li>
-          <li>Para activar un sitio se usa <strong>a2ensite</strong>; para desactivarlo, <strong>a2dissite</strong>.</li>
+          <li>Para activar un sitio se usa <strong>a2ensite</strong>; para desactivarlo, <strong>a2dissite</strong>.
+          </li>
         </ul>
 
         <div class="memory-box">
@@ -319,7 +399,8 @@
           <li><strong>Dominio</strong> = nombre de la web (por ejemplo, midominio.com).</li>
           <li><strong>Hosting</strong> = servidor y espacio donde están los archivos.</li>
           <li>Normalmente se pagan por separado, aunque una misma empresa puede ofrecer ambos servicios.</li>
-          <li>Las empresas de hosting suelen ofrecer <strong>varios planes</strong> y un <strong>panel de control</strong>.</li>
+          <li>Las empresas de hosting suelen ofrecer <strong>varios planes</strong> y un <strong>panel de
+              control</strong>.</li>
         </ul>
 
         <div class="memory-box">
@@ -346,7 +427,8 @@
         <div class="pill">Host basado en nombres = el más común</div>
 
         <h3>Cuestionario autocorregible</h3>
-        <p class="mini">Selecciona una respuesta. El sistema te dirá al momento si está bien o mal y te mostrará la correcta si fallas.</p>
+        <p class="mini">Selecciona una respuesta. El sistema te dirá al momento si está bien o mal y te mostrará la
+          correcta si fallas.</p>
         <div class="quiz-controls">
           <button id="showQuizBtn">Mostrar / ocultar cuestionario</button>
           <button class="secondary" id="resetBtn">Reiniciar respuestas</button>
@@ -355,7 +437,7 @@
       </aside>
     </div>
 
-    <section class="card" id="quizSection" style="display:block; margin-top:20px;">
+    <section class="card" id="quiz" style="display:block; margin-top:20px;">
       <h2>Cuestionario UF2</h2>
       <div id="quizContainer"></div>
     </section>
@@ -648,7 +730,7 @@
     const scoreBox = document.getElementById('scoreBox');
     const resetBtn = document.getElementById('resetBtn');
     const showQuizBtn = document.getElementById('showQuizBtn');
-    const quizSection = document.getElementById('quizSection');
+    const quizSection = document.getElementById('quiz');
 
     let answered = new Array(questions.length).fill(false);
     let correctCount = 0;
@@ -728,4 +810,5 @@
     updateScore();
   </script>
 </body>
+
 </html>

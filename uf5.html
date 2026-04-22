@@ -1,161 +1,243 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>UF5 - Resumen y Test autocorregible</title>
   <style>
-    :root{
-      --bg:#f4f7fb;
-      --card:#ffffff;
-      --text:#1f2937;
-      --muted:#5b6472;
-      --accent:#1d4ed8;
-      --accent-2:#0f766e;
-      --ok:#166534;
-      --ok-bg:#dcfce7;
-      --bad:#991b1b;
-      --bad-bg:#fee2e2;
-      --border:#dbe3ef;
-      --warn:#7c2d12;
-      --warn-bg:#ffedd5;
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #5b6472;
+      --accent: #1d4ed8;
+      --accent-2: #0f766e;
+      --ok: #166534;
+      --ok-bg: #dcfce7;
+      --bad: #991b1b;
+      --bad-bg: #fee2e2;
+      --border: #dbe3ef;
+      --warn: #7c2d12;
+      --warn-bg: #ffedd5;
     }
 
-    *{box-sizing:border-box}
-    body{
-      margin:0;
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
       font-family: Arial, Helvetica, sans-serif;
-      background:var(--bg);
-      color:var(--text);
-      line-height:1.5;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
     }
-    .wrap{
-      max-width:1100px;
-      margin:0 auto;
-      padding:24px;
+
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px;
     }
-    .hero, .card{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:18px;
-      box-shadow:0 8px 24px rgba(15,23,42,.06);
+
+    .hero,
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, .06);
     }
-    .hero{
-      padding:28px;
-      margin-bottom:20px;
+
+    .hero {
+      padding: 28px;
+      margin-bottom: 20px;
     }
-    h1,h2,h3{margin-top:0;color:#0f172a}
-    h1{font-size:2rem;margin-bottom:8px}
-    h2{font-size:1.4rem;margin-bottom:14px}
-    h3{font-size:1.08rem;margin-bottom:8px}
-    p{margin:8px 0}
-    .muted{color:var(--muted)}
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-      gap:16px;
-      margin-bottom:20px;
+
+    h1,
+    h2,
+    h3 {
+      margin-top: 0;
+      color: #0f172a
     }
-    .card{padding:20px}
-    ul{padding-left:20px;margin:10px 0}
-    li{margin:6px 0}
-    table{
-      width:100%;
-      border-collapse:collapse;
-      margin-top:10px;
-      font-size:.97rem;
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 8px
     }
-    th,td{
-      border:1px solid var(--border);
-      padding:10px;
-      text-align:left;
-      vertical-align:top;
+
+    h2 {
+      font-size: 1.4rem;
+      margin-bottom: 14px
     }
-    th{background:#eef4ff}
-    .pill{
-      display:inline-block;
-      padding:6px 10px;
-      border-radius:999px;
-      background:#e0edff;
-      color:#1e40af;
-      font-weight:700;
-      font-size:.88rem;
-      margin-right:8px;
-      margin-bottom:8px;
+
+    h3 {
+      font-size: 1.08rem;
+      margin-bottom: 8px
     }
-    .question{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:18px;
-      margin-bottom:16px;
+
+    p {
+      margin: 8px 0
     }
-    .question p{margin:0 0 12px}
-    .options label{
-      display:block;
-      padding:10px 12px;
-      border:1px solid var(--border);
-      border-radius:12px;
-      margin-bottom:10px;
-      cursor:pointer;
-      background:#fafcff;
+
+    .muted {
+      color: var(--muted)
     }
-    .options label:hover{background:#f2f7ff}
-    button{
-      border:none;
-      background:var(--accent);
-      color:white;
-      padding:10px 14px;
-      border-radius:10px;
-      cursor:pointer;
-      font-weight:700;
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
     }
-    button:hover{filter:brightness(.95)}
-    .secondary{
-      background:#334155;
+
+    .card {
+      padding: 20px
     }
-    .result{
-      margin-top:12px;
-      padding:12px;
-      border-radius:12px;
-      font-weight:700;
-      display:none;
+
+    ul {
+      padding-left: 20px;
+      margin: 10px 0
     }
-    .correct{background:var(--ok-bg);color:var(--ok);border:1px solid #86efac}
-    .incorrect{background:var(--bad-bg);color:var(--bad);border:1px solid #fca5a5}
-    .tip{
-      margin-top:8px;
-      padding:10px 12px;
-      border-radius:12px;
-      background:var(--warn-bg);
-      color:var(--warn);
-      border:1px solid #fdba74;
-      font-weight:600;
+
+    li {
+      margin: 6px 0
     }
-    .topbar{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      align-items:center;
-      justify-content:space-between;
-      margin-bottom:18px;
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: .97rem;
     }
-    .score{
-      font-weight:800;
-      color:#0f172a;
-      background:#eef4ff;
-      padding:10px 12px;
-      border-radius:12px;
-      border:1px solid #bfd3ff;
+
+    th,
+    td {
+      border: 1px solid var(--border);
+      padding: 10px;
+      text-align: left;
+      vertical-align: top;
     }
-    .footer-space{height:20px}
+
+    th {
+      background: #eef4ff
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #e0edff;
+      color: #1e40af;
+      font-weight: 700;
+      font-size: .88rem;
+      margin-right: 8px;
+      margin-bottom: 8px;
+    }
+
+    .question {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+
+    .question p {
+      margin: 0 0 12px
+    }
+
+    .options label {
+      display: block;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      background: #fafcff;
+    }
+
+    .options label:hover {
+      background: #f2f7ff
+    }
+
+    button {
+      border: none;
+      background: var(--accent);
+      color: white;
+      padding: 10px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    button:hover {
+      filter: brightness(.95)
+    }
+
+    .secondary {
+      background: #334155;
+    }
+
+    .result {
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 12px;
+      font-weight: 700;
+      display: none;
+    }
+
+    .correct {
+      background: var(--ok-bg);
+      color: var(--ok);
+      border: 1px solid #86efac
+    }
+
+    .incorrect {
+      background: var(--bad-bg);
+      color: var(--bad);
+      border: 1px solid #fca5a5
+    }
+
+    .tip {
+      margin-top: 8px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: var(--warn-bg);
+      color: var(--warn);
+      border: 1px solid #fdba74;
+      font-weight: 600;
+    }
+
+    .topbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .score {
+      font-weight: 800;
+      color: #0f172a;
+      background: #eef4ff;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid #bfd3ff;
+    }
+
+    .footer-space {
+      height: 20px
+    }
   </style>
 </head>
+
 <body>
   <div class="wrap">
     <section class="hero">
       <h1>UF5 - Documentación y Control de Versiones</h1>
-      <p class="muted">Resumen corto para estudiar antes del examen y test autocorregible con preguntas claras y respuestas explicadas.</p>
+      <p class="muted">Resumen corto para estudiar antes del examen y test autocorregible con preguntas claras y
+        respuestas explicadas.</p>
       <div>
         <span class="pill">Documentación</span>
         <span class="pill">Git</span>
@@ -170,7 +252,8 @@
         <h2>1. Ideas clave de la unidad</h2>
         <ul>
           <li>La documentación debe ser <strong>clara, ordenada, útil y actualizada</strong>.</li>
-          <li>Un proyecto de software suele pasar por: <strong>requisitos → especificación → desarrollo → pruebas → despliegue → mantenimiento</strong>.</li>
+          <li>Un proyecto de software suele pasar por: <strong>requisitos → especificación → desarrollo → pruebas →
+              despliegue → mantenimiento</strong>.</li>
           <li>La documentación reduce errores, facilita el mantenimiento y ayuda al trabajo en equipo.</li>
           <li>Git es un <strong>sistema de control de versiones distribuido</strong>.</li>
           <li>Permite guardar cambios, recuperar versiones, trabajar con ramas y colaborar con otras personas.</li>
@@ -191,9 +274,11 @@
       <article class="card">
         <h2>3. CI y CD</h2>
         <ul>
-          <li><strong>CI (Integración continua)</strong>: automatiza compilación y pruebas cada vez que hay cambios.</li>
+          <li><strong>CI (Integración continua)</strong>: automatiza compilación y pruebas cada vez que hay cambios.
+          </li>
           <li><strong>CD</strong>: puede significar entrega continua o despliegue continuo, según el contexto.</li>
-          <li>La idea general es <strong>automatizar</strong> tareas repetitivas para reducir errores y acelerar el desarrollo.</li>
+          <li>La idea general es <strong>automatizar</strong> tareas repetitivas para reducir errores y acelerar el
+            desarrollo.</li>
         </ul>
       </article>
     </section>
@@ -201,27 +286,90 @@
     <section class="card" style="margin-bottom:20px;">
       <h2>4. Comandos Git que debes memorizar</h2>
       <table>
-        <tr><th>Comando</th><th>Para qué sirve</th></tr>
-        <tr><td><code>git init</code></td><td>Crea un repositorio nuevo.</td></tr>
-        <tr><td><code>git clone</code></td><td>Copia un repositorio remoto en tu equipo.</td></tr>
-        <tr><td><code>git status</code></td><td>Muestra el estado actual del repositorio.</td></tr>
-        <tr><td><code>git add</code></td><td>Pasa cambios al staging area.</td></tr>
-        <tr><td><code>git commit</code></td><td>Guarda una nueva versión de los cambios preparados.</td></tr>
-        <tr><td><code>git log</code></td><td>Muestra el historial de commits.</td></tr>
-        <tr><td><code>git diff</code></td><td>Muestra diferencias entre versiones o cambios.</td></tr>
-        <tr><td><code>git restore</code></td><td>Deshace cambios en archivos.</td></tr>
-        <tr><td><code>git reset</code></td><td>Retrocede a estados anteriores o quita cambios del staging.</td></tr>
-        <tr><td><code>git rm</code></td><td>Elimina archivos del control de versiones.</td></tr>
-        <tr><td><code>git mv</code></td><td>Mueve o renombra archivos.</td></tr>
-        <tr><td><code>git branch</code></td><td>Crea, lista o gestiona ramas.</td></tr>
-        <tr><td><code>git switch</code></td><td>Cambia de rama.</td></tr>
-        <tr><td><code>git checkout</code></td><td>Cambia de rama o restaura contenido, según uso.</td></tr>
-        <tr><td><code>git merge</code></td><td>Une cambios de una rama con otra.</td></tr>
-        <tr><td><code>git stash</code></td><td>Guarda cambios temporalmente sin hacer commit.</td></tr>
-        <tr><td><code>git tag</code></td><td>Marca versiones importantes.</td></tr>
-        <tr><td><code>git fetch</code></td><td>Descarga cambios remotos sin integrarlos.</td></tr>
-        <tr><td><code>git pull</code></td><td>Descarga e integra cambios remotos.</td></tr>
-        <tr><td><code>git push</code></td><td>Sube commits al repositorio remoto.</td></tr>
+        <tr>
+          <th>Comando</th>
+          <th>Para qué sirve</th>
+        </tr>
+        <tr>
+          <td><code>git init</code></td>
+          <td>Crea un repositorio nuevo.</td>
+        </tr>
+        <tr>
+          <td><code>git clone</code></td>
+          <td>Copia un repositorio remoto en tu equipo.</td>
+        </tr>
+        <tr>
+          <td><code>git status</code></td>
+          <td>Muestra el estado actual del repositorio.</td>
+        </tr>
+        <tr>
+          <td><code>git add</code></td>
+          <td>Pasa cambios al staging area.</td>
+        </tr>
+        <tr>
+          <td><code>git commit</code></td>
+          <td>Guarda una nueva versión de los cambios preparados.</td>
+        </tr>
+        <tr>
+          <td><code>git log</code></td>
+          <td>Muestra el historial de commits.</td>
+        </tr>
+        <tr>
+          <td><code>git diff</code></td>
+          <td>Muestra diferencias entre versiones o cambios.</td>
+        </tr>
+        <tr>
+          <td><code>git restore</code></td>
+          <td>Deshace cambios en archivos.</td>
+        </tr>
+        <tr>
+          <td><code>git reset</code></td>
+          <td>Retrocede a estados anteriores o quita cambios del staging.</td>
+        </tr>
+        <tr>
+          <td><code>git rm</code></td>
+          <td>Elimina archivos del control de versiones.</td>
+        </tr>
+        <tr>
+          <td><code>git mv</code></td>
+          <td>Mueve o renombra archivos.</td>
+        </tr>
+        <tr>
+          <td><code>git branch</code></td>
+          <td>Crea, lista o gestiona ramas.</td>
+        </tr>
+        <tr>
+          <td><code>git switch</code></td>
+          <td>Cambia de rama.</td>
+        </tr>
+        <tr>
+          <td><code>git checkout</code></td>
+          <td>Cambia de rama o restaura contenido, según uso.</td>
+        </tr>
+        <tr>
+          <td><code>git merge</code></td>
+          <td>Une cambios de una rama con otra.</td>
+        </tr>
+        <tr>
+          <td><code>git stash</code></td>
+          <td>Guarda cambios temporalmente sin hacer commit.</td>
+        </tr>
+        <tr>
+          <td><code>git tag</code></td>
+          <td>Marca versiones importantes.</td>
+        </tr>
+        <tr>
+          <td><code>git fetch</code></td>
+          <td>Descarga cambios remotos sin integrarlos.</td>
+        </tr>
+        <tr>
+          <td><code>git pull</code></td>
+          <td>Descarga e integra cambios remotos.</td>
+        </tr>
+        <tr>
+          <td><code>git push</code></td>
+          <td>Sube commits al repositorio remoto.</td>
+        </tr>
       </table>
     </section>
 
@@ -234,7 +382,8 @@
         <li><strong>git pull</strong> descarga e integra.</li>
         <li><strong>HEAD</strong> suele referirse al último commit de la rama actual.</li>
         <li>Las <strong>ramas</strong> sirven para trabajar en paralelo.</li>
-        <li><strong>MediaWiki</strong> es un sistema tipo wiki, no una herramienta de manuales man ni una etiqueta de Javadoc.</li>
+        <li><strong>MediaWiki</strong> es un sistema tipo wiki, no una herramienta de manuales man ni una etiqueta de
+          Javadoc.</li>
         <li>En páginas man, la sección <strong>1</strong> es la de comandos de usuario.</li>
       </ul>
     </section>
@@ -244,7 +393,8 @@
         <h2 style="margin:0;">6. Cuestionario autocorregible</h2>
         <div class="score" id="scoreBox">Aciertos: 0 / 25</div>
       </div>
-      <p class="muted">Pulsa <strong>Comprobar</strong> en cada pregunta. Si fallas, verás la opción correcta y una explicación breve.</p>
+      <p class="muted">Pulsa <strong>Comprobar</strong> en cada pregunta. Si fallas, verás la opción correcta y una
+        explicación breve.</p>
       <div id="quiz"></div>
       <button class="secondary" onclick="resetQuiz()">Reiniciar cuestionario</button>
     </section>
@@ -493,7 +643,7 @@
     const quizDiv = document.getElementById('quiz');
     let answeredCorrectly = new Array(questions.length).fill(false);
 
-    function renderQuiz(){
+    function renderQuiz() {
       quizDiv.innerHTML = '';
       questions.forEach((q, i) => {
         const div = document.createElement('div');
@@ -509,7 +659,7 @@
       updateScore();
     }
 
-    function check(i){
+    function check(i) {
       const radios = document.getElementsByName('q' + i);
       const res = document.getElementById('res' + i);
       let selected = -1;
@@ -536,18 +686,19 @@
       updateScore();
     }
 
-    function updateScore(){
+    function updateScore() {
       const ok = answeredCorrectly.filter(Boolean).length;
       document.getElementById('scoreBox').textContent = `Aciertos: ${ok} / ${questions.length}`;
     }
 
-    function resetQuiz(){
+    function resetQuiz() {
       answeredCorrectly = new Array(questions.length).fill(false);
       renderQuiz();
-      window.scrollTo({top:0, behavior:'smooth'});
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     renderQuiz();
   </script>
 </body>
+
 </html>

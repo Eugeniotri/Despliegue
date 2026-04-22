@@ -1,184 +1,248 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>UF4 - Resumen y Cuestionario</title>
   <style>
-    :root{
-      --bg:#f5f7fb;
-      --card:#ffffff;
-      --text:#1f2937;
-      --muted:#6b7280;
-      --accent:#2563eb;
-      --ok:#166534;
-      --okbg:#dcfce7;
-      --bad:#991b1b;
-      --badbg:#fee2e2;
-      --border:#dbe3f0;
-      --warn:#7c2d12;
-      --warnbg:#ffedd5;
+    :root {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --accent: #2563eb;
+      --ok: #166534;
+      --okbg: #dcfce7;
+      --bad: #991b1b;
+      --badbg: #fee2e2;
+      --border: #dbe3f0;
+      --warn: #7c2d12;
+      --warnbg: #ffedd5;
     }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:Arial, Helvetica, sans-serif;
-      background:var(--bg);
-      color:var(--text);
-      line-height:1.55;
+
+    * {
+      box-sizing: border-box
     }
-    .wrap{
-      max-width:1100px;
-      margin:0 auto;
-      padding:24px;
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
     }
-    header{
-      background:linear-gradient(135deg,#1d4ed8,#2563eb,#60a5fa);
-      color:#fff;
-      border-radius:18px;
-      padding:28px;
-      box-shadow:0 10px 30px rgba(37,99,235,.18);
-      margin-bottom:22px;
+
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px;
     }
-    h1,h2,h3{margin-top:0}
-    .subtitle{opacity:.95;font-size:1.05rem}
-    .grid{
-      display:grid;
-      grid-template-columns:1fr;
-      gap:18px;
+
+    header {
+      background: linear-gradient(135deg, #1d4ed8, #2563eb, #60a5fa);
+      color: #fff;
+      border-radius: 18px;
+      padding: 28px;
+      box-shadow: 0 10px 30px rgba(37, 99, 235, .18);
+      margin-bottom: 22px;
     }
-    .card{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:22px;
-      box-shadow:0 4px 14px rgba(15,23,42,.05);
+
+    h1,
+    h2,
+    h3 {
+      margin-top: 0
     }
-    .pill{
-      display:inline-block;
-      padding:6px 10px;
-      border-radius:999px;
-      background:#e0ecff;
-      color:#1d4ed8;
-      font-weight:700;
-      font-size:.85rem;
-      margin-bottom:10px;
+
+    .subtitle {
+      opacity: .95;
+      font-size: 1.05rem
     }
-    ul{margin-top:8px}
-    li{margin-bottom:6px}
-    .memory{
-      background:var(--warnbg);
-      border-left:5px solid #fb923c;
-      padding:12px 14px;
-      border-radius:10px;
-      color:var(--warn);
-      margin-top:12px;
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
     }
-    .danger{
-      background:#fff1f2;
-      border-left:5px solid #f43f5e;
-      padding:12px 14px;
-      border-radius:10px;
-      color:#9f1239;
-      margin-top:12px;
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, .05);
     }
-    .question{
-      border:1px solid var(--border);
-      border-radius:14px;
-      padding:18px;
-      margin-bottom:16px;
-      background:#fcfdff;
+
+    .pill {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #e0ecff;
+      color: #1d4ed8;
+      font-weight: 700;
+      font-size: .85rem;
+      margin-bottom: 10px;
     }
-    .question h3{
-      font-size:1.05rem;
-      margin-bottom:12px;
+
+    ul {
+      margin-top: 8px
     }
-    .option{
-      display:block;
-      margin:8px 0;
-      padding:10px 12px;
-      border:1px solid var(--border);
-      border-radius:10px;
-      cursor:pointer;
-      transition:.15s ease;
-      background:#fff;
+
+    li {
+      margin-bottom: 6px
     }
-    .option:hover{border-color:#9bb8ff;background:#f8fbff}
-    .option input{margin-right:8px}
-    button{
-      border:none;
-      background:var(--accent);
-      color:#fff;
-      padding:12px 18px;
-      border-radius:12px;
-      cursor:pointer;
-      font-weight:700;
-      font-size:1rem;
+
+    .memory {
+      background: var(--warnbg);
+      border-left: 5px solid #fb923c;
+      padding: 12px 14px;
+      border-radius: 10px;
+      color: var(--warn);
+      margin-top: 12px;
     }
-    button:hover{filter:brightness(1.05)}
-    .small-btn{
-      padding:10px 14px;
-      font-size:.95rem;
-      margin-top:8px;
+
+    .danger {
+      background: #fff1f2;
+      border-left: 5px solid #f43f5e;
+      padding: 12px 14px;
+      border-radius: 10px;
+      color: #9f1239;
+      margin-top: 12px;
     }
-    .feedback{
-      margin-top:12px;
-      padding:12px 14px;
-      border-radius:12px;
-      display:none;
-      font-weight:700;
+
+    .question {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 16px;
+      background: #fcfdff;
     }
-    .feedback.ok{
-      display:block;
-      background:var(--okbg);
-      color:var(--ok);
-      border:1px solid #86efac;
+
+    .question h3 {
+      font-size: 1.05rem;
+      margin-bottom: 12px;
     }
-    .feedback.bad{
-      display:block;
-      background:var(--badbg);
-      color:var(--bad);
-      border:1px solid #fca5a5;
+
+    .option {
+      display: block;
+      margin: 8px 0;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: .15s ease;
+      background: #fff;
     }
-    .correct-answer{
-      font-weight:600;
-      margin-top:6px;
+
+    .option:hover {
+      border-color: #9bb8ff;
+      background: #f8fbff
     }
-    .score{
-      position:sticky;
-      top:10px;
-      z-index:5;
-      background:#111827;
-      color:#fff;
-      padding:14px 18px;
-      border-radius:14px;
-      margin-bottom:18px;
-      display:flex;
-      justify-content:space-between;
-      gap:14px;
-      align-items:center;
-      flex-wrap:wrap;
+
+    .option input {
+      margin-right: 8px
     }
-    .muted{color:var(--muted)}
-    code{
-      background:#eef2ff;
-      padding:2px 6px;
-      border-radius:6px;
-      color:#3730a3;
-      font-size:.95em;
+
+    button {
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 1rem;
     }
-    @media (max-width:700px){
-      .wrap{padding:14px}
-      header,.card,.question{padding:16px}
-      .score{position:static}
+
+    button:hover {
+      filter: brightness(1.05)
+    }
+
+    .small-btn {
+      padding: 10px 14px;
+      font-size: .95rem;
+      margin-top: 8px;
+    }
+
+    .feedback {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      display: none;
+      font-weight: 700;
+    }
+
+    .feedback.ok {
+      display: block;
+      background: var(--okbg);
+      color: var(--ok);
+      border: 1px solid #86efac;
+    }
+
+    .feedback.bad {
+      display: block;
+      background: var(--badbg);
+      color: var(--bad);
+      border: 1px solid #fca5a5;
+    }
+
+    .correct-answer {
+      font-weight: 600;
+      margin-top: 6px;
+    }
+
+    .score {
+      position: sticky;
+      top: 10px;
+      z-index: 5;
+      background: #111827;
+      color: #fff;
+      padding: 14px 18px;
+      border-radius: 14px;
+      margin-bottom: 18px;
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .muted {
+      color: var(--muted)
+    }
+
+    code {
+      background: #eef2ff;
+      padding: 2px 6px;
+      border-radius: 6px;
+      color: #3730a3;
+      font-size: .95em;
+    }
+
+    @media (max-width:700px) {
+      .wrap {
+        padding: 14px
+      }
+
+      header,
+      .card,
+      .question {
+        padding: 16px
+      }
+
+      .score {
+        position: static
+      }
     }
   </style>
 </head>
+
 <body>
   <div class="wrap">
     <header>
       <h1>UF4 - Transferencia de archivos</h1>
-      <p class="subtitle">Resumen rápido para repasar antes del examen + cuestionario autocorregible con respuesta inmediata.</p>
+      <p class="subtitle">Resumen rápido para repasar antes del examen + cuestionario autocorregible con respuesta
+        inmediata.</p>
     </header>
 
     <div class="score">
@@ -194,11 +258,14 @@
         <h2>1. Idea general de la unidad</h2>
         <ul>
           <li>La transferencia de archivos en red normalmente sigue el modelo <strong>cliente-servidor</strong>.</li>
-          <li>Elementos básicos: <strong>cliente, servidor, protocolo de transferencia y sistema de archivos</strong>.</li>
+          <li>Elementos básicos: <strong>cliente, servidor, protocolo de transferencia y sistema de archivos</strong>.
+          </li>
           <li>Protocolos importantes: <strong>FTP, FTPS, SFTP, TFTP, NFS, WebDAV, SMB/CIFS, Samba, rsync</strong>.</li>
-          <li>Se pueden montar directorios remotos como si fueran locales; esto hace la transferencia más transparente para el usuario.</li>
+          <li>Se pueden montar directorios remotos como si fueran locales; esto hace la transferencia más transparente
+            para el usuario.</li>
         </ul>
-        <div class="memory"><strong>Memoriza:</strong> cliente-servidor + nombre de los protocolos más importantes + que Samba es una implementación libre de SMB/CIFS.</div>
+        <div class="memory"><strong>Memoriza:</strong> cliente-servidor + nombre de los protocolos más importantes + que
+          Samba es una implementación libre de SMB/CIFS.</div>
       </div>
 
       <div class="card">
@@ -218,18 +285,22 @@
             <li><strong>Binario</strong> → para todo lo que no sea texto (imágenes, pdf, zip...).</li>
           </ul>
         </ul>
-        <div class="danger"><strong>Trampa clásica:</strong> FTP no usa un solo canal, usa dos. Y SFTP no es lo mismo que FTPS.</div>
+        <div class="danger"><strong>Trampa clásica:</strong> FTP no usa un solo canal, usa dos. Y SFTP no es lo mismo
+          que FTPS.</div>
       </div>
 
       <div class="card">
         <div class="pill">Activo / Pasivo</div>
         <h2>3. Modos de conexión FTP</h2>
         <ul>
-          <li><strong>Modo activo</strong>: el cliente inicia la conexión de control, pero el <strong>servidor inicia la conexión de datos</strong> hacia el cliente.</li>
-          <li><strong>Modo pasivo</strong>: el <strong>cliente inicia tanto la conexión de control como la de datos</strong>.</li>
+          <li><strong>Modo activo</strong>: el cliente inicia la conexión de control, pero el <strong>servidor inicia la
+              conexión de datos</strong> hacia el cliente.</li>
+          <li><strong>Modo pasivo</strong>: el <strong>cliente inicia tanto la conexión de control como la de
+              datos</strong>.</li>
           <li>El modo pasivo evita problemas con cortafuegos del cliente, por eso es el más usado.</li>
         </ul>
-        <div class="memory"><strong>Memoriza:</strong> activo = servidor inicia datos. Pasivo = cliente inicia todo.</div>
+        <div class="memory"><strong>Memoriza:</strong> activo = servidor inicia datos. Pasivo = cliente inicia todo.
+        </div>
       </div>
 
       <div class="card">
@@ -242,7 +313,8 @@
           <li><strong>4xx</strong> → error temporal</li>
           <li><strong>5xx</strong> → error permanente</li>
         </ul>
-        <p><strong>Ejemplos típicos:</strong> 220 servidor preparado, 230 login correcto, 331 pide contraseña, 530 autenticación incorrecta, 550 archivo inaccesible.</p>
+        <p><strong>Ejemplos típicos:</strong> 220 servidor preparado, 230 login correcto, 331 pide contraseña, 530
+          autenticación incorrecta, 550 archivo inaccesible.</p>
       </div>
 
       <div class="card">
@@ -253,7 +325,8 @@
           <li><strong>Autorizado</strong>: requiere usuario y contraseña. Permisos por usuario.</li>
           <li>Clientes FTP:</li>
           <ul>
-            <li>Modo comando → usa comandos como <code>get</code>, <code>put</code>, <code>cd</code>, <code>lcd</code>.</li>
+            <li>Modo comando → usa comandos como <code>get</code>, <code>put</code>, <code>cd</code>, <code>lcd</code>.
+            </li>
             <li>Modo gráfico → más cómodo, por ejemplo <strong>FileZilla</strong>.</li>
             <li>Explorador de archivos → solución intermedia.</li>
           </ul>
@@ -270,7 +343,8 @@
           <li><strong>SFTP usa 1 solo canal</strong> y normalmente trabaja por el puerto <strong>22/TCP</strong>.</li>
           <li>En SFTP la autenticación y el cifrado los aporta el canal seguro (normalmente SSH).</li>
         </ul>
-        <div class="danger"><strong>No confundas:</strong> FTPS ≠ SFTP. FTP seguro con TLS es FTPS. Protocolo distinto sobre SSH es SFTP.</div>
+        <div class="danger"><strong>No confundas:</strong> FTPS ≠ SFTP. FTP seguro con TLS es FTPS. Protocolo distinto
+          sobre SSH es SFTP.</div>
       </div>
 
       <div class="card">
@@ -279,12 +353,14 @@
         <ul>
           <li><strong>OpenSSH</strong> es una implementación muy usada de SSH.</li>
           <li>Incluye servidor y cliente SSH, además de <strong>SFTP</strong> y <strong>SCP</strong>.</li>
-          <li><strong>SCP</strong> permite copiar archivos entre cliente-servidor e incluso entre dos servidores remotos.</li>
+          <li><strong>SCP</strong> permite copiar archivos entre cliente-servidor e incluso entre dos servidores
+            remotos.</li>
           <li><strong>SSHFS</strong> permite montar un sistema de archivos remoto como si fuera local.</li>
           <li>SSHFS se basa en <strong>SFTP + FUSE</strong>.</li>
           <li><strong>ChrootDirectory</strong> en OpenSSH se usa para “enjaular” al usuario.</li>
         </ul>
-        <div class="memory"><strong>Muy importante:</strong> SSHFS = remoto como local. SCP = copiar con SSH. SFTP = gestionar archivos remotos de forma segura.</div>
+        <div class="memory"><strong>Muy importante:</strong> SSHFS = remoto como local. SCP = copiar con SSH. SFTP =
+          gestionar archivos remotos de forma segura.</div>
       </div>
 
       <div class="card">
@@ -307,7 +383,8 @@
       <div class="card">
         <div class="pill">Cuestionario autocorregible</div>
         <h2>Test de práctica</h2>
-        <p class="muted">Marca una respuesta y pulsa <strong>Comprobar</strong>. Te dirá al instante si está bien y, si fallas, te mostrará la correcta.</p>
+        <p class="muted">Marca una respuesta y pulsa <strong>Comprobar</strong>. Te dirá al instante si está bien y, si
+          fallas, te mostrará la correcta.</p>
         <div id="quiz"></div>
       </div>
     </section>
@@ -471,7 +548,7 @@
     let correct = 0;
     let wrong = 0;
 
-    function renderQuiz(){
+    function renderQuiz() {
       const quiz = document.getElementById('quiz');
       document.getElementById('totalQuestions').textContent = questions.length;
       quiz.innerHTML = questions.map((item, idx) => `
@@ -480,7 +557,7 @@
           ${item.options.map((opt, i) => `
             <label class="option">
               <input type="radio" name="question${idx}" value="${i}">
-              <strong>${String.fromCharCode(97+i)}.</strong> ${opt}
+              <strong>${String.fromCharCode(97 + i)}.</strong> ${opt}
             </label>
           `).join('')}
           <button class="small-btn" onclick="checkAnswer(${idx})">Comprobar</button>
@@ -490,14 +567,14 @@
       updateScore();
     }
 
-    function checkAnswer(idx){
+    function checkAnswer(idx) {
       const questionBlock = document.getElementById(`q${idx}`);
-      if(questionBlock.dataset.done === 'true') return;
+      if (questionBlock.dataset.done === 'true') return;
 
       const selected = document.querySelector(`input[name="question${idx}"]:checked`);
       const feedback = document.getElementById(`feedback${idx}`);
 
-      if(!selected){
+      if (!selected) {
         feedback.className = 'feedback bad';
         feedback.innerHTML = 'Selecciona una opción antes de comprobar.';
         return;
@@ -508,14 +585,14 @@
       answered++;
       questionBlock.dataset.done = 'true';
 
-      if(selectedValue === item.answer){
+      if (selectedValue === item.answer) {
         correct++;
         feedback.className = 'feedback ok';
         feedback.innerHTML = `✅ Correcto.<div class="correct-answer">${item.explanation}</div>`;
       } else {
         wrong++;
         feedback.className = 'feedback bad';
-        feedback.innerHTML = `❌ Incorrecto. La respuesta correcta es <strong>${String.fromCharCode(97+item.answer)}. ${item.options[item.answer]}</strong>.<div class="correct-answer">${item.explanation}</div>`;
+        feedback.innerHTML = `❌ Incorrecto. La respuesta correcta es <strong>${String.fromCharCode(97 + item.answer)}. ${item.options[item.answer]}</strong>.<div class="correct-answer">${item.explanation}</div>`;
       }
 
       const inputs = questionBlock.querySelectorAll('input');
@@ -525,21 +602,22 @@
       updateScore();
     }
 
-    function updateScore(){
+    function updateScore() {
       document.getElementById('answered').textContent = answered;
       document.getElementById('correctCount').textContent = correct;
       document.getElementById('wrongCount').textContent = wrong;
     }
 
-    function resetQuiz(){
+    function resetQuiz() {
       answered = 0;
       correct = 0;
       wrong = 0;
       renderQuiz();
-      window.scrollTo({top:0, behavior:'smooth'});
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     renderQuiz();
   </script>
 </body>
+
 </html>

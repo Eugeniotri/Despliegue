@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,7 +18,11 @@
       --warn: #f59e0b;
       --border: #2b3a63;
     }
-    * { box-sizing: border-box; }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
@@ -25,28 +30,42 @@
       color: var(--text);
       line-height: 1.5;
     }
+
     .wrap {
       max-width: 1100px;
       margin: 0 auto;
       padding: 18px;
     }
+
     .card {
       background: rgba(18, 26, 43, 0.96);
       border: 1px solid var(--border);
       border-radius: 18px;
       padding: 18px;
       margin-bottom: 18px;
-      box-shadow: 0 10px 25px rgba(0,0,0,.25);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, .25);
     }
-    h1, h2, h3 { margin-top: 0; }
-    p, li { color: var(--muted); }
+
+    h1,
+    h2,
+    h3 {
+      margin-top: 0;
+    }
+
+    p,
+    li {
+      color: var(--muted);
+    }
+
     .tabs {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
       margin-bottom: 14px;
     }
-    .tab-btn, button {
+
+    .tab-btn,
+    button {
       border: 1px solid var(--border);
       background: var(--panel2);
       color: var(--text);
@@ -55,14 +74,26 @@
       cursor: pointer;
       font-weight: 700;
     }
-    .tab-btn.active, .primary {
+
+    .tab-btn.active,
+    .primary {
       background: var(--accent);
       color: #081226;
       border-color: transparent;
     }
-    .danger { background: #3b1215; }
-    .tab-content { display: none; }
-    .tab-content.active { display: block; }
+
+    .danger {
+      background: #3b1215;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
@@ -70,13 +101,19 @@
       overflow: hidden;
       border-radius: 12px;
     }
-    th, td {
+
+    th,
+    td {
       border: 1px solid var(--border);
       padding: 10px;
       text-align: left;
       vertical-align: top;
     }
-    th { background: #0b1326; }
+
+    th {
+      background: #0b1326;
+    }
+
     code {
       background: #09101f;
       padding: 2px 6px;
@@ -84,10 +121,12 @@
       color: #cfe2ff;
       word-break: break-word;
     }
+
     .quiz-box {
       display: grid;
       gap: 14px;
     }
+
     .pill {
       display: inline-block;
       padding: 6px 10px;
@@ -100,11 +139,13 @@
       color: var(--text);
       background: #0d1528;
     }
+
     .question {
       font-size: 1.08rem;
       font-weight: 700;
       color: var(--text);
     }
+
     .context {
       background: #0b1326;
       border: 1px solid var(--border);
@@ -112,11 +153,13 @@
       padding: 12px;
       color: var(--muted);
     }
+
     .options {
       display: grid;
       gap: 10px;
       margin-top: 10px;
     }
+
     .option {
       width: 100%;
       text-align: left;
@@ -125,21 +168,62 @@
       background: #121d34;
       color: var(--text);
     }
-    .option:hover:not(:disabled) { background: #1b2b4b; }
-    .option:disabled { opacity: .92; cursor: default; }
-    .option.correct { border-color: var(--ok); background: rgba(34,197,94,.14); }
-    .option.wrong { border-color: var(--bad); background: rgba(239,68,68,.14); }
+
+    .option:hover:not(:disabled) {
+      background: #1b2b4b;
+    }
+
+    .option:disabled {
+      opacity: .92;
+      cursor: default;
+    }
+
+    .option.correct {
+      border-color: var(--ok);
+      background: rgba(34, 197, 94, .14);
+    }
+
+    .option.wrong {
+      border-color: var(--bad);
+      background: rgba(239, 68, 68, .14);
+    }
+
     .feedback {
       padding: 12px;
       border-radius: 12px;
       margin-top: 10px;
       font-weight: 700;
     }
-    .feedback.ok { background: rgba(34,197,94,.15); border: 1px solid var(--ok); }
-    .feedback.bad { background: rgba(239,68,68,.15); border: 1px solid var(--bad); }
-    .controls { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
-    .stats { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
-    .small { font-size: .95rem; color: var(--muted); }
+
+    .feedback.ok {
+      background: rgba(34, 197, 94, .15);
+      border: 1px solid var(--ok);
+    }
+
+    .feedback.bad {
+      background: rgba(239, 68, 68, .15);
+      border: 1px solid var(--bad);
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .small {
+      font-size: .95rem;
+      color: var(--muted);
+    }
+
     .summary {
       background: #0b1326;
       border: 1px solid var(--border);
@@ -147,19 +231,35 @@
       padding: 14px;
       margin-top: 14px;
     }
-    .hidden { display: none; }
+
+    .hidden {
+      display: none;
+    }
+
     @media (max-width: 720px) {
-      .wrap { padding: 12px; }
-      th, td { font-size: .92rem; }
-      .question { font-size: 1rem; }
+      .wrap {
+        padding: 12px;
+      }
+
+      th,
+      td {
+        font-size: .92rem;
+      }
+
+      .question {
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
+
 <body>
   <div class="wrap">
     <section class="card">
       <h1>Chuleta de terminal y Git + cuestionario</h1>
-      <p>Esta versión corrige el planteamiento del test: las preguntas son <strong>generales</strong> o incluyen un <strong>caso explicado</strong> antes de preguntar. Así puedes estudiar de verdad y no solo memorizar un ejercicio concreto.</p>
+      <p>Esta versión corrige el planteamiento del test: las preguntas son <strong>generales</strong> o incluyen un
+        <strong>caso explicado</strong> antes de preguntar. Así puedes estudiar de verdad y no solo memorizar un
+        ejercicio concreto.</p>
       <div class="tabs">
         <button class="tab-btn active" data-tab="cmd">CMD</button>
         <button class="tab-btn" data-tab="powershell">PowerShell</button>
@@ -169,69 +269,241 @@
 
       <div id="cmd" class="tab-content active">
         <table>
-          <thead><tr><th>Comando</th><th>Qué hace</th><th>Ejemplo</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Comando</th>
+              <th>Qué hace</th>
+              <th>Ejemplo</th>
+            </tr>
+          </thead>
           <tbody>
-            <tr><td><code>mkdir nombre</code></td><td>Crea una carpeta</td><td><code>mkdir apuntes</code></td></tr>
-            <tr><td><code>cd nombre</code></td><td>Entra en una carpeta</td><td><code>cd apuntes</code></td></tr>
-            <tr><td><code>cd ..</code></td><td>Sube una carpeta</td><td><code>cd ..</code></td></tr>
-            <tr><td><code>type nul &gt; archivo.txt</code></td><td>Crea un archivo vacío</td><td><code>type nul &gt; tema1.txt</code></td></tr>
-            <tr><td><code>copy origen destino</code></td><td>Copia un archivo</td><td><code>copy tema1.txt copia\</code></td></tr>
-            <tr><td><code>move origen destino</code></td><td>Mueve un archivo</td><td><code>move examen.txt teoria\</code></td></tr>
-            <tr><td><code>del archivo</code></td><td>Elimina un archivo</td><td><code>del borrador.txt</code></td></tr>
-            <tr><td><code>dir</code></td><td>Lista archivos y carpetas</td><td><code>dir</code></td></tr>
+            <tr>
+              <td><code>mkdir nombre</code></td>
+              <td>Crea una carpeta</td>
+              <td><code>mkdir apuntes</code></td>
+            </tr>
+            <tr>
+              <td><code>cd nombre</code></td>
+              <td>Entra en una carpeta</td>
+              <td><code>cd apuntes</code></td>
+            </tr>
+            <tr>
+              <td><code>cd ..</code></td>
+              <td>Sube una carpeta</td>
+              <td><code>cd ..</code></td>
+            </tr>
+            <tr>
+              <td><code>type nul &gt; archivo.txt</code></td>
+              <td>Crea un archivo vacío</td>
+              <td><code>type nul &gt; tema1.txt</code></td>
+            </tr>
+            <tr>
+              <td><code>copy origen destino</code></td>
+              <td>Copia un archivo</td>
+              <td><code>copy tema1.txt copia\</code></td>
+            </tr>
+            <tr>
+              <td><code>move origen destino</code></td>
+              <td>Mueve un archivo</td>
+              <td><code>move examen.txt teoria\</code></td>
+            </tr>
+            <tr>
+              <td><code>del archivo</code></td>
+              <td>Elimina un archivo</td>
+              <td><code>del borrador.txt</code></td>
+            </tr>
+            <tr>
+              <td><code>dir</code></td>
+              <td>Lista archivos y carpetas</td>
+              <td><code>dir</code></td>
+            </tr>
           </tbody>
         </table>
       </div>
 
       <div id="powershell" class="tab-content">
         <table>
-          <thead><tr><th>Comando</th><th>Qué hace</th><th>Ejemplo</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Comando</th>
+              <th>Qué hace</th>
+              <th>Ejemplo</th>
+            </tr>
+          </thead>
           <tbody>
-            <tr><td><code>mkdir nombre</code></td><td>Crea una carpeta</td><td><code>mkdir apuntes</code></td></tr>
-            <tr><td><code>cd nombre</code></td><td>Entra en una carpeta</td><td><code>cd apuntes</code></td></tr>
-            <tr><td><code>cd ..</code></td><td>Sube una carpeta</td><td><code>cd ..</code></td></tr>
-            <tr><td><code>New-Item ruta -ItemType File</code></td><td>Crea un archivo</td><td><code>New-Item .\tema1.txt -ItemType File</code></td></tr>
-            <tr><td><code>Copy-Item origen destino</code></td><td>Copia un archivo</td><td><code>Copy-Item tema1.txt .\copia\</code></td></tr>
-            <tr><td><code>Move-Item origen destino</code></td><td>Mueve un archivo</td><td><code>Move-Item examen.txt .\teoria\</code></td></tr>
-            <tr><td><code>Remove-Item archivo</code></td><td>Elimina un archivo</td><td><code>Remove-Item borrador.txt</code></td></tr>
-            <tr><td><code>Get-ChildItem</code></td><td>Lista contenido</td><td><code>Get-ChildItem</code></td></tr>
+            <tr>
+              <td><code>mkdir nombre</code></td>
+              <td>Crea una carpeta</td>
+              <td><code>mkdir apuntes</code></td>
+            </tr>
+            <tr>
+              <td><code>cd nombre</code></td>
+              <td>Entra en una carpeta</td>
+              <td><code>cd apuntes</code></td>
+            </tr>
+            <tr>
+              <td><code>cd ..</code></td>
+              <td>Sube una carpeta</td>
+              <td><code>cd ..</code></td>
+            </tr>
+            <tr>
+              <td><code>New-Item ruta -ItemType File</code></td>
+              <td>Crea un archivo</td>
+              <td><code>New-Item .\tema1.txt -ItemType File</code></td>
+            </tr>
+            <tr>
+              <td><code>Copy-Item origen destino</code></td>
+              <td>Copia un archivo</td>
+              <td><code>Copy-Item tema1.txt .\copia\</code></td>
+            </tr>
+            <tr>
+              <td><code>Move-Item origen destino</code></td>
+              <td>Mueve un archivo</td>
+              <td><code>Move-Item examen.txt .\teoria\</code></td>
+            </tr>
+            <tr>
+              <td><code>Remove-Item archivo</code></td>
+              <td>Elimina un archivo</td>
+              <td><code>Remove-Item borrador.txt</code></td>
+            </tr>
+            <tr>
+              <td><code>Get-ChildItem</code></td>
+              <td>Lista contenido</td>
+              <td><code>Get-ChildItem</code></td>
+            </tr>
           </tbody>
         </table>
       </div>
 
       <div id="mac" class="tab-content">
         <table>
-          <thead><tr><th>Comando</th><th>Qué hace</th><th>Ejemplo</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Comando</th>
+              <th>Qué hace</th>
+              <th>Ejemplo</th>
+            </tr>
+          </thead>
           <tbody>
-            <tr><td><code>mkdir nombre</code></td><td>Crea una carpeta</td><td><code>mkdir apuntes</code></td></tr>
-            <tr><td><code>cd nombre</code></td><td>Entra en una carpeta</td><td><code>cd apuntes</code></td></tr>
-            <tr><td><code>cd ..</code></td><td>Sube una carpeta</td><td><code>cd ..</code></td></tr>
-            <tr><td><code>touch archivo.txt</code></td><td>Crea un archivo vacío</td><td><code>touch tema1.txt</code></td></tr>
-            <tr><td><code>cp origen destino</code></td><td>Copia un archivo</td><td><code>cp tema1.txt copia/</code></td></tr>
-            <tr><td><code>mv origen destino</code></td><td>Mueve o renombra</td><td><code>mv examen.txt teoria/</code></td></tr>
-            <tr><td><code>rm archivo</code></td><td>Elimina un archivo</td><td><code>rm borrador.txt</code></td></tr>
-            <tr><td><code>ls</code></td><td>Lista contenido</td><td><code>ls</code></td></tr>
+            <tr>
+              <td><code>mkdir nombre</code></td>
+              <td>Crea una carpeta</td>
+              <td><code>mkdir apuntes</code></td>
+            </tr>
+            <tr>
+              <td><code>cd nombre</code></td>
+              <td>Entra en una carpeta</td>
+              <td><code>cd apuntes</code></td>
+            </tr>
+            <tr>
+              <td><code>cd ..</code></td>
+              <td>Sube una carpeta</td>
+              <td><code>cd ..</code></td>
+            </tr>
+            <tr>
+              <td><code>touch archivo.txt</code></td>
+              <td>Crea un archivo vacío</td>
+              <td><code>touch tema1.txt</code></td>
+            </tr>
+            <tr>
+              <td><code>cp origen destino</code></td>
+              <td>Copia un archivo</td>
+              <td><code>cp tema1.txt copia/</code></td>
+            </tr>
+            <tr>
+              <td><code>mv origen destino</code></td>
+              <td>Mueve o renombra</td>
+              <td><code>mv examen.txt teoria/</code></td>
+            </tr>
+            <tr>
+              <td><code>rm archivo</code></td>
+              <td>Elimina un archivo</td>
+              <td><code>rm borrador.txt</code></td>
+            </tr>
+            <tr>
+              <td><code>ls</code></td>
+              <td>Lista contenido</td>
+              <td><code>ls</code></td>
+            </tr>
           </tbody>
         </table>
       </div>
 
       <div id="git" class="tab-content">
         <table>
-          <thead><tr><th>Comando</th><th>Qué hace</th><th>Ejemplo</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Comando</th>
+              <th>Qué hace</th>
+              <th>Ejemplo</th>
+            </tr>
+          </thead>
           <tbody>
-            <tr><td><code>git init</code></td><td>Inicia un repositorio Git</td><td><code>git init</code></td></tr>
-            <tr><td><code>git status</code></td><td>Muestra el estado del repositorio</td><td><code>git status</code></td></tr>
-            <tr><td><code>git add .</code></td><td>Añade todos los cambios al staging</td><td><code>git add .</code></td></tr>
-            <tr><td><code>git add archivo</code></td><td>Añade un archivo concreto</td><td><code>git add README.md</code></td></tr>
-            <tr><td><code>git commit -m "mensaje"</code></td><td>Guarda una versión en el historial</td><td><code>git commit -m "primer commit"</code></td></tr>
-            <tr><td><code>git log --oneline</code></td><td>Muestra historial resumido</td><td><code>git log --oneline</code></td></tr>
-            <tr><td><code>git branch</code></td><td>Lista ramas</td><td><code>git branch</code></td></tr>
-            <tr><td><code>git checkout -b rama</code></td><td>Crea y cambia a una rama</td><td><code>git checkout -b nueva-seccion</code></td></tr>
-            <tr><td><code>git checkout rama</code></td><td>Cambia de rama</td><td><code>git checkout main</code></td></tr>
-            <tr><td><code>git merge rama</code></td><td>Fusiona una rama con la actual</td><td><code>git merge nueva-seccion</code></td></tr>
-            <tr><td><code>git branch -d rama</code></td><td>Elimina una rama fusionada</td><td><code>git branch -d nueva-seccion</code></td></tr>
-            <tr><td><code>git remote add origin URL</code></td><td>Conecta el repo local con GitHub</td><td><code>git remote add origin https://github.com/usuario/repo.git</code></td></tr>
-            <tr><td><code>git push -u origin main</code></td><td>Sube la rama principal y la vincula</td><td><code>git push -u origin main</code></td></tr>
+            <tr>
+              <td><code>git init</code></td>
+              <td>Inicia un repositorio Git</td>
+              <td><code>git init</code></td>
+            </tr>
+            <tr>
+              <td><code>git status</code></td>
+              <td>Muestra el estado del repositorio</td>
+              <td><code>git status</code></td>
+            </tr>
+            <tr>
+              <td><code>git add .</code></td>
+              <td>Añade todos los cambios al staging</td>
+              <td><code>git add .</code></td>
+            </tr>
+            <tr>
+              <td><code>git add archivo</code></td>
+              <td>Añade un archivo concreto</td>
+              <td><code>git add README.md</code></td>
+            </tr>
+            <tr>
+              <td><code>git commit -m "mensaje"</code></td>
+              <td>Guarda una versión en el historial</td>
+              <td><code>git commit -m "primer commit"</code></td>
+            </tr>
+            <tr>
+              <td><code>git log --oneline</code></td>
+              <td>Muestra historial resumido</td>
+              <td><code>git log --oneline</code></td>
+            </tr>
+            <tr>
+              <td><code>git branch</code></td>
+              <td>Lista ramas</td>
+              <td><code>git branch</code></td>
+            </tr>
+            <tr>
+              <td><code>git checkout -b rama</code></td>
+              <td>Crea y cambia a una rama</td>
+              <td><code>git checkout -b nueva-seccion</code></td>
+            </tr>
+            <tr>
+              <td><code>git checkout rama</code></td>
+              <td>Cambia de rama</td>
+              <td><code>git checkout main</code></td>
+            </tr>
+            <tr>
+              <td><code>git merge rama</code></td>
+              <td>Fusiona una rama con la actual</td>
+              <td><code>git merge nueva-seccion</code></td>
+            </tr>
+            <tr>
+              <td><code>git branch -d rama</code></td>
+              <td>Elimina una rama fusionada</td>
+              <td><code>git branch -d nueva-seccion</code></td>
+            </tr>
+            <tr>
+              <td><code>git remote add origin URL</code></td>
+              <td>Conecta el repo local con GitHub</td>
+              <td><code>git remote add origin https://github.com/usuario/repo.git</code></td>
+            </tr>
+            <tr>
+              <td><code>git push -u origin main</code></td>
+              <td>Sube la rama principal y la vincula</td>
+              <td><code>git push -u origin main</code></td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -239,7 +511,8 @@
 
     <section class="card">
       <h2>Cuestionario de 40 preguntas</h2>
-      <p>Responde una por una. Cuando falles, verás la correcta al momento y esa pregunta se repetirá al final. El objetivo es que no termines hasta acertar también las que fallaste.</p>
+      <p>Responde una por una. Cuando falles, verás la correcta al momento y esa pregunta se repetirá al final. El
+        objetivo es que no termines hasta acertar también las que fallaste.</p>
       <div class="stats">
         <span class="pill" id="progressPill">Pregunta 1 de 40</span>
         <span class="pill" id="scorePill">Aciertos iniciales: 0</span>
@@ -596,7 +869,7 @@
         ${q.context ? `<div class="context"><strong>Situación:</strong> ${q.context}</div>` : ''}
         <div class="question">${q.q}</div>
         <div class="options">
-          ${q.options.map((opt, i) => `<button class="option" data-index="${i}">${String.fromCharCode(65+i)}. ${opt}</button>`).join('')}
+          ${q.options.map((opt, i) => `<button class="option" data-index="${i}">${String.fromCharCode(65 + i)}. ${opt}</button>`).join('')}
         </div>
         <div id="feedbackArea"></div>
       `;
@@ -695,4 +968,5 @@
     resetQuiz();
   </script>
 </body>
+
 </html>
