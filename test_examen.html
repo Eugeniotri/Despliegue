@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test Examen Interactivo</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --accent: #2563eb;
+      --ok-bg: #ecfdf5;
+      --ok-border: #10b981;
+      --bad-bg: #fef2f2;
+      --bad-border: #ef4444;
+      --neutral: #e5e7eb;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 950px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: white;
+      padding: 24px;
+      border-radius: 18px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      margin-bottom: 24px;
+    }
+
+    .header h1 {
+      margin: 0 0 8px;
+      font-size: 2rem;
+    }
+
+    .header p {
+      margin: 0;
+      opacity: 0.95;
+    }
+
+    .controls, .summary {
+      background: var(--card);
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-weight: bold;
+    }
+
+    .badge {
+      background: #eef2ff;
+      color: #1e3a8a;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.95rem;
+    }
+
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: bold;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    button:hover { transform: translateY(-1px); }
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .btn-primary { background: var(--accent); color: white; }
+    .btn-secondary { background: #111827; color: white; }
+
+    .question-card {
+      background: var(--card);
+      border-radius: 18px;
+      padding: 22px;
+      margin-bottom: 18px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+      border: 2px solid transparent;
+    }
+
+    .question-card.correct {
+      background: var(--ok-bg);
+      border-color: var(--ok-border);
+    }
+
+    .question-card.incorrect {
+      background: var(--bad-bg);
+      border-color: var(--bad-border);
+    }
+
+    .question-title {
+      margin: 0 0 16px;
+      font-size: 1.1rem;
+    }
+
+    .options {
+      display: grid;
+      gap: 10px;
+    }
+
+    label.option {
+      display: block;
+      border: 2px solid var(--neutral);
+      border-radius: 12px;
+      padding: 12px 14px;
+      cursor: pointer;
+      background: #fff;
+      transition: all 0.15s ease;
+    }
+
+    label.option:hover {
+      border-color: #93c5fd;
+      background: #f8fbff;
+    }
+
+    label.option.correct-answer {
+      border-color: var(--ok-border);
+      background: #f0fdf4;
+      font-weight: bold;
+    }
+
+    label.option.wrong-answer {
+      border-color: var(--bad-border);
+      background: #fff1f2;
+    }
+
+    input[type="radio"] {
+      margin-right: 10px;
+      transform: scale(1.1);
+    }
+
+    .feedback {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-weight: bold;
+    }
+
+    .feedback.ok {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .feedback.bad {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .summary {
+      display: none;
+    }
+
+    .summary.show {
+      display: block;
+    }
+
+    .summary h2 {
+      margin-top: 0;
+    }
+
+    .progress {
+      height: 14px;
+      background: #e5e7eb;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, #10b981, #2563eb);
+      transition: width 0.3s ease;
+    }
+
+    .note {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 640px) {
+      .container { padding: 12px; margin: 20px auto; }
+      .header h1 { font-size: 1.6rem; }
+      .controls { flex-direction: column; align-items: stretch; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Test examen interactivo</h1>
+      <p>Corrige al instante. Si fallas, te muestra cuál era la respuesta correcta.</p>
+    </div>
+
+    <div class="controls">
+      <div class="stats">
+        <span class="badge">Total: <span id="totalQuestions">0</span></span>
+        <span class="badge">Aciertos: <span id="correctCount">0</span></span>
+        <span class="badge">Fallos: <span id="wrongCount">0</span></span>
+        <span class="badge">Respondidas: <span id="answeredCount">0</span></span>
+      </div>
+      <button class="btn-secondary" id="resetBtn">Reiniciar test</button>
+    </div>
+
+    <div id="quiz"></div>
+
+    <div class="summary" id="summary">
+      <h2>Resultado final</h2>
+      <p id="finalText"></p>
+      <div class="progress">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+      <p class="note">Las preguntas falladas ya muestran la opción correcta marcada en verde.</p>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "1. ¿Qué es un VPS (Virtual Private Server)?",
+        options: {
+          a: "Un servidor físico dedicado a un solo cliente",
+          b: "Un tipo de hosting compartido sin virtualización",
+          c: "Un servidor virtual que comparte hardware físico pero funciona de forma independiente",
+          d: "Un servicio exclusivo para aplicaciones en la nube"
+        },
+        correct: "c"
+      },
+      {
+        question: "2. ¿Cuál es la principal ventaja de un VPS frente al hosting compartido?",
+        options: {
+          a: "Es siempre más barato",
+          b: "No requiere administración técnica",
+          c: "Ofrece recursos garantizados y mayor control",
+          d: "Utiliza únicamente software propietario"
+        },
+        correct: "c"
+      },
+      {
+        question: "4. ¿Qué característica define a un servidor dedicado?",
+        options: {
+          a: "Comparte recursos con otros clientes",
+          b: "Tiene coste bajo y poco control",
+          c: "Asigna toda la máquina física a un solo cliente",
+          d: "No permite instalar software personalizado"
+        },
+        correct: "c"
+      },
+      {
+        question: "5. ¿Qué es SSH?",
+        options: {
+          a: "Un lenguaje de programación",
+          b: "Un protocolo de transferencia sin cifrado",
+          c: "Un protocolo para conexión remota cifrada",
+          d: "Un sistema operativo para servidores"
+        },
+        correct: "c"
+      },
+      {
+        question: "6. ¿En qué consiste la arquitectura cliente-servidor?",
+        options: {
+          a: "El servidor solicita recursos al cliente",
+          b: "Cliente y servidor intercambian datos sin reglas",
+          c: "El cliente realiza peticiones y el servidor responde",
+          d: "Ambos ejecutan las mismas tareas"
+        },
+        correct: "c"
+      },
+      {
+        question: "7. ¿Qué protocolo regula la comunicación básica en la Web?",
+        options: {
+          a: "FTP",
+          b: "TCP",
+          c: "HTTP",
+          d: "DNS"
+        },
+        correct: "c"
+      },
+      {
+        question: "8. HTTPS se define correctamente como:",
+        options: {
+          a: "Un protocolo distinto a HTTP",
+          b: "HTTP cifrado mediante SSL/TLS",
+          c: "Un sistema de autenticación por usuario",
+          d: "Un firewall web"
+        },
+        correct: "b"
+      },
+      {
+        question: "9. ¿Cuál NO es uno de los principios de seguridad que aporta HTTPS?",
+        options: {
+          a: "Cifrado",
+          b: "Autenticación",
+          c: "Integridad",
+          d: "Compresión"
+        },
+        correct: "d"
+      },
+      {
+        question: "10. ¿Cuál es la función principal de un servidor web?",
+        options: {
+          a: "Almacenar bases de datos",
+          b: "Procesar solicitudes HTTP/HTTPS y devolver recursos al cliente",
+          c: "Gestionar usuarios del sistema operativo",
+          d: "Compilar aplicaciones web"
+        },
+        correct: "b"
+      },
+      {
+        question: "11. ¿En qué tipo de arquitectura es habitual combinar Apache y Nginx?",
+        options: {
+          a: "Apache como proxy inverso y Nginx como backend",
+          b: "Nginx como proxy inverso y Apache como backend",
+          c: "Ambos siempre en el mismo puerto",
+          d: "Solo en servidores dedicados"
+        },
+        correct: "b"
+      },
+      {
+        question: "12. ¿Qué puertos utilizan habitualmente HTTP y HTTPS?",
+        options: {
+          a: "21 y 22",
+          b: "25 y 110",
+          c: "80 y 443",
+          d: "8080 y 3306"
+        },
+        correct: "c"
+      },
+      {
+        question: "13. ¿Qué es un proxy inverso?",
+        options: {
+          a: "Un servidor que da acceso de usuarios a Internet",
+          b: "Un intermediario entre clientes y servidores backend",
+          c: "Un firewall de red",
+          d: "Un sistema de autenticación"
+        },
+        correct: "b"
+      },
+      {
+        question: "14. ¿Cuál es la función principal del sistema DNS?",
+        options: {
+          a: "Cifrar las comunicaciones web",
+          b: "Traducir nombres de dominio en direcciones IP",
+          c: "Almacenar páginas web",
+          d: "Gestionar certificados SSL"
+        },
+        correct: "b"
+      },
+      {
+        question: "15. ¿Qué tipo de registro DNS asocia un dominio con una dirección IPv4?",
+        options: {
+          a: "CNAME",
+          b: "MX",
+          c: "A",
+          d: "TXT"
+        },
+        correct: "c"
+      },
+      {
+        question: "16. ¿Qué registro DNS se utiliza para crear un alias hacia otro dominio?",
+        options: {
+          a: "A",
+          b: "MX",
+          c: "TXT",
+          d: "CNAME"
+        },
+        correct: "d"
+      },
+      {
+        question: "17. ¿Qué registro DNS indica el servidor responsable del correo electrónico de un dominio?",
+        options: {
+          a: "A",
+          b: "CNAME",
+          c: "MX",
+          d: "TXT"
+        },
+        correct: "c"
+      },
+      {
+        question: "18. ¿Qué comando permite comprobar los registros MX de un dominio?",
+        options: {
+          a: "ping dominio.com",
+          b: "traceroute dominio.com",
+          c: "nslookup -type=MX dominio.com",
+          d: "curl dominio.com"
+        },
+        correct: "c"
+      },
+      {
+        question: "19. ¿Qué herramienta permite comprobar si un host responde y medir latencia?",
+        options: {
+          a: "traceroute",
+          b: "dig",
+          c: "ping",
+          d: "netstat"
+        },
+        correct: "c"
+      },
+      {
+        question: "20. ¿Qué comando muestra la ruta completa que siguen los paquetes hasta el destino?",
+        options: {
+          a: "ping",
+          b: "curl",
+          c: "traceroute",
+          d: "netstat"
+        },
+        correct: "c"
+      },
+      {
+        question: "21. ¿Qué herramienta permite ver los puertos abiertos y servicios en escucha?",
+        options: {
+          a: "dig",
+          b: "netstat / ss",
+          c: "ping",
+          d: "nslookup"
+        },
+        correct: "b"
+      },
+      {
+        question: "22. ¿Cuál es una buena práctica profesional en diagnóstico de red?",
+        options: {
+          a: "Reiniciar el servidor directamente",
+          b: "Cambiar el código sin pruebas",
+          c: "Documentar cada prueba realizada",
+          d: "Ignorar los errores intermedios"
+        },
+        correct: "c"
+      },
+      {
+        question: "23. ¿Cuál es la función principal de un servidor de aplicaciones?",
+        options: {
+          a: "Servir únicamente archivos estáticos",
+          b: "Ejecutar lógica del lado del servidor",
+          c: "Resolver nombres DNS",
+          d: "Balancear tráfico de red"
+        },
+        correct: "b"
+      },
+      {
+        question: "24. ¿Qué servidor de aplicaciones está orientado al entorno Java EE/Jakarta EE?",
+        options: {
+          a: "Node.js",
+          b: "Express.js",
+          c: "Apache Tomcat",
+          d: "Nginx"
+        },
+        correct: "c"
+      },
+      {
+        question: "25. ¿Qué afirmación describe correctamente a Node.js?",
+        options: {
+          a: "Es un servidor web clásico",
+          b: "Es un entorno de ejecución JavaScript del lado del servidor",
+          c: "Solo sirve para proyectos pequeños",
+          d: "Funciona exclusivamente con Apache"
+        },
+        correct: "b"
+      },
+      {
+        question: "26. ¿Qué es Express.js?",
+        options: {
+          a: "Un servidor web independiente",
+          b: "Un framework minimalista sobre Node.js",
+          c: "Un gestor de bases de datos",
+          d: "Un sistema operativo"
+        },
+        correct: "b"
+      },
+      {
+        question: "27. ¿Qué papel suelen desempeñar Apache o Nginx en arquitecturas modernas?",
+        options: {
+          a: "Sustituir al servidor de aplicaciones",
+          b: "Proxy inverso y balanceador de carga",
+          c: "Ejecutar lógica de negocio",
+          d: "Compilar código"
+        },
+        correct: "b"
+      },
+      {
+        question: "28. HTTPS se define correctamente como:",
+        options: {
+          a: "Un protocolo distinto a HTTP",
+          b: "HTTP cifrado mediante SSL/TLS",
+          c: "Un sistema de autenticación por usuario",
+          d: "Un firewall web"
+        },
+        correct: "b"
+      },
+      {
+        question: "29. ¿Qué herramienta permite probar una web o API y ver el código HTTP?",
+        options: {
+          a: "traceroute",
+          b: "ping",
+          c: "curl",
+          d: "ufw"
+        },
+        correct: "c"
+      },
+      {
+        question: "30. ¿Cuál es el método de autenticación SSH más seguro?",
+        options: {
+          a: "Usuario y contraseña",
+          b: "Token por SMS",
+          c: "Par de claves pública/privada",
+          d: "Dirección IP fija"
+        },
+        correct: "c"
+      }
+    ];
+
+    const quiz = document.getElementById('quiz');
+    const totalQuestions = document.getElementById('totalQuestions');
+    const correctCountEl = document.getElementById('correctCount');
+    const wrongCountEl = document.getElementById('wrongCount');
+    const answeredCountEl = document.getElementById('answeredCount');
+    const resetBtn = document.getElementById('resetBtn');
+    const summary = document.getElementById('summary');
+    const finalText = document.getElementById('finalText');
+    const progressBar = document.getElementById('progressBar');
+
+    let correctCount = 0;
+    let wrongCount = 0;
+    let answeredCount = 0;
+    let answered = new Set();
+
+    totalQuestions.textContent = questions.length;
+
+    function updateStats() {
+      correctCountEl.textContent = correctCount;
+      wrongCountEl.textContent = wrongCount;
+      answeredCountEl.textContent = answeredCount;
+
+      const percent = Math.round((correctCount / questions.length) * 100);
+      progressBar.style.width = percent + '%';
+      finalText.textContent = `Has acertado ${correctCount} de ${questions.length} preguntas (${percent}%).`;
+
+      if (answeredCount === questions.length) {
+        summary.classList.add('show');
+        summary.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        summary.classList.remove('show');
+      }
+    }
+
+    function renderQuiz() {
+      quiz.innerHTML = '';
+
+      questions.forEach((q, index) => {
+        const card = document.createElement('div');
+        card.className = 'question-card';
+        card.id = `question-${index}`;
+
+        const title = document.createElement('h3');
+        title.className = 'question-title';
+        title.textContent = q.question;
+        card.appendChild(title);
+
+        const optionsDiv = document.createElement('div');
+        optionsDiv.className = 'options';
+
+        Object.entries(q.options).forEach(([key, text]) => {
+          const label = document.createElement('label');
+          label.className = 'option';
+          label.dataset.option = key;
+
+          const input = document.createElement('input');
+          input.type = 'radio';
+          input.name = `question-${index}`;
+          input.value = key;
+          input.addEventListener('change', () => handleAnswer(index, key));
+
+          label.appendChild(input);
+          label.append(`${key}) ${text}`);
+          optionsDiv.appendChild(label);
+        });
+
+        card.appendChild(optionsDiv);
+        quiz.appendChild(card);
+      });
+
+      updateStats();
+    }
+
+    function handleAnswer(index, selected) {
+      if (answered.has(index)) return;
+
+      const q = questions[index];
+      const card = document.getElementById(`question-${index}`);
+      const labels = card.querySelectorAll('label.option');
+      const inputs = card.querySelectorAll('input');
+
+      answered.add(index);
+      answeredCount++;
+
+      inputs.forEach(input => input.disabled = true);
+
+      let feedback = document.createElement('div');
+      feedback.className = 'feedback';
+
+      labels.forEach(label => {
+        const optionKey = label.dataset.option;
+        if (optionKey === q.correct) {
+          label.classList.add('correct-answer');
+        }
+        if (optionKey === selected && selected !== q.correct) {
+          label.classList.add('wrong-answer');
+        }
+      });
+
+      if (selected === q.correct) {
+        correctCount++;
+        card.classList.add('correct');
+        feedback.classList.add('ok');
+        feedback.textContent = '✅ Correcta';
+      } else {
+        wrongCount++;
+        card.classList.add('incorrect');
+        feedback.classList.add('bad');
+        feedback.textContent = `❌ Incorrecta. La respuesta correcta es: ${q.correct}) ${q.options[q.correct]}`;
+      }
+
+      card.appendChild(feedback);
+      updateStats();
+    }
+
+    resetBtn.addEventListener('click', () => {
+      correctCount = 0;
+      wrongCount = 0;
+      answeredCount = 0;
+      answered = new Set();
+      renderQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    renderQuiz();
+  </script>
+</body>
+</html>
